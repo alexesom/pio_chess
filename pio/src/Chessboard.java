@@ -1,3 +1,6 @@
+import Pieces.Piece;
+import Pieces.Square;
+
 import java.util.List;
 
 public class Chessboard {
