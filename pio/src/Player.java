@@ -1,3 +1,5 @@
+import Pieces.Square;
+
 public class Player {
     private boolean isWhite;
 

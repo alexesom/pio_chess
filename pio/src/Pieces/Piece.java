@@ -1,3 +1,5 @@
+package Pieces;
+
 public class Piece {
     private byte type;
     private boolean isWhite;
