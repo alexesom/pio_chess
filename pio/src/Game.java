@@ -1,5 +1,6 @@
 public class Game {
-    private byte turn;
+
+    protected static Color current_turn;
     private Player[] players;
     private Chessboard chessboard;
 
@@ -8,7 +9,7 @@ public class Game {
     }
 
     public void createNewGame() {
-
+        current_turn = Color.WHITE;
     }
 
     public boolean checkColour(Player player) {
