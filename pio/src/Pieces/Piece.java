@@ -3,13 +3,13 @@ package Pieces;
 public class Piece {
     private byte type;
     private boolean isWhite;
-    private Square position;
+    public Square position;
 
     public Piece() {
 
     }
 
-    public byte move() {
+    public byte move(Square destination) {
 
         return 0;
     }
