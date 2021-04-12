@@ -1,7 +1,4 @@
-package chessPIO;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,14 +28,14 @@ public class GameInterface implements ActionListener {
 
     private void createGameTitle() {
         titleText.setFont(titleText.getFont().deriveFont(32.0F));
-        titleText.setForeground(Color.lightGray);
+        titleText.setForeground(java.awt.Color.lightGray);
 
         gamePanels.titlePanel.add(titleText);
         frame.add(gamePanels.titlePanel);
     }
 
     private void createStartButton() {
-        startButton.setBackground(Color.green);
+        startButton.setBackground(java.awt.Color.green);
         startButton.addActionListener(this);
         startButton.setBounds(325,150,100,30);
         gamePanels.picPanel.add(startButton);
@@ -54,7 +51,7 @@ public class GameInterface implements ActionListener {
 
     private void createGameInterface() {
         createGamePanels();
-        gamePanels.coordinatesPanel.add(chessboard.textDisplayer);
+        gamePanels.coordinatesPanel.add(chessboard.textDisplay);
     }
 
     public void actionPerformed(ActionEvent e) {

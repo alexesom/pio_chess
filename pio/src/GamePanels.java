@@ -1,4 +1,4 @@
-package chessPIO;
+import Pieces.Color;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class GamePanels {
     }
 
     private void mainGamePanel() {
-        mainPanel.setBackground(Color.PINK);
+        mainPanel.setBackground(java.awt.Color.PINK);
     }
 
     private void picturePanel() {
@@ -26,12 +26,12 @@ public class GamePanels {
 
     private void titleGamePanel() {
         titlePanel.setBounds(100,50,560,60);
-        titlePanel.setBackground(Color.DARK_GRAY);
+        titlePanel.setBackground(java.awt.Color.DARK_GRAY);
     }
 
     private void coordinatesGamePanel() {
         coordinatesPanel.setBounds(0,0,200,30);
         coordinatesPanel.setMaximumSize(new Dimension(200, 30));
-        coordinatesPanel.setBackground(Color.CYAN);
+        coordinatesPanel.setBackground(java.awt.Color.CYAN);
     }
 }

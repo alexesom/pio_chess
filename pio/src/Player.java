@@ -1,3 +1,4 @@
+import Pieces.*;
 import Pieces.Square;
 
 public class Player {
