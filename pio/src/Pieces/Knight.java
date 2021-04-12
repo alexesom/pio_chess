@@ -6,8 +6,9 @@ public class Knight extends Piece implements PieceInterface{
     }
 
     @Override
-    public byte move(Square square) {
-        return 0;
+    public boolean isAbleToMove(Square square) {
+
+        return true;
     }
 
     @Override
