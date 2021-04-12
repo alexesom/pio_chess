@@ -3,7 +3,7 @@ package Pieces;
 public class Piece {
     private byte type;
     private boolean isWhite;
-    public Square position;
+    public Square buttonSquare;
 
     public Piece() {
 
@@ -16,6 +16,14 @@ public class Piece {
 
     public void take(Piece piece) {
 
+    }
+
+    public Square getButtonSquare() {
+        return buttonSquare;
+    }
+
+    public void setButtonSquare(Square buttonSquare) {
+        this.buttonSquare = buttonSquare;
     }
 
     public boolean isAbleToMove() {
