@@ -8,8 +8,8 @@ public class Rook extends Piece implements PieceInterface{
     }
 
     @Override
-    public byte move(Square square) {
-        return 0;
+    public boolean isAbleToMove(Square square) {
+        return true;
     }
 
     @Override

@@ -1,13 +1,24 @@
 package Pieces;
 
-public class Queen extends Piece implements PieceInterface{
-    public Queen() {
+import javax.swing.*;
 
+public class Queen extends Piece implements PieceInterface{
+    Square buttonSquare = null;
+    Color queenColor;
+
+    public Queen(Square queenPosition, Color queenColor) {
+        this.buttonSquare = queenPosition;
+        this.queenColor = queenColor;
+        super.buttonSquare = this.buttonSquare;
+    }
+
+    public Square getQueenPosition() {
+        return buttonSquare;
     }
 
     @Override
-    public byte move(Square square) {
-        return 0;
+    public boolean isAbleToMove(Square square) {
+        return true;
     }
 
     @Override
