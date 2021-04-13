@@ -1,10 +1,15 @@
 package Pieces;
 
 public class King extends Piece implements PieceInterface{
+    Square buttonSquare = null;
+    Color kingColor;
     private boolean moved;
 
-    public King() {
+    public King(Square kingPosition, Color kingColor) {
         this.moved = false;
+        this.buttonSquare = kingPosition;
+        this.kingColor = kingColor;
+        super.buttonSquare = this.buttonSquare;
     }
 
     @Override
