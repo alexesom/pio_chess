@@ -1,12 +1,15 @@
 package Pieces;
 
 public class Pawn extends Piece implements PieceInterface{
+    Square buttonSquare = null;
+    Color pawnColor;
     private boolean promoted;
     private boolean passedTwo;
 
-    public Pawn(boolean promoted, boolean passedTwo) {
-        this.promoted = promoted;
-        this.passedTwo = passedTwo;
+    public Pawn(Square pawnPosition, Color pawnColor) {
+        this.buttonSquare = pawnPosition;
+        this.pawnColor = pawnColor;
+        super.buttonSquare = this.buttonSquare;
     }
 
     public byte enPassant(Piece piece) {

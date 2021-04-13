@@ -1,8 +1,13 @@
 package Pieces;
 
 public class Knight extends Piece implements PieceInterface{
-    public Knight() {
+    Square buttonSquare = null;
+    Color knightColor;
 
+    public Knight(Square knightPosition, Color knightColor) {
+        this.buttonSquare = knightPosition;
+        this.knightColor = knightColor;
+        super.buttonSquare = this.buttonSquare;
     }
 
     @Override
