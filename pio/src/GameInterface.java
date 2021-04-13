@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +9,8 @@ public class GameInterface implements ActionListener {
     private JButton startButton = new JButton("Start");
     public Chessboard chessboard = new Chessboard();
     private GamePanels gamePanels = new GamePanels();
+    private UsernameBox player1 = new UsernameBox();
+    private UsernameBox player2 = new UsernameBox();
 
     public GameInterface() {
         createStartInterface();
@@ -28,14 +31,14 @@ public class GameInterface implements ActionListener {
 
     private void createGameTitle() {
         titleText.setFont(titleText.getFont().deriveFont(32.0F));
-        titleText.setForeground(java.awt.Color.lightGray);
+        titleText.setForeground(Color.lightGray);
 
         gamePanels.titlePanel.add(titleText);
         frame.add(gamePanels.titlePanel);
     }
 
     private void createStartButton() {
-        startButton.setBackground(java.awt.Color.green);
+        startButton.setBackground(Color.green);
         startButton.addActionListener(this);
         startButton.setBounds(325,150,100,30);
         gamePanels.picPanel.add(startButton);
@@ -45,7 +48,14 @@ public class GameInterface implements ActionListener {
         createGameFrame();
         createStartButton();
         createGameTitle();
+
+        frame.add(player1.createUserPanel(50,500,200,90));
+        player1.setPlayerNumber(1);
+        frame.add(player2.createUserPanel(550,500,200,90));
+        player2.setPlayerNumber(2);
+
         frame.add(gamePanels.picPanel);
+
         frame.setVisible(true);
     }
 
@@ -60,6 +70,8 @@ public class GameInterface implements ActionListener {
             if (button == startButton){
                 gamePanels.titlePanel.setVisible(false);
                 gamePanels.picPanel.setVisible(false);
+                player1.usernamePanel.setVisible(false);
+                player2.usernamePanel.setVisible(false);
                 createGameInterface();
             }
         } catch (IllegalArgumentException sourceError) {
