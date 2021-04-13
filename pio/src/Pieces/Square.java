@@ -8,6 +8,7 @@ public class Square {
     private int xSquareCoordinate;
     private int ySquareCoordinate;
     private Color squareColor;
+    private Piece squarePiece;
 
     public Square() {
 
