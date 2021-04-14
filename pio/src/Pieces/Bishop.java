@@ -2,9 +2,9 @@ package Pieces;
 
 public class Bishop extends Piece implements PieceInterface{
     Square buttonSquare = null;
-    Color bishopColor;
+    ChessColor bishopColor;
 
-    public Bishop(Square bishopPosition, Color bishopColor) {
+    public Bishop(Square bishopPosition, ChessColor bishopColor) {
         this.buttonSquare = bishopPosition;
         this.bishopColor = bishopColor;
         super.buttonSquare = this.buttonSquare;

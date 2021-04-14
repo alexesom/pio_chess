@@ -2,9 +2,9 @@ package Pieces;
 
 public class Knight extends Piece implements PieceInterface{
     Square buttonSquare = null;
-    Color knightColor;
+    ChessColor knightColor;
 
-    public Knight(Square knightPosition, Color knightColor) {
+    public Knight(Square knightPosition, ChessColor knightColor) {
         this.buttonSquare = knightPosition;
         this.knightColor = knightColor;
         super.buttonSquare = this.buttonSquare;
