@@ -7,7 +7,7 @@ public class Square {
     public JButton button = new JButton();
     private int xSquareCoordinate;
     private int ySquareCoordinate;
-    private Color squareColor;
+    private ChessColor squareColor;
     private Piece squarePiece;
 
     public Square() {
@@ -42,18 +42,18 @@ public class Square {
         ySquareCoordinate = y;
     }
 
-    public void setColor(Color squareColor) {
-        if (squareColor.equals(Color.WHITE)) {
+    public void setColor(ChessColor squareColor) {
+        if (squareColor.equals(ChessColor.WHITE)) {
             button.setBackground(java.awt.Color.darkGray);
-            this.squareColor =  Color.BLACK;
+            this.squareColor =  ChessColor.BLACK;
         }
         else {
             button.setBackground(java.awt.Color.lightGray);
-            this.squareColor = Color.WHITE;
+            this.squareColor = ChessColor.WHITE;
         }
     }
 
-    public Color getColor() {
+    public ChessColor getColor() {
         return squareColor;
     }
 

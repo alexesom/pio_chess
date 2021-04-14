@@ -1,12 +1,10 @@
 package Pieces;
 
-import javax.swing.*;
-
 public class Queen extends Piece implements PieceInterface{
     Square buttonSquare = null;
-    Color queenColor;
+    ChessColor queenColor;
 
-    public Queen(Square queenPosition, Color queenColor) {
+    public Queen(Square queenPosition, ChessColor queenColor) {
         this.buttonSquare = queenPosition;
         this.queenColor = queenColor;
         super.buttonSquare = this.buttonSquare;

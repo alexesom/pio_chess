@@ -1,5 +1,5 @@
 import Pieces.*;
-import Pieces.Color;
+import Pieces.ChessColor;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,6 +10,7 @@ public class Chessboard implements ActionListener {
     public JPanel chessboardPanel = new JPanel();
     public Square[][] board = new Square[8][8];
     public JTextArea textDisplay = new JTextArea();
+    public JTextArea isAble = new JTextArea();
     public static List<Piece> pieceList = null;
 
     public Chessboard() {
@@ -52,8 +53,8 @@ public class Chessboard implements ActionListener {
 
     private void squareColor(int i, int j, Square singleSquare) {
         if ((i % 2 == 0 && j % 2 == 0) || (i % 2 == 1 && j % 2 == 1))
-            singleSquare.setColor(Color.WHITE);
-        else singleSquare.setColor(Color.BLACK);
+            singleSquare.setColor(ChessColor.WHITE);
+        else singleSquare.setColor(ChessColor.BLACK);
     }
 
     private void setChosenCoordinates(int iy, int jx, Square singleSquare) {
@@ -61,8 +62,11 @@ public class Chessboard implements ActionListener {
         singleSquare.setYSquareCoordinate(iy);
     }
 
+    // tu mozna spradzic czy dziala wasza funkcja isAbleToMove dla wybranego pionka
+    // isAble.setText("is able? " + pieceList.get(INDEX WYBRANEGO PIONKA Z LISTY).isAbleToMove(board[y - 1][x - 1]));
     public void displayChosenCoordinates(int x, int y) {
         textDisplay.setText("coordinates: x: " + x + " y: " + y );
+        isAble.setText("is able? " + pieceList.get(8).isAbleToMove(board[y - 1][x - 1]));
     }
 
     public void actionPerformed(ActionEvent e) {

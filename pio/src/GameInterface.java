@@ -26,6 +26,7 @@ public class GameInterface implements ActionListener {
         chessboard.createChessboardPanel();
         frame.add(chessboard.chessboardPanel);
         frame.add(gamePanels.coordinatesPanel);
+        frame.add(gamePanels.isAblePanel);
         frame.add(gamePanels.mainPanel);
     }
 
@@ -62,6 +63,7 @@ public class GameInterface implements ActionListener {
     private void createGameInterface() {
         createGamePanels();
         gamePanels.coordinatesPanel.add(chessboard.textDisplay);
+        gamePanels.isAblePanel.add(chessboard.isAble);
     }
 
     public void actionPerformed(ActionEvent e) {

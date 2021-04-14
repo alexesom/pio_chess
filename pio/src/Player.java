@@ -23,7 +23,7 @@ public class Player {
         if (piece == null){
             return 1;
         }
-        if (!piece.isAbleToMove()) {
+        if (!piece.isAbleToMove(destination)) {
             return 2;
         }
         else {
@@ -34,11 +34,11 @@ public class Player {
     }
 
     public void nextTurn() {
-        if (Game.current_turn == Color.WHITE){
-            Game.current_turn = Color.BLACK;
+        if (Game.current_turn == ChessColor.WHITE){
+            Game.current_turn = ChessColor.BLACK;
         }
-        if (Game.current_turn == Color.BLACK){
-            Game.current_turn = Color.WHITE;
+        if (Game.current_turn == ChessColor.BLACK){
+            Game.current_turn = ChessColor.WHITE;
         }
     }
 }
