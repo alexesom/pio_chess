@@ -26,7 +26,7 @@ public class Piece {
         this.buttonSquare = buttonSquare;
     }
 
-    public boolean isAbleToMove() {
+    public boolean isAbleToMove(Square square) {
 
         return true;
     }

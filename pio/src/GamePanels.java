@@ -1,5 +1,3 @@
-import Pieces.Color;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,12 +6,14 @@ public class GamePanels {
     public JPanel titlePanel = new JPanel();
     public JPanel coordinatesPanel = new JPanel();
     public JPanel picPanel = new GameStartImage();
+    public JPanel isAblePanel = new JPanel();
 
     public GamePanels() {
         mainGamePanel();
         titleGamePanel();
         coordinatesGamePanel();
         picturePanel();
+        isAbleToMovePanel();
     }
 
     private void mainGamePanel() {
@@ -33,5 +33,10 @@ public class GamePanels {
         coordinatesPanel.setBounds(0,0,200,30);
         coordinatesPanel.setMaximumSize(new Dimension(200, 30));
         coordinatesPanel.setBackground(java.awt.Color.CYAN);
+    }
+
+    private void isAbleToMovePanel() {
+        isAblePanel.setBounds(0,50,400,30);
+        isAblePanel.setBackground(Color.orange);
     }
 }
