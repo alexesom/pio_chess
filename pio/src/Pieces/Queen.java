@@ -1,5 +1,7 @@
 package Pieces;
 
+import static java.lang.Math.abs;
+
 public class Queen extends Piece implements PieceInterface{
     Square buttonSquare = null;
     ChessColor queenColor;
@@ -16,7 +18,16 @@ public class Queen extends Piece implements PieceInterface{
 
     @Override
     public boolean isAbleToMove(Square square) {
-        return true;
+        int xSquare = square.getXSquareCoordinate();
+        int ySquare = square.getYSquareCoordinate();
+        int xDiff = abs(square.getXSquareCoordinate() - buttonSquare.getXSquareCoordinate());
+        int yDiff = abs(square.getYSquareCoordinate() - buttonSquare.getYSquareCoordinate());
+
+        int xQueen = buttonSquare.getXSquareCoordinate();
+        int yQueen = buttonSquare.getYSquareCoordinate();
+
+        return (xSquare == xQueen || ySquare == yQueen) ||
+                (xDiff == yDiff);
     }
 
     @Override
