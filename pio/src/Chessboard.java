@@ -66,7 +66,7 @@ public class Chessboard implements ActionListener {
     // isAble.setText("is able? " + pieceList.get(INDEX WYBRANEGO PIONKA Z LISTY).isAbleToMove(board[y - 1][x - 1]));
     public void displayChosenCoordinates(int x, int y) {
         textDisplay.setText("coordinates: x: " + x + " y: " + y );
-        isAble.setText("is able? " + pieceList.get(8).isAbleToMove(board[y - 1][x - 1]));
+        isAble.setText("is able? " + pieceList.get(2).isAbleToMove(board[y - 1][x - 1]));
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -1,5 +1,7 @@
 package Pieces;
 
+import static java.lang.Math.abs;
+
 public class King extends Piece implements PieceInterface{
     Square buttonSquare = null;
     ChessColor kingColor;
@@ -14,7 +16,12 @@ public class King extends Piece implements PieceInterface{
 
     @Override
     public boolean isAbleToMove(Square square) {
-        return true;
+        int xDiff = square.getXSquareCoordinate() - buttonSquare.getXSquareCoordinate();
+        int yDiff = square.getYSquareCoordinate() - buttonSquare.getYSquareCoordinate();
+
+        if(abs(xDiff) <= 1 && abs(yDiff) <= 1 && (abs(xDiff) != 0 || xDiff != yDiff))
+            return true;
+        return false;
     }
 
     @Override
