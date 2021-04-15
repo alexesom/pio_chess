@@ -1,5 +1,7 @@
 package Pieces;
 
+import static java.lang.Math.abs;
+
 public class Bishop extends Piece implements PieceInterface{
     Square buttonSquare = null;
     ChessColor bishopColor;
@@ -12,7 +14,10 @@ public class Bishop extends Piece implements PieceInterface{
 
     @Override
     public boolean isAbleToMove(Square square) {
-        return false;
+        int xDiff = abs(square.getXSquareCoordinate() - buttonSquare.getXSquareCoordinate());
+        int yDiff = abs(square.getYSquareCoordinate() - buttonSquare.getYSquareCoordinate());
+
+        return xDiff == yDiff;
     }
 
     @Override
