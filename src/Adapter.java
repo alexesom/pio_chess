@@ -3,17 +3,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class AdapterSami extends MouseAdapter {
+public class Adapter extends MouseAdapter {
     private JLayeredPane myLayeredPane;
     private JPanel clickedPanel;
     private JPanel disappearPanel;
-    private JPanel testPanel;
-    private Point offset;
     private Point clickPoint;
     boolean isCatched = false;
     private Point destinationPoint = new Point();
 
-    public AdapterSami(JLayeredPane layer) {
+    public Adapter(JLayeredPane layer) {
         myLayeredPane = layer;
     }
 
@@ -38,10 +36,7 @@ public class AdapterSami extends MouseAdapter {
                 clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
                 disappearPanel.setLocation(500, 500);
                 disappearPanel.removeMouseListener(this);
-
-
             }
-            offset = null;
             clickedPanel = null; // ustaw ze teraz bedzie wybierac ponownie panel do przesunięcia
             clickPoint = null;  // i punkt w który chcesz przesunąć też
             isCatched = false;
@@ -50,7 +45,7 @@ public class AdapterSami extends MouseAdapter {
             try {
                 clickedPanel = (JPanel) myLayeredPane.getComponentAt(e.getPoint());  //
             } catch (ClassCastException exception) {
-                System.out.println("TY DZBANIE!!!!");
+                System.out.println("Choose Panel!");
             }
         }
     }
