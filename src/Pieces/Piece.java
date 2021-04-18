@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Piece {
+    public Square buttonSquare;
     public JPanel label1 = new JPanel();
-
+    public Piece() {}
     public Piece(int x, int y, Color color) {
         label1.setOpaque(true);
         label1.setBackground(color);
