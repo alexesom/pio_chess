@@ -11,10 +11,7 @@ public class Knight extends Piece implements PieceInterface{
     }
 
     @Override
-    public boolean isAbleToMove(Square square) {
-
-        return true;
-    }
+    public boolean isAbleToMove(Square square) { return true; }
 
     @Override
     public void take(Piece piece) {

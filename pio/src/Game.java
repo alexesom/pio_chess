@@ -6,11 +6,11 @@ import java.util.List;
 
 public class Game {
 
-    public static ChessColor current_turn;
+  //  public static ChessColor current_turn;
 
     public static void main(String args[]) {
 
-        StretchIcon whiteQueen = new StretchIcon("piecesIcons/whitequeen.png");
+        /*StretchIcon whiteQueen = new StretchIcon("piecesIcons/whitequeen.png");
         StretchIcon blackQueen = new StretchIcon("piecesIcons/blackqueen.png");
         StretchIcon whiteKing = new StretchIcon("piecesIcons/whiteking.png");
         StretchIcon blackKing = new StretchIcon("piecesIcons/blackking.png");
@@ -55,8 +55,8 @@ public class Game {
         list.add(new Pawn(new Square(5,6, new JButton(blackPawn)), ChessColor.BLACK));
         list.add(new Pawn(new Square(6,6, new JButton(blackPawn)), ChessColor.BLACK));
         list.add(new Pawn(new Square(7,6, new JButton(blackPawn)), ChessColor.BLACK));
+        */
 
-        Chessboard chessboard = new Chessboard(list);
-                new GameInterface();
+        new GameInterface();
     }
 }
