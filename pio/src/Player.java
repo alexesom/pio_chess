@@ -19,7 +19,7 @@ public class Player {
     }
 
     public byte tryMove(Square origin, Square destination) {
-        Pieces.Piece piece = Chessboard.findPiece(origin);
+        Pieces.Piece piece = origin.getSquarePiece();
         if (piece == null){
             return 1;
         }
@@ -27,7 +27,10 @@ public class Player {
             return 2;
         }
         else {
-            piece.move(destination);
+            if (destination.getSquarePiece() == null)
+                piece.move(destination);
+            else
+                piece.take(destination.getSquarePiece());
             nextTurn();
             return 0;
         }
