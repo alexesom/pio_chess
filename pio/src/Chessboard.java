@@ -1,16 +1,20 @@
-import Pieces.*;
 import Pieces.ChessColor;
+import Pieces.Piece;
+import Pieces.Square;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 public class Chessboard implements ActionListener {
     public JPanel chessboardPanel = new JPanel();
     public Square[][] board = new Square[8][8];
     public JTextArea textDisplay = new JTextArea();
     public JTextArea isAble = new JTextArea();
+    public JTextArea takenPieces1 = new JTextArea();
+    public JTextArea takenPieces2 = new JTextArea();
     public static List<Piece> pieceList = null;
 
     public Chessboard() {
@@ -67,6 +71,8 @@ public class Chessboard implements ActionListener {
     public void displayChosenCoordinates(int x, int y) {
         textDisplay.setText("coordinates: x: " + x + " y: " + y );
         isAble.setText("is able? " + pieceList.get(14).isAbleToMove(board[y - 1][x - 1]));
+        takenPieces1.setText("place for captured pieces 1");
+        takenPieces2.setText("place for captured pieces 2");
     }
 
     public void actionPerformed(ActionEvent e) {

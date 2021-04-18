@@ -1,9 +1,9 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 public class GameStartImage extends JPanel{
     private BufferedImage pict;
@@ -19,6 +19,6 @@ public class GameStartImage extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(pict, 0, 0, 800, 800, this);
+        g2d.drawImage(pict, 0, 0, 850, 850, this);
     }
 }
