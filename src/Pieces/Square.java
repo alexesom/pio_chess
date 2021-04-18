@@ -9,7 +9,7 @@ public class Square {
     private int xSquareCoordinate;
     private Color squareColor;
 
-    public Square(int x, int y, int xGap, int yGap, int width, int height) {
+    public Square(int x, int y, int width, int height) {
         squarePanel.setSize(width/8, height/8);
         squarePanel.setLocation(  x * width/8, height - height/8 * (y+1));
         xSquareCoordinate = x;

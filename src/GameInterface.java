@@ -18,16 +18,14 @@ public class GameInterface implements ActionListener {
 
     private void createGameFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800,800);
+        frame.setSize(900,900);
         frame.setResizable(false);
     }
 
     private void createGamePanels() {
         chessboard.createChessboardPanel(200, 200, 560, 560);
-
+        frame.add(chessboard.layer);
         frame.add(chessboard.chessboardPanel);
-        frame.add(gamePanels.coordinatesPanel);
-        frame.add(gamePanels.isAblePanel);
         frame.add(gamePanels.mainPanel);
     }
 
@@ -63,8 +61,6 @@ public class GameInterface implements ActionListener {
 
     private void createGameInterface() {
         createGamePanels();
-        gamePanels.coordinatesPanel.add(chessboard.textDisplay);
-        gamePanels.isAblePanel.add(chessboard.isAble);
     }
 
     public void actionPerformed(ActionEvent e) {
