@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/pio/pio.iml" filepath="$PROJECT_DIR$/pio/pio.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/pio_chess.iml" filepath="$PROJECT_DIR$/.idea/pio_chess.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pio_chess.iml" filepath="$PROJECT_DIR$/pio_chess.iml" />
     </modules>
   </component>
 </project>
