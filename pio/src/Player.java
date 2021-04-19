@@ -31,17 +31,10 @@ public class Player {
                 piece.move(destination);
             else
                 piece.take(destination.getSquarePiece());
-            nextTurn();
+            Game.nextTurn();
             return 0;
         }
     }
 
-    public void nextTurn() {
-        if (Game.current_turn == ChessColor.WHITE){
-            Game.current_turn = ChessColor.BLACK;
-        }
-        if (Game.current_turn == ChessColor.BLACK){
-            Game.current_turn = ChessColor.WHITE;
-        }
-    }
+
 }

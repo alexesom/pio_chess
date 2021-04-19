@@ -8,7 +8,7 @@ public class Square {
     private int ySquareCoordinate;
     private int xSquareCoordinate;
     private Color squareColor;
-    private Piece squarePiece;
+    private Piece squarePiece = null;
 
     public Square(int x, int y, int width, int height) {
         squarePanel.setSize(width/8, height/8);
@@ -17,19 +17,12 @@ public class Square {
         ySquareCoordinate = y;
     }
 
-    public Square() {
-
-    }
 
     public Square(int x, int y) {
         xSquareCoordinate = x;
         ySquareCoordinate = y;
     }
 
-    public Square(int x, int y, JButton button) {
-        xSquareCoordinate = x;
-        ySquareCoordinate = y;
-    }
 
     public int getXSquareCoordinate() {
         return xSquareCoordinate;
@@ -37,6 +30,20 @@ public class Square {
 
     public int getYSquareCoordinate() {
         return ySquareCoordinate;
+    }
+
+    /*
+    converts X coordinate on the board to position on the JPanel
+     */
+    public int getXPanelPosition() {
+        return 10 + 70 * getXSquareCoordinate();
+    }
+
+    /*
+    converts Y coordinate on the board to position on the JPanel
+    */
+    public int getYPanelPosition() {
+        return 500 - 70 * getYSquareCoordinate();
     }
 
     public void setXSquareCoordinate(int x) {

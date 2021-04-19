@@ -23,25 +23,17 @@ public class Piece {
     JLabel blackKing =  new JLabel(new StretchIcon("piecesIcons/blackking.png"));
 
 
-    public Piece() {
-    }
-
     /*
-    współrzędna x Piece to współrzędna szachownicy A-B,
-    a współrzędna y to 1-8 na szachownicy
-    niewskazane jest stosowanie konstruktora Piece(), zamiast tego
-    należy użyć konstruktorów poszczególnych figur (podklasy)
+    Using Piece() constructor is not recommended,
+    use particular piece subclass constructor instead.
      */
     public Piece(Square square, ChessColor color) {
         pieceSquare = square;
         pieceSquare.setSquarePiece(this);
 
-        int x = pieceSquare.getXSquareCoordinate();
-        int y = pieceSquare.getYSquareCoordinate();
-
         pieceColor = color;
         panel.setBackground(Color.blue);
-        panel.setBounds(10+70*(x),500-70*(y),50,50);
+        panel.setBounds(pieceSquare.getXPanelPosition(),pieceSquare.getYPanelPosition(),50,50);
     }
     protected void setPieceImage(JLabel image){
         panel.setOpaque(false);
@@ -49,10 +41,6 @@ public class Piece {
         panel.add(image);
     }
 
-    public byte move(Square destination) {
-
-        return 0;
-    }
 
     public void take(Piece piece) {
 
@@ -62,8 +50,14 @@ public class Piece {
         return pieceSquare;
     }
 
-    public void setPieceSquare(Square pieceSquare) {
-        this.pieceSquare = pieceSquare;
+    /*
+    moves the piece to a new square
+    and sets the original and new Square.SquarePiece values accordingly
+     */
+    public void move (Square newSquare) {
+        pieceSquare.setSquarePiece(null);
+        pieceSquare = newSquare;
+        pieceSquare.setSquarePiece(this);
     }
 
     public boolean isAbleToMove(Square square) {
