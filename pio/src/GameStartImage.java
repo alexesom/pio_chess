@@ -10,7 +10,7 @@ public class GameStartImage extends JPanel{
 
     public GameStartImage() {
         try {
-            pict = ImageIO.read(new File("C:\\Users\\01159365\\IdeaProjects\\PIO\\pio_chess\\pio\\szachy.png"));
+            pict = ImageIO.read(new File("pio\\szachy.png"));
         } catch (IOException e) {
             System.err.println("Starting image error");
         }
