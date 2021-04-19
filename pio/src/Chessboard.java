@@ -7,8 +7,8 @@ import java.util.List;
 public class Chessboard {
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
-    public Square[][] board = new Square[8][8];
-    private Adapter plsWork = new Adapter(layer);
+    public static Square[][] board = new Square[8][8];
+    private Adapter mouseAdapter = new Adapter(layer);
     public JTextArea takenPieces1 = new JTextArea();
     public JTextArea takenPieces2 = new JTextArea();
     public static List<Piece> pieceList = null;
@@ -48,22 +48,15 @@ public class Chessboard {
     }
 
     private void addMouse(){
-        layer.addMouseListener(plsWork);
+        layer.addMouseListener(mouseAdapter);
     }
 
-   /* public static Piece findPiece(Square initialSquare) {
-        if (pieceList == null)
-            return null;
 
-        for(Piece item : pieceList) {
-            if(item.getButtonSquare().equalsCoordinates(initialSquare))
-                return item;
-        }
-
-        return null;
-    }*/
+    /*
+    Place the pieces in their starting positions
+     */
     private void placeChessboardPieces(){
-        //Black pieces
+        // Black pieces
         addFigure(new Rook(board[0][7], ChessColor.BLACK));
         addFigure(new Knight(board[1][7], ChessColor.BLACK));
         addFigure(new Bishop(board[2][7], ChessColor.BLACK));
@@ -81,7 +74,7 @@ public class Chessboard {
         addFigure(new Pawn(board[6][6], ChessColor.BLACK));
         addFigure(new Pawn(board[7][6], ChessColor.BLACK));
 
-        //White pieces
+        // White pieces
         addFigure(new Rook(board[0][0], ChessColor.WHITE));
         addFigure(new Knight(board[1][0], ChessColor.WHITE));
         addFigure(new Bishop(board[2][0], ChessColor.WHITE));
