@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Piece {
+    private JPanel piecePanel;
+    private int xPieceCoordinate;
+    private int yPieceCoordinate;
     protected Square pieceSquare;
     protected ChessColor pieceColor;
 
@@ -22,8 +25,19 @@ public class Piece {
     JLabel whiteKing =  new JLabel(new StretchIcon("piecesIcons/whiteking.png"));
     JLabel blackKing =  new JLabel(new StretchIcon("piecesIcons/blackking.png"));
 
+    public Piece(int x, int y, ChessColor chessColor) {
+        xPieceCoordinate = x;
+        yPieceCoordinate = y;
+        JLabel label = new JLabel(new StretchIcon("piecesIcons\\blackqueen.png"));
+        piecePanel = new JPanel();
+        pieceColor = chessColor;
 
-    public Piece() {
+        piecePanel.setOpaque(false);
+        piecePanel.setBounds(10, 10,50,50);
+        label.setPreferredSize(new Dimension(piecePanel.getWidth(), piecePanel.getHeight()));
+        piecePanel.add(label);
+
+        public Piece() {
     }
 
     /*
@@ -43,21 +57,26 @@ public class Piece {
         panel.setBackground(Color.blue);
         panel.setBounds(10+70*(x),500-70*(y),50,50);
     }
-    protected void setPieceImage(JLabel image){
+      
+    protected void setPieceImage(JLabel image) {
         panel.setOpaque(false);
         image.setPreferredSize(new Dimension(panel.getWidth()-5, panel.getHeight()-5));
         panel.add(image);
     }
 
-    public byte move(Square destination) {
 
-        return 0;
+
+    //region To Be Done in future
+    public void move(Square destination) {
+
     }
 
     public void take(Piece piece) {
 
     }
+    //endregion
 
+    //region pieceSquare property
     public Square getPieceSquare() {
         return pieceSquare;
     }
@@ -65,6 +84,37 @@ public class Piece {
     public void setPieceSquare(Square pieceSquare) {
         this.pieceSquare = pieceSquare;
     }
+    //endregion
+
+    //region piecePanel property
+
+    public JPanel getPiecePanel() {
+        return piecePanel;
+    }
+
+    public void setPiecePanel(JPanel piecePanel) {
+        this.piecePanel = piecePanel;
+    }
+
+    //endregion
+
+    //region X, Y Piece Coordinates property
+    public int getxPieceCoordinate() {
+        return xPieceCoordinate;
+    }
+
+    public void setxPieceCoordinate(int xPieceCoordinate) {
+        this.xPieceCoordinate = xPieceCoordinate;
+    }
+
+    public int getyPieceCoordinate() {
+        return yPieceCoordinate;
+    }
+
+    public void setyPieceCoordinate(int yPieceCoordinate) {
+        this.yPieceCoordinate = yPieceCoordinate;
+    }
+    //endregion
 
     public boolean isAbleToMove(Square square) {
 

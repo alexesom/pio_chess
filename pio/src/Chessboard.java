@@ -7,6 +7,7 @@ import java.util.List;
 public class Chessboard {
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
+    public Piece figure1 = new Piece(1, 1, ChessColor.BLACK);
     public Square[][] board = new Square[8][8];
     private Adapter plsWork = new Adapter(layer);
     public JTextArea takenPieces1 = new JTextArea();
@@ -44,24 +45,16 @@ public class Chessboard {
     }
 
     private void addFigure(Piece figure) {
+        int x = figure.getxPieceCoordinate();
+        int y = figure.getyPieceCoordinate();
         layer.add(figure.panel);
+        board[x][y].setSquarePiece(figure);
     }
 
     private void addMouse(){
         layer.addMouseListener(plsWork);
     }
 
-   /* public static Piece findPiece(Square initialSquare) {
-        if (pieceList == null)
-            return null;
-
-        for(Piece item : pieceList) {
-            if(item.getButtonSquare().equalsCoordinates(initialSquare))
-                return item;
-        }
-
-        return null;
-    }*/
     private void placeChessboardPieces(){
         //Black pieces
         addFigure(new Rook(board[0][7], ChessColor.BLACK));
