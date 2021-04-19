@@ -7,7 +7,7 @@ import java.awt.Font;
 public class GameInterface implements ActionListener {
     private JFrame frame = new JFrame("Chess");
     private JLabel titleText = new JLabel("CHESS GAME");
-    private JButton startButton = new JButton("Start");
+    private JButton startButton = new JButton("START");
     public Chessboard chessboard = new Chessboard();
     private GamePanels gamePanels = new GamePanels();
     private UsernameBox player1 = new UsernameBox();
@@ -23,15 +23,14 @@ public class GameInterface implements ActionListener {
 
     private void createGameFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(850,850);
+        frame.setSize(1100,800);
         frame.setResizable(false);
     }
 
     private void createGamePanels() {
-        chessboard.createChessboardPanel();
+        chessboard.createChessboardPanel(70, 40, 560, 560);
+        frame.add(chessboard.layer);
         frame.add(chessboard.chessboardPanel);
-        frame.add(gamePanels.coordinatesPanel);
-        frame.add(gamePanels.isAblePanel);
         frame.add(gamePanels.player1Panel);
         frame.add(gamePanels.player2Panel);
         frame.add(gamePanels.capturedPiecesPanel1);
@@ -42,7 +41,7 @@ public class GameInterface implements ActionListener {
     }
 
     private void createGameTitle() {
-        titleText.setFont(titleText.getFont().deriveFont(32.0F));
+        titleText.setFont(titleText.getFont().deriveFont(64.0F));
         titleText.setForeground(Color.lightGray);
 
         gamePanels.titlePanel.add(titleText);
@@ -52,7 +51,7 @@ public class GameInterface implements ActionListener {
     private void createStartButton() {
         startButton.setBackground(Color.green);
         startButton.addActionListener(this);
-        startButton.setBounds(375,150,100,30);
+        startButton.setBounds(500,150,100,30);
         gamePanels.picPanel.add(startButton);
     }
 
@@ -61,9 +60,9 @@ public class GameInterface implements ActionListener {
         createStartButton();
         createGameTitle();
 
-        frame.add(player1.createUserPanel(50,500,200,90));
+        frame.add(player1.createUserPanel(80,550,200,90));
         player1.setPlayerNumber(1);
-        frame.add(player2.createUserPanel(600,500,200,90));
+        frame.add(player2.createUserPanel(800,550,200,90));
         player2.setPlayerNumber(2);
 
         frame.add(gamePanels.picPanel);
@@ -75,12 +74,22 @@ public class GameInterface implements ActionListener {
         createGamePanels();
         bottomCoordinates.setFont(new Font("Arial", Font.ITALIC, 19));
         bottomCoordinates.setText("A           B           C           D            E           F           G           H");
+        bottomCoordinates.setForeground(new Color(151,149,148));
         rightCoordinates.setFont(new Font("Arial", Font.ITALIC, 19));
         rightCoordinates.setText("<html><br>8<br><br><br>7<br><br><br>6<br><br><br>5<br><br><br>4<br><br><br>3<br><br><br>2<br><br><br>1</html>");
-        gamePanels.coordinatesPanel.add(chessboard.textDisplay);
-        gamePanels.isAblePanel.add(chessboard.isAble);
-        name1.setText("player 1: " + player1.name );
-        name2.setText("player 2: " + player2.name );
+        rightCoordinates.setForeground(new Color(151,149,148));
+
+        if(player1.name == null) {
+            player1.name = "Player 1";
+        }
+        name1.setFont(new Font("Arial", Font.BOLD, 23));
+        name1.setText(player1.name);
+
+        if(player2.name == null) {
+            player2.name = "Player 2";
+        }
+        name2.setFont(new Font("AvantGarde", Font.BOLD, 23));
+        name2.setText(player2.name);
 
         gamePanels.player1Panel.add(name1);
         gamePanels.player2Panel.add(name2);

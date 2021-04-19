@@ -1,12 +1,22 @@
 package Pieces;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class Piece {
-    private byte type;
-    private boolean isWhite;
     public Square buttonSquare;
+    public JPanel label1 = new JPanel();
 
     public Piece() {
 
+    }
+
+    public Piece(int x, int y, Color color) {
+        JLabel label = new JLabel(new Pieces.StretchIcon("pio_chess\\piecesIcons\\blackqueen.png"));
+        label1.setOpaque(false);
+        label1.setBounds(10,10,50,50);
+        label.setPreferredSize(new Dimension(label1.getWidth(), label1.getHeight()));
+        label1.add(label);
     }
 
     public byte move(Square destination) {

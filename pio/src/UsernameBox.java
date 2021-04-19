@@ -26,7 +26,7 @@ public class UsernameBox implements ActionListener {
         usernamePanel.add(enterName);
 
         button.addActionListener(this);
-        button.setBackground(Color.cyan);
+        button.setBackground(new Color(115, 203, 98));
 
         usernamePanel.add(button);
 
@@ -46,10 +46,11 @@ public class UsernameBox implements ActionListener {
             displayName.setText("");
             name = enterName.getText();
 
-            if (name.length() > 20)
-                name = name.substring(0,19);
-
             displayName.setText("Player " + getPlayerNumber() + ": " + name);
+
+            if (name.length() > 20) {
+                name = name.substring(0,19);
+            }
         }
     }
 }
