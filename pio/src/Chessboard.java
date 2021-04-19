@@ -8,18 +8,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class Chessboard implements ActionListener {
+public class Chessboard {
     public JPanel chessboardPanel = new JPanel();
+    public JLayeredPane layer = new JLayeredPane();
+    public Piece figure1 = new Piece(10, 10, Color.green);
+    public Piece figure2 = new Piece(220, 220, Color.BLUE);
     public Square[][] board = new Square[8][8];
-    public JTextArea textDisplay = new JTextArea();
-    public JTextArea isAble = new JTextArea();
+    private Adapter plsWork = new Adapter(layer);
     public JTextArea takenPieces1 = new JTextArea();
     public JTextArea takenPieces2 = new JTextArea();
     public static List<Piece> pieceList = null;
 
     public Chessboard() {
-
         createChessboardSquares();
+        addFigure(figure1);
+        //addFigure(figure2);
+        addMouse();
     }
 
     public Chessboard(List<Piece> list) {
@@ -27,72 +31,33 @@ public class Chessboard implements ActionListener {
         createChessboardSquares();
     }
 
-    public void createChessboardPanel() {
-        chessboardPanel.setLayout(new GridLayout(8, 8));
-        chessboardPanel.setBounds(200,180,560,560);
+    public void createChessboardPanel(int xGap, int yGap, int width, int height) {
+        chessboardPanel.setLayout(null);
+        chessboardPanel.setBounds(xGap, yGap, width, height);
+        layer.setBounds(xGap, yGap, width, height);
     }
 
     private void createChessboardSquares() {
         for (int iy = 7; iy >= 0; iy--) {
             for (int jx = 0; jx < 8; jx++) {
-                Piece foundPiece = findPiece(new Square(jx, iy));
-                Square singleSquare;
-                if(foundPiece == null)
-                    singleSquare = new Square();
-                else singleSquare = foundPiece.getButtonSquare();
-
-
-
-                squareColor(iy, jx, singleSquare);
-                setChosenCoordinates(iy, jx, singleSquare);
-                singleSquare.button.setMargin(new Insets(0,0,0,0));
-
-                singleSquare.button.addActionListener(this);
-
-                board[iy][jx] = singleSquare;
-                chessboardPanel.add(board[iy][jx].button);
+                board[jx][iy] = new Square(jx, iy,  560, 560);
+                board[jx][iy].setSquareColor(jx, iy);
+                Color boardSquareColor = board[jx][iy].getSquareColor();
+                board[jx][iy].squarePanel.setBackground(boardSquareColor);
+                chessboardPanel.add(board[jx][iy].squarePanel);
+                System.out.println(board[jx][iy].squarePanel.getLocation() + " " + iy + " " + jx);
             }
         }
     }
 
-    private void squareColor(int i, int j, Square singleSquare) {
-        if ((i % 2 == 0 && j % 2 == 0) || (i % 2 == 1 && j % 2 == 1))
-            singleSquare.setColor(ChessColor.WHITE);
-        else singleSquare.setColor(ChessColor.BLACK);
+    private void addFigure(Piece figure) {
+        layer.add(figure.label1);
+    }
+    private void addMouse(){
+        layer.addMouseListener(plsWork);
     }
 
-    private void setChosenCoordinates(int iy, int jx, Square singleSquare) {
-        singleSquare.setXSquareCoordinate(jx);
-        singleSquare.setYSquareCoordinate(iy);
-    }
-
-    // tu mozna spradzic czy dziala wasza funkcja isAbleToMove dla wybranego pionka
-    // isAble.setText("is able? " + pieceList.get(INDEX WYBRANEGO PIONKA Z LISTY).isAbleToMove(board[y - 1][x - 1]));
-    public void displayChosenCoordinates(int x, int y) {
-        textDisplay.setText("coordinates: x: " + x + " y: " + y );
-        isAble.setText("is able? " + pieceList.get(14).isAbleToMove(board[y - 1][x - 1]));
-        takenPieces1.setText("place for captured pieces 1");
-        takenPieces2.setText("place for captured pieces 2");
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        Object chosenSquare = e.getSource();
-        try {
-            for (int i = 7; i >= 0; i--) {
-                for (int j = 0; j < 8; j++) {
-                    if (chosenSquare == board[i][j].button) {
-                        int x = board[i][j].getXSquareCoordinate() + 1;
-                        int y = board[i][j].getYSquareCoordinate() + 1;
-                        displayChosenCoordinates(x, y);
-                    }
-                }
-            }
-        } catch (IllegalArgumentException sourceError) {
-            System.err.println("ActionEvent fail");
-        }
-    }
-
-    public static Piece findPiece(Square initialSquare) {
+   /* public static Piece findPiece(Square initialSquare) {
         if (pieceList == null)
             return null;
 
@@ -102,5 +67,5 @@ public class Chessboard implements ActionListener {
         }
 
         return null;
-    }
+    }*/
 }

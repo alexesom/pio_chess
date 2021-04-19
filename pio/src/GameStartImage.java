@@ -10,7 +10,7 @@ public class GameStartImage extends JPanel{
 
     public GameStartImage() {
         try {
-            pict = ImageIO.read(new File("szachy.jpg"));
+            pict = ImageIO.read(new File("C:\\Users\\01159365\\IdeaProjects\\PIO\\pio_chess\\pio\\szachy.png"));
         } catch (IOException e) {
             System.err.println("Starting image error");
         }
@@ -19,6 +19,6 @@ public class GameStartImage extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(pict, 0, 0, 850, 850, this);
+        g2d.drawImage(pict, 0, 0, 1150, 800, this);
     }
 }
