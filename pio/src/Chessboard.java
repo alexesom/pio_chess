@@ -4,15 +4,12 @@ import Pieces.Square;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Chessboard {
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
-    public Piece figure1 = new Piece(10, 10, Color.green);
-    public Piece figure2 = new Piece(220, 220, Color.BLUE);
+    public Piece figure1 = new Piece(1, 1, ChessColor.BLACK);
     public Square[][] board = new Square[8][8];
     private Adapter plsWork = new Adapter(layer);
     public JTextArea takenPieces1 = new JTextArea();
@@ -51,21 +48,13 @@ public class Chessboard {
     }
 
     private void addFigure(Piece figure) {
-        layer.add(figure.label1);
+        int x = figure.getxPieceCoordinate();
+        int y = figure.getyPieceCoordinate();
+        layer.add(figure.getPiecePanel());
+        board[x][y].setSquarePiece(figure);
     }
+
     private void addMouse(){
         layer.addMouseListener(plsWork);
     }
-
-   /* public static Piece findPiece(Square initialSquare) {
-        if (pieceList == null)
-            return null;
-
-        for(Piece item : pieceList) {
-            if(item.getButtonSquare().equalsCoordinates(initialSquare))
-                return item;
-        }
-
-        return null;
-    }*/
 }

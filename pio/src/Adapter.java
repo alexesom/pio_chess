@@ -12,6 +12,7 @@ public class Adapter extends MouseAdapter {
     private Point destinationPoint = new Point();
 
     public Adapter(JLayeredPane layer) {
+
         myLayeredPane = layer;
     }
 
@@ -56,6 +57,8 @@ public class Adapter extends MouseAdapter {
             clickedPanel = null;
         }
         clickPoint = null;
+
+
     }
 
     private void moveSelectedPanelTo (Point p){
