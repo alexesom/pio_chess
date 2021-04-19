@@ -9,7 +9,7 @@ public class Rook extends Piece implements PieceInterface{
         this.moved = false;
         this.buttonSquare = rookPosition;
         this.rookColor = rookColor;
-        super.buttonSquare = this.buttonSquare;
+        super.setPieceSquare(this.buttonSquare);
     }
 
     @Override

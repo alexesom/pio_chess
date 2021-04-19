@@ -9,7 +9,7 @@ public class Pawn extends Piece implements PieceInterface{
     public Pawn(Square pawnPosition, ChessColor pawnColor) {
         this.buttonSquare = pawnPosition;
         this.pawnColor = pawnColor;
-        super.buttonSquare = this.buttonSquare;
+        super.setPieceSquare(this.buttonSquare);
     }
 
     public byte enPassant(Piece piece) {

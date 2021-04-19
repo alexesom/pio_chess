@@ -9,7 +9,7 @@ public class Bishop extends Piece implements PieceInterface{
     public Bishop(Square bishopPosition, ChessColor bishopColor) {
         this.buttonSquare = bishopPosition;
         this.bishopColor = bishopColor;
-        super.buttonSquare = this.buttonSquare;
+        super.setPieceSquare(this.buttonSquare);
     }
 
     @Override

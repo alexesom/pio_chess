@@ -9,7 +9,7 @@ public class Knight extends Piece implements PieceInterface{
     public Knight(Square knightPosition, ChessColor knightColor) {
         this.buttonSquare = knightPosition;
         this.knightColor = knightColor;
-        super.buttonSquare = this.buttonSquare;
+        super.setPieceSquare(this.buttonSquare);
     }
 
     @Override

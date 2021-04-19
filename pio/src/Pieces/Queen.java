@@ -9,7 +9,7 @@ public class Queen extends Piece implements PieceInterface{
     public Queen(Square queenPosition, ChessColor queenColor) {
         this.buttonSquare = queenPosition;
         this.queenColor = queenColor;
-        super.buttonSquare = this.buttonSquare;
+        super.setPieceSquare(this.buttonSquare);
     }
 
     public Square getQueenPosition() {

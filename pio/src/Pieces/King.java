@@ -11,7 +11,7 @@ public class King extends Piece implements PieceInterface{
         this.moved = false;
         this.buttonSquare = kingPosition;
         this.kingColor = kingColor;
-        super.buttonSquare = this.buttonSquare;
+        super.setPieceSquare(this.buttonSquare);
     }
 
     @Override
