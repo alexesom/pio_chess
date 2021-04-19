@@ -3,21 +3,23 @@ package Pieces;
 import static java.lang.Math.abs;
 
 public class King extends Piece implements PieceInterface{
-    Square buttonSquare = null;
-    ChessColor kingColor;
-    private boolean moved;
+    private boolean moved = false;
 
     public King(Square kingPosition, ChessColor kingColor) {
-        this.moved = false;
-        this.buttonSquare = kingPosition;
-        this.kingColor = kingColor;
-        super.setPieceSquare(this.buttonSquare);
+        super(kingPosition, kingColor);
+
+        if (pieceColor == ChessColor.BLACK) {
+            setPieceImage(blackKing);
+        }
+        else if (pieceColor == ChessColor.WHITE) {
+            setPieceImage(whiteKing);
+        }
     }
 
     @Override
     public boolean isAbleToMove(Square square) {
-        int xDiff = square.getXSquareCoordinate() - buttonSquare.getXSquareCoordinate();
-        int yDiff = square.getYSquareCoordinate() - buttonSquare.getYSquareCoordinate();
+        int xDiff = square.getXSquareCoordinate() - pieceSquare.getXSquareCoordinate();
+        int yDiff = square.getYSquareCoordinate() - pieceSquare.getYSquareCoordinate();
 
         if(abs(xDiff) <= 1 && abs(yDiff) <= 1 && (abs(xDiff) != 0 || xDiff != yDiff))
             return true;

@@ -1,15 +1,18 @@
 package Pieces;
 
 public class Pawn extends Piece implements PieceInterface{
-    Square buttonSquare = null;
-    ChessColor pawnColor;
-    private boolean promoted;
-    private boolean passedTwo;
+    private boolean promoted = false;
+    private boolean passedTwo = false;
 
     public Pawn(Square pawnPosition, ChessColor pawnColor) {
-        this.buttonSquare = pawnPosition;
-        this.pawnColor = pawnColor;
-        super.setPieceSquare(this.buttonSquare);
+        super(pawnPosition, pawnColor);
+
+        if (pieceColor == ChessColor.BLACK) {
+            setPieceImage(blackPawn);
+        }
+        else if (pieceColor == ChessColor.WHITE) {
+            setPieceImage(whitePawn);
+        }
     }
 
     public byte enPassant(Piece piece) {
@@ -21,10 +24,10 @@ public class Pawn extends Piece implements PieceInterface{
         int xSquare = square.getXSquareCoordinate();
         int ySquare = square.getYSquareCoordinate();
 
-        int xPawn = buttonSquare.getXSquareCoordinate();
-        int yPawn = buttonSquare.getYSquareCoordinate();
+        int xPawn = pieceSquare.getXSquareCoordinate();
+        int yPawn = pieceSquare.getYSquareCoordinate();
 
-        if (pawnColor == ChessColor.WHITE) {
+        if (pieceColor == ChessColor.WHITE) {
             if (yPawn == 1 && ((ySquare == 2 || ySquare == 3) && xSquare == xPawn)) {
                 return true;
             } else if (yPawn != 1 && (ySquare == yPawn + 1 && xPawn == xSquare)) {
