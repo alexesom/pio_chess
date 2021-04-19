@@ -19,7 +19,6 @@ public class Square {
         ySquareCoordinate = y;
     }
 
-
     public Square(int x, int y, JButton button) {
         xSquareCoordinate = x;
         ySquareCoordinate = y;
@@ -45,9 +44,8 @@ public class Square {
     public void setColor(ChessColor squareColor) {
         if (squareColor.equals(ChessColor.WHITE)) {
             button.setBackground(java.awt.Color.darkGray);
-            this.squareColor =  ChessColor.BLACK;
-        }
-        else {
+            this.squareColor = ChessColor.BLACK;
+        } else {
             button.setBackground(java.awt.Color.lightGray);
             this.squareColor = ChessColor.WHITE;
         }
@@ -56,6 +54,15 @@ public class Square {
     public ChessColor getColor() {
         return squareColor;
     }
+
+    public void setSquarePiece(Piece piece) {
+        squarePiece = piece;
+    }
+
+    public Piece getSquarePiece() {
+        return squarePiece;
+    }
+
 
     @Override
     public boolean equals(Object o) {
