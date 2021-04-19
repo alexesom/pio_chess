@@ -11,6 +11,7 @@ public class GamePanels {
     public JPanel boardCoordinatesBottomPanel = new JPanel();
     public JPanel capturedPiecesPanel1 = new JPanel();
     public JPanel capturedPiecesPanel2 = new JPanel();
+    public JPanel endGamePanel = new JPanel();
 
     public GamePanels() {
         mainGamePanel();
@@ -33,6 +34,11 @@ public class GamePanels {
         titlePanel.setOpaque(false);
     }
 
+    public void endGamePanel(UsernameBox player) {
+        endGamePanel.setVisible(true);
+        endGamePanel.add(new JLabel(player.name + " " + "win! Congrats!"));
+    }
+
     private void setPlayerPanels() {
         player1Panel.setBounds(755,50,200,50);
         player1Panel.setOpaque(false);
@@ -45,6 +51,10 @@ public class GamePanels {
 
         capturedPiecesPanel2.setBounds(675,375,360,200);
         capturedPiecesPanel2.setBackground(Color.gray);
+
+        endGamePanel.setBounds(500,640, 200, 50);
+        endGamePanel.setBackground(Color.lightGray);
+        endGamePanel.setVisible(false);
     }
 
     private void setBoardCoordinatesPanels() {
