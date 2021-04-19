@@ -7,6 +7,7 @@ import static java.lang.Math.abs;
 public class Knight extends Piece implements PieceInterface{
 
     public Knight(Square knightPosition, ChessColor knightColor) {
+
         super(knightPosition, knightColor);
 
         if (pieceColor == ChessColor.BLACK) {
