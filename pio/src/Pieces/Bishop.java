@@ -3,19 +3,22 @@ package Pieces;
 import static java.lang.Math.abs;
 
 public class Bishop extends Piece implements PieceInterface{
-    Square buttonSquare = null;
-    ChessColor bishopColor;
 
     public Bishop(Square bishopPosition, ChessColor bishopColor) {
-        this.buttonSquare = bishopPosition;
-        this.bishopColor = bishopColor;
-        super.buttonSquare = this.buttonSquare;
+        super(bishopPosition, bishopColor);
+
+        if (pieceColor == ChessColor.BLACK) {
+            setPieceImage(blackBishop);
+        }
+        else if (pieceColor == ChessColor.WHITE) {
+            setPieceImage(whiteBishop);
+        }
     }
 
     @Override
     public boolean isAbleToMove(Square square) {
-        int xDiff = abs(square.getXSquareCoordinate() - buttonSquare.getXSquareCoordinate());
-        int yDiff = abs(square.getYSquareCoordinate() - buttonSquare.getYSquareCoordinate());
+        int xDiff = abs(square.getXSquareCoordinate() - pieceSquare.getXSquareCoordinate());
+        int yDiff = abs(square.getYSquareCoordinate() - pieceSquare.getYSquareCoordinate());
 
         return xDiff == yDiff;
     }

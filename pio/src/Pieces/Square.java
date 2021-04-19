@@ -2,7 +2,6 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class Square {
     public JPanel squarePanel = new JPanel();

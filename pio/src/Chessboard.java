@@ -1,18 +1,12 @@
-import Pieces.ChessColor;
-import Pieces.Piece;
-import Pieces.Square;
+import Pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Chessboard {
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
-    public Piece figure1 = new Piece(10, 10, Color.green);
-    public Piece figure2 = new Piece(220, 220, Color.BLUE);
     public Square[][] board = new Square[8][8];
     private Adapter plsWork = new Adapter(layer);
     public JTextArea takenPieces1 = new JTextArea();
@@ -21,8 +15,7 @@ public class Chessboard {
 
     public Chessboard() {
         createChessboardSquares();
-        addFigure(figure1);
-        //addFigure(figure2);
+        placeChessboardPieces();
         addMouse();
     }
 
@@ -51,8 +44,9 @@ public class Chessboard {
     }
 
     private void addFigure(Piece figure) {
-        layer.add(figure.label1);
+        layer.add(figure.panel);
     }
+
     private void addMouse(){
         layer.addMouseListener(plsWork);
     }
@@ -68,4 +62,41 @@ public class Chessboard {
 
         return null;
     }*/
+    private void placeChessboardPieces(){
+        //Black pieces
+        addFigure(new Rook(board[0][7], ChessColor.BLACK));
+        addFigure(new Knight(board[1][7], ChessColor.BLACK));
+        addFigure(new Bishop(board[2][7], ChessColor.BLACK));
+        addFigure(new Queen(board[3][7], ChessColor.BLACK));
+        addFigure(new King(board[4][7], ChessColor.BLACK));
+        addFigure(new Bishop(board[5][7], ChessColor.BLACK));
+        addFigure(new Knight(board[6][7], ChessColor.BLACK));
+        addFigure(new Rook(board[7][7], ChessColor.BLACK));
+        addFigure(new Pawn(board[0][6], ChessColor.BLACK));
+        addFigure(new Pawn(board[1][6], ChessColor.BLACK));
+        addFigure(new Pawn(board[2][6], ChessColor.BLACK));
+        addFigure(new Pawn(board[3][6], ChessColor.BLACK));
+        addFigure(new Pawn(board[4][6], ChessColor.BLACK));
+        addFigure(new Pawn(board[5][6], ChessColor.BLACK));
+        addFigure(new Pawn(board[6][6], ChessColor.BLACK));
+        addFigure(new Pawn(board[7][6], ChessColor.BLACK));
+
+        //White pieces
+        addFigure(new Rook(board[0][0], ChessColor.WHITE));
+        addFigure(new Knight(board[1][0], ChessColor.WHITE));
+        addFigure(new Bishop(board[2][0], ChessColor.WHITE));
+        addFigure(new Queen(board[3][0], ChessColor.WHITE));
+        addFigure(new King(board[4][0], ChessColor.WHITE));
+        addFigure(new Bishop(board[5][0], ChessColor.WHITE));
+        addFigure(new Knight(board[6][0], ChessColor.WHITE));
+        addFigure(new Rook(board[7][0], ChessColor.WHITE));
+        addFigure(new Pawn(board[0][1], ChessColor.WHITE));
+        addFigure(new Pawn(board[1][1], ChessColor.WHITE));
+        addFigure(new Pawn(board[2][1], ChessColor.WHITE));
+        addFigure(new Pawn(board[3][1], ChessColor.WHITE));
+        addFigure(new Pawn(board[4][1], ChessColor.WHITE));
+        addFigure(new Pawn(board[5][1], ChessColor.WHITE));
+        addFigure(new Pawn(board[6][1], ChessColor.WHITE));
+        addFigure(new Pawn(board[7][1], ChessColor.WHITE));
+    }
 }
