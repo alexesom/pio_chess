@@ -1,15 +1,17 @@
 package Pieces;
 
 public class Rook extends Piece implements PieceInterface{
-    Square buttonSquare = null;
-    ChessColor rookColor;
-    private boolean moved;
+    private boolean moved = false;
 
     public Rook(Square rookPosition, ChessColor rookColor) {
-        this.moved = false;
-        this.buttonSquare = rookPosition;
-        this.rookColor = rookColor;
-        super.buttonSquare = this.buttonSquare;
+        super(rookPosition, rookColor);
+
+        if (pieceColor == ChessColor.BLACK) {
+            setPieceImage(blackRook);
+        }
+        else if (pieceColor == ChessColor.WHITE) {
+            setPieceImage(whiteRook);
+        }
     }
 
     @Override
@@ -17,8 +19,8 @@ public class Rook extends Piece implements PieceInterface{
         int xSquare = square.getXSquareCoordinate();
         int ySquare = square.getYSquareCoordinate();
 
-        int xRook = buttonSquare.getXSquareCoordinate();
-        int yRook = buttonSquare.getYSquareCoordinate();
+        int xRook = pieceSquare.getXSquareCoordinate();
+        int yRook = pieceSquare.getYSquareCoordinate();
 
         return xSquare == xRook || ySquare == yRook;
     }
