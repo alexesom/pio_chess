@@ -19,10 +19,10 @@ public class Rook extends Piece implements PieceInterface{
         int xSquare = square.getXSquareCoordinate();
         int ySquare = square.getYSquareCoordinate();
 
-        int xRook = pieceSquare.getXSquareCoordinate();
-        int yRook = pieceSquare.getYSquareCoordinate();
+        int xRook = getxPieceCoordinate();
+        int yRook = getyPieceCoordinate();
 
-        if ((xSquare == xRook || ySquare == yRook) == true)
+        if (xSquare == xRook || ySquare == yRook)
             if(xSquare == xRook)
                 return isAnyPieceBetween(square, PieceMotion.vertical );
             else

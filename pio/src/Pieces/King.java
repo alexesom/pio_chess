@@ -18,8 +18,8 @@ public class King extends Piece implements PieceInterface{
 
     @Override
     public boolean isAbleToMove(Square square) {
-        int xDiff = square.getXSquareCoordinate() - pieceSquare.getXSquareCoordinate();
-        int yDiff = square.getYSquareCoordinate() - pieceSquare.getYSquareCoordinate();
+        int xDiff = square.getXSquareCoordinate() - getxPieceCoordinate();
+        int yDiff = square.getYSquareCoordinate() - getyPieceCoordinate();
 
         if(abs(xDiff) <= 1 && abs(yDiff) <= 1 && (abs(xDiff) != 0 || xDiff != yDiff))
             return true;
