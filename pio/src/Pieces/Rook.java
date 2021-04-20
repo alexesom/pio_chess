@@ -22,7 +22,13 @@ public class Rook extends Piece implements PieceInterface{
         int xRook = pieceSquare.getXSquareCoordinate();
         int yRook = pieceSquare.getYSquareCoordinate();
 
-        return xSquare == xRook || ySquare == yRook;
+        if ((xSquare == xRook || ySquare == yRook) == true)
+            if(xSquare == xRook)
+                return isAnyPieceBetween(square, PieceMotion.vertical );
+            else
+                return isAnyPieceBetween(square, PieceMotion.horizontal );
+        else
+            return false;
     }
 
     @Override

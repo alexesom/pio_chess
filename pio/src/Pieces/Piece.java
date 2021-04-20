@@ -1,11 +1,14 @@
 package Pieces;
 
+import ChessInterface.*;
 import javax.swing.*;
 import java.awt.*;
 
 public class Piece {
     protected Square pieceSquare;
     protected ChessColor pieceColor;
+    protected int xPieceCoordinate;
+    protected int yPieceCoordinate;
 
     public JPanel panel = new JPanel();
 
@@ -21,6 +24,7 @@ public class Piece {
     JLabel blackQueen =  new JLabel(new StretchIcon("piecesIcons/blackqueen.png"));
     JLabel whiteKing =  new JLabel(new StretchIcon("piecesIcons/whiteking.png"));
     JLabel blackKing =  new JLabel(new StretchIcon("piecesIcons/blackking.png"));
+
 
 
     /*
@@ -41,6 +45,115 @@ public class Piece {
         panel.add(image);
     }
 
+    enum PieceMotion {
+        diagonal, horizontal, vertical
+    }
+
+    public boolean isAnyPieceBetween(Square destinationSquare, PieceMotion motion) {
+        try{
+            int xSquare = getxPieceCoordinate();
+            int xDestinationSquare = destinationSquare.getXSquareCoordinate();
+            int ySquare = getyPieceCoordinate();
+            int yDestinationSquare = destinationSquare.getYSquareCoordinate();
+
+            switch (motion) {
+                case diagonal:
+                    int yCounter = 0;
+                    int xCounter = 0;
+                    if(xSquare < xDestinationSquare) {
+                        xCounter = xSquare;
+                        if(ySquare < yDestinationSquare) {
+                            yCounter = ySquare;
+                            while(xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
+                                if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                    return  false;
+                                xCounter++;
+                                yCounter++;
+                            }
+                        }
+                        else {
+                            yCounter = yDestinationSquare;
+                            while(xCounter != xDestinationSquare && yCounter != ySquare) {
+                                if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                    return  false;
+                                xCounter++;
+                                yCounter--;
+                            }
+                        }
+                    }
+                    else {
+                        xCounter = xDestinationSquare;
+                        if (ySquare < yDestinationSquare) {
+                            yCounter = ySquare;
+                            while (xCounter != xSquare && yCounter != yDestinationSquare) {
+                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                    return false;
+                                xCounter--;
+                                yCounter++;
+                            }
+                        } else {
+                            yCounter = yDestinationSquare;
+                            while (xCounter != xSquare && yCounter != ySquare) {
+                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                    return false;
+                                xCounter--;
+                                yCounter--;
+                            }
+                        }
+                    }
+                    return true;
+
+                case horizontal:
+                    if(xSquare < xDestinationSquare) {
+                        for(int i = xSquare; i < xDestinationSquare; i++ ) {
+                            if(Chessboard.board[i][ySquare].getSquarePiece() != null)
+                                return false;
+                        }
+                    }
+                    else {
+                        for(int i = xDestinationSquare; i < xSquare; i--) {
+                            if(Chessboard.board[i][ySquare].getSquarePiece() != null)
+                                return false;
+                        }
+                    }
+                    return true;
+
+
+                case vertical:
+                    if(ySquare < yDestinationSquare){
+                        for(int i = ySquare; i < yDestinationSquare; i++ ) {
+                            if(Chessboard.board[xSquare][i].getSquarePiece() != null)
+                                return false;
+                        }
+                    }
+                    else {
+                        for (int i = yDestinationSquare; i < ySquare; i--) {
+                            if (Chessboard.board[xSquare][i].getSquarePiece() != null)
+                                return false;
+                        }
+                    }
+                    return true;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return  true;
+    }
+
+    public int getxPieceCoordinate() {
+        return xPieceCoordinate;
+    }
+    public void setxPieceCoordinate(int xPieceCoordinate) {
+        this.xPieceCoordinate = xPieceCoordinate;
+    }
+    public int getyPieceCoordinate() {
+        return xPieceCoordinate;
+    }
+    public void setyPieceCoordinate(int yPieceCoordinate) {
+        this.yPieceCoordinate = yPieceCoordinate;
+    }
 
     public void take(Piece piece) {
 

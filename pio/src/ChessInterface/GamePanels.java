@@ -1,3 +1,5 @@
+package ChessInterface;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -36,7 +38,7 @@ public class GamePanels {
 
     public void endGamePanel(UsernameBox player) {
         endGamePanel.setVisible(true);
-        endGamePanel.add(new JLabel(player.name + " " + "win! Congrats!"));
+        endGamePanel.add(new JLabel(player.name + " " + "wins! Congrats!"));
     }
 
     private void setPlayerPanels() {
