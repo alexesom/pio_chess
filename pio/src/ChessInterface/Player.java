@@ -19,7 +19,7 @@ public class Player {
         return false;
     }
 
-    public byte tryMove(Square origin, Square destination) {
+    /*public byte tryMove(Square origin, Square destination) {
         Pieces.Piece piece = origin.getSquarePiece();
         if (piece == null){
             return 1;
@@ -35,7 +35,7 @@ public class Player {
             Game.nextTurn();
             return 0;
         }
-    }
+    }*/
 
 
 }

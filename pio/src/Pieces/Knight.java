@@ -1,7 +1,5 @@
 package Pieces;
 
-import javax.swing.*;
-
 import static java.lang.Math.abs;
 
 public class Knight extends Piece implements PieceInterface{
@@ -19,8 +17,8 @@ public class Knight extends Piece implements PieceInterface{
 
     @Override
     public boolean isAbleToMove(Square square) {
-        int xDiff = abs(square.getXSquareCoordinate() - pieceSquare.getXSquareCoordinate());
-        int yDiff = abs(square.getYSquareCoordinate() - pieceSquare.getYSquareCoordinate());
+        int xDiff = abs(square.getXSquareCoordinate() - getxPieceCoordinate());
+        int yDiff = abs(square.getYSquareCoordinate() - getyPieceCoordinate());
         int totalDiff = xDiff + yDiff;
 
         return totalDiff == 3 && (xDiff == 2 || xDiff == 1);

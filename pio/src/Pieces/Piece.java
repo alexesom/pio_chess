@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Piece {
-    protected Square pieceSquare;
     protected ChessColor pieceColor;
     protected int xPieceCoordinate;
     protected int yPieceCoordinate;
@@ -25,32 +24,41 @@ public class Piece {
     JLabel whiteKing =  new JLabel(new StretchIcon("piecesIcons/whiteking.png"));
     JLabel blackKing =  new JLabel(new StretchIcon("piecesIcons/blackking.png"));
 
-
-
     /*
     Using Piece() constructor is not recommended,
     use particular piece subclass constructor instead.
      */
     public Piece(Square square, ChessColor color) {
-        pieceSquare = square;
-        pieceSquare.setSquarePiece(this);
+        setxPieceCoordinate(square.getXSquareCoordinate());
+        setyPieceCoordinate(square.getYSquareCoordinate());
 
         pieceColor = color;
         panel.setBackground(Color.blue);
-        panel.setBounds(pieceSquare.getXPanelPosition(),pieceSquare.getYPanelPosition(),50,50);
+        panel.setBounds(10 + 70* getxPieceCoordinate(), 500-70* getyPieceCoordinate(),50,50);
     }
+
+    /*
+    converts X coordinate on the board to position on the JPanel
+    */
+    public int getxPieceCoordinate() {
+        return xPieceCoordinate;
+    }
+
+    /*
+    converts Y coordinate on the board to position on the JPanel
+    */
+    public int getyPieceCoordinate() {
+        return yPieceCoordinate;
+    }
+
     protected void setPieceImage(JLabel image){
         panel.setOpaque(false);
         image.setPreferredSize(new Dimension(panel.getWidth()-5, panel.getHeight()-5));
         panel.add(image);
     }
 
-    enum PieceMotion {
-        diagonal, horizontal, vertical
-    }
-
     public boolean isAnyPieceBetween(Square destinationSquare, PieceMotion motion) {
-        try{
+        try {
             int xSquare = getxPieceCoordinate();
             int xDestinationSquare = destinationSquare.getXSquareCoordinate();
             int ySquare = getyPieceCoordinate();
@@ -61,9 +69,9 @@ public class Piece {
                     int yCounter = 0;
                     int xCounter = 0;
                     if(xSquare < xDestinationSquare) {
-                        xCounter = xSquare;
                         if(ySquare < yDestinationSquare) {
-                            yCounter = ySquare;
+                            xCounter = xSquare+1;
+                            yCounter = ySquare+1;
                             while(xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
                                     return  false;
@@ -72,6 +80,7 @@ public class Piece {
                             }
                         }
                         else {
+                            xCounter = xSquare;
                             yCounter = yDestinationSquare;
                             while(xCounter != xDestinationSquare && yCounter != ySquare) {
                                 if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
@@ -105,13 +114,13 @@ public class Piece {
 
                 case horizontal:
                     if(xSquare < xDestinationSquare) {
-                        for(int i = xSquare; i < xDestinationSquare; i++ ) {
+                        for(int i = xSquare+1; i < xDestinationSquare; i++ ) {
                             if(Chessboard.board[i][ySquare].getSquarePiece() != null)
                                 return false;
                         }
                     }
                     else {
-                        for(int i = xDestinationSquare; i < xSquare; i--) {
+                        for(int i = xDestinationSquare; i < xSquare; i++) {
                             if(Chessboard.board[i][ySquare].getSquarePiece() != null)
                                 return false;
                         }
@@ -121,13 +130,13 @@ public class Piece {
 
                 case vertical:
                     if(ySquare < yDestinationSquare){
-                        for(int i = ySquare; i < yDestinationSquare; i++ ) {
+                        for(int i = ySquare+1; i < yDestinationSquare; i++ ) {
                             if(Chessboard.board[xSquare][i].getSquarePiece() != null)
                                 return false;
                         }
                     }
                     else {
-                        for (int i = yDestinationSquare; i < ySquare; i--) {
+                        for (int i = yDestinationSquare; i < ySquare; i++) {
                             if (Chessboard.board[xSquare][i].getSquarePiece() != null)
                                 return false;
                         }
@@ -142,14 +151,8 @@ public class Piece {
         return  true;
     }
 
-    public int getxPieceCoordinate() {
-        return xPieceCoordinate;
-    }
     public void setxPieceCoordinate(int xPieceCoordinate) {
         this.xPieceCoordinate = xPieceCoordinate;
-    }
-    public int getyPieceCoordinate() {
-        return xPieceCoordinate;
     }
     public void setyPieceCoordinate(int yPieceCoordinate) {
         this.yPieceCoordinate = yPieceCoordinate;
@@ -157,20 +160,6 @@ public class Piece {
 
     public void take(Piece piece) {
 
-    }
-
-    public Square getPieceSquare() {
-        return pieceSquare;
-    }
-
-    /*
-    moves the piece to a new square
-    and sets the original and new Square.SquarePiece values accordingly
-     */
-    public void move (Square newSquare) {
-        pieceSquare.setSquarePiece(null);
-        pieceSquare = newSquare;
-        pieceSquare.setSquarePiece(this);
     }
 
     public boolean isAbleToMove(Square square) {

@@ -24,8 +24,8 @@ public class Pawn extends Piece implements PieceInterface{
         int xSquare = square.getXSquareCoordinate();
         int ySquare = square.getYSquareCoordinate();
 
-        int xPawn = pieceSquare.getXSquareCoordinate();
-        int yPawn = pieceSquare.getYSquareCoordinate();
+        int xPawn = getxPieceCoordinate();
+        int yPawn = getyPieceCoordinate();
 
         if (pieceColor == ChessColor.WHITE) {
             if (yPawn == 1 && ((ySquare == 2 || ySquare == 3) && xSquare == xPawn)) {

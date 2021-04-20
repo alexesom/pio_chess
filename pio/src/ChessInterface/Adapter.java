@@ -1,4 +1,5 @@
 package ChessInterface;
+import Pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,17 +21,17 @@ public class Adapter extends MouseAdapter {
     /*
     komentarze po polsku dodane tymczasowo do komunikacji
     komentarze po angielsku docelowo są finalne
-     */
-
+    */
     @Override
     public void mousePressed(MouseEvent e) {
         clickPoint = e.getPoint(); // klikasz myszką i bierze to ten punkt
         if (clickedPanel != null) { // jezeli to jest miejsce bez panela i panel jest zaznaczony to :
             //gdzies trzeba dodac warunek zeby nie dalo sie ruszyc na to samo pole
             try {
-                disappearPanel = (JPanel) myLayeredPane.findComponentAt(clickPoint);
 
-            } catch (ClassCastException ex) { // the clicked square didn't have another panel on it
+                disappearPanel = (JPanel) myLayeredPane.getComponentAt(clickPoint);
+            }
+            catch (ClassCastException ex) { // the clicked square didn't have another panel on it
                 squareWasEmpty = true;
 
                 // uses the fact that getX/getY returns an integer to round the coordinates
@@ -38,13 +39,14 @@ public class Adapter extends MouseAdapter {
                 clickPoint.y = e.getY() / 70 * 70 + 10;
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Pieces.Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Pieces.Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
+                Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
 
                 // move both Piece and the Panel if the move is legal
                 if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    selectedPiece.move(destinationSquare);
+                    selectedSquare.move(destinationSquare);
                     moveSelectedPanelTo(clickPoint); // przesun panel do tego punktu
                     // pass the turn to the next player
                     Game.nextTurn();
@@ -61,12 +63,13 @@ public class Adapter extends MouseAdapter {
 
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Pieces.Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Pieces.Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
+                Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
                 if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    selectedPiece.move(destinationSquare);
+                    selectedSquare.move(destinationSquare);
                     clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
 
                     // get rid of the taken piece

@@ -20,11 +20,11 @@ public class Queen extends Piece implements PieceInterface{
     public boolean isAbleToMove(Square square) {
         int xSquare = square.getXSquareCoordinate();
         int ySquare = square.getYSquareCoordinate();
-        int xDiff = abs(square.getXSquareCoordinate() - pieceSquare.getXSquareCoordinate());
-        int yDiff = abs(square.getYSquareCoordinate() - pieceSquare.getYSquareCoordinate());
+        int xQueen = getxPieceCoordinate();
+        int yQueen = getyPieceCoordinate();
+        int xDiff = abs(square.getXSquareCoordinate() - xQueen);
+        int yDiff = abs(square.getYSquareCoordinate() - yQueen);
 
-        int xQueen = pieceSquare.getXSquareCoordinate();
-        int yQueen = pieceSquare.getYSquareCoordinate();
 
         return (xSquare == xQueen || ySquare == yQueen) ||
                 (xDiff == yDiff);

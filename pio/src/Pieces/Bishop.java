@@ -17,10 +17,13 @@ public class Bishop extends Piece implements PieceInterface{
 
     @Override
     public boolean isAbleToMove(Square square) {
-        int xDiff = abs(square.getXSquareCoordinate() - pieceSquare.getXSquareCoordinate());
-        int yDiff = abs(square.getYSquareCoordinate() - pieceSquare.getYSquareCoordinate());
+        int xDiff = abs(square.getXSquareCoordinate() - getxPieceCoordinate());
+        int yDiff = abs(square.getYSquareCoordinate() - getyPieceCoordinate());
 
-        return xDiff == yDiff;
+        if(xDiff == yDiff)
+            return isAnyPieceBetween(square, PieceMotion.diagonal);
+        else
+            return false;
     }
 
     @Override
