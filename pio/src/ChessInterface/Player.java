@@ -1,4 +1,5 @@
-import Pieces.*;
+package ChessInterface;
+
 import Pieces.Square;
 
 public class Player {
