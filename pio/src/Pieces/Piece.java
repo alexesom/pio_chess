@@ -81,8 +81,8 @@ public class Piece {
                             }
                         }
                         else {
-                            xCounter = xSquare;
-                            yCounter = yDestinationSquare;
+                            xCounter = xSquare+1;
+                            yCounter = yDestinationSquare+1;
                             while(xCounter != xDestinationSquare && yCounter != ySquare) {
                                 if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
                                     return  false;
@@ -92,9 +92,9 @@ public class Piece {
                         }
                     }
                     else {
-                        xCounter = xDestinationSquare;
+                        xCounter = xDestinationSquare+1;
                         if (ySquare < yDestinationSquare) {
-                            yCounter = ySquare;
+                            yCounter = ySquare+1;
                             while (xCounter != xSquare && yCounter != yDestinationSquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
                                     return false;
@@ -102,7 +102,7 @@ public class Piece {
                                 yCounter++;
                             }
                         } else {
-                            yCounter = yDestinationSquare;
+                            yCounter = yDestinationSquare+1;
                             while (xCounter != xSquare && yCounter != ySquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
                                     return false;
