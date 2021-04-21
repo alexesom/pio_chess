@@ -65,6 +65,14 @@ public class Chessboard {
         layer.addMouseListener(mouseAdapter);
     }
 
+    public static void movePieceInSquares (Square startSquare, Square destinationSquare) {
+        int xPiece = destinationSquare.getXSquareCoordinate();
+        int yPiece = destinationSquare.getYSquareCoordinate();
+        destinationSquare.setSquarePiece(startSquare.getSquarePiece());
+        destinationSquare.getSquarePiece().setxPieceCoordinate(xPiece);
+        destinationSquare.getSquarePiece().setyPieceCoordinate(yPiece);
+        startSquare.setSquarePiece(null);
+    }
 
     /*
     Place the pieces in their starting positions

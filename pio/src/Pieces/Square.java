@@ -64,12 +64,13 @@ public class Square {
         else squareColor = new Color(241, 217, 181);
     }
 
-    public void move (Square newSquare) {
+    //old implementation
+    /*public void move (Square newSquare) {
         newSquare.setSquarePiece(this.getSquarePiece());
         newSquare.getSquarePiece().setxPieceCoordinate(newSquare.getXSquareCoordinate());
         newSquare.getSquarePiece().setyPieceCoordinate(newSquare.getYSquareCoordinate());
         this.setSquarePiece(null);
-    }
+    }*/
 
     public boolean equalsCoordinates(Square position) {
         return this.xSquareCoordinate == position.getXSquareCoordinate() &&

@@ -41,7 +41,7 @@ public class Adapter extends MouseAdapter {
 
                 // move both Piece and the Panel if the move is legal
                 if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    selectedSquare.move(destinationSquare);
+                    Chessboard.movePieceInSquares(selectedSquare, destinationSquare);//move teraz jest w Chessboard
                     moveSelectedPanelTo(clickPoint);
                     // pass the turn to the next player
                     Game.nextTurn();
@@ -64,7 +64,7 @@ public class Adapter extends MouseAdapter {
 
                 // move both Piece and the Panel if the move is legal
                 if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    selectedSquare.move(destinationSquare);
+                    Chessboard.movePieceInSquares(selectedSquare, destinationSquare); //move teraz jest w Chessboard
                     clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
                     if (clickedPanel != disappearPanel) {
                         clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
