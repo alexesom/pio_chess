@@ -21,6 +21,6 @@ public class GameStartImage extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(pict, 0, 0, 1150, 800, this);
+        g2d.drawImage(pict, 0, 0, 1400, 800, this);
     }
 }

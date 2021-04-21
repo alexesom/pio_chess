@@ -3,9 +3,10 @@ package Pieces;
 import ChessInterface.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 
 public class Piece {
-    protected ChessColor pieceColor;
+    protected Color pieceColor;
     protected int xPieceCoordinate;
     protected int yPieceCoordinate;
 
@@ -28,12 +29,12 @@ public class Piece {
     Using Piece() constructor is not recommended,
     use particular piece subclass constructor instead.
      */
-    public Piece(Square square, ChessColor color) {
+    public Piece(Square square, Color color) {
         setxPieceCoordinate(square.getXSquareCoordinate());
         setyPieceCoordinate(square.getYSquareCoordinate());
 
         pieceColor = color;
-        panel.setBackground(Color.blue);
+        panel.setBackground(pieceColor);
         panel.setBounds(10 + 70* getxPieceCoordinate(), 500-70* getyPieceCoordinate(),50,50);
     }
 

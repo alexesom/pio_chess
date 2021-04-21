@@ -10,85 +10,93 @@ public class Adapter extends MouseAdapter {
     private JLayeredPane myLayeredPane;
     private JPanel clickedPanel;
     private JPanel disappearPanel;
+    private JLayeredPane capturedWhite;
+    private JLayeredPane capturedBlack;
     private Point clickPoint;
     boolean squareWasEmpty = false;
-//    private Point destinationPoint = new Point();
+    private int capturedWhiteFigures = 0;
+    private int capturedBlackFigures = 0;
 
-    public Adapter(JLayeredPane layer) {
+    public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack) {
         myLayeredPane = layer;
+        this.capturedBlack = capturedBlack;
+        this.capturedWhite = capturedWhite;
     }
 
-    /*
-    komentarze po polsku dodane tymczasowo do komunikacji
-    komentarze po angielsku docelowo są finalne
-    */
     @Override
     public void mousePressed(MouseEvent e) {
-        clickPoint = e.getPoint(); // klikasz myszką i bierze to ten punkt
-        if (clickedPanel != null) { // jezeli to jest miejsce bez panela i panel jest zaznaczony to :
-            //gdzies trzeba dodac warunek zeby nie dalo sie ruszyc na to samo pole
+        clickPoint = e.getPoint();
+
+        if (clickedPanel != null) {
+            clickPoint.x = e.getX() / 70 * 70 + 10;
+            clickPoint.y = e.getY() / 70 * 70 + 10;
             try {
-
                 disappearPanel = (JPanel) myLayeredPane.getComponentAt(clickPoint);
-            }
-            catch (ClassCastException ex) { // the clicked square didn't have another panel on it
+            } catch (ClassCastException ex) { // the clicked square didn't have another panel on it
                 squareWasEmpty = true;
-
-                // uses the fact that getX/getY returns an integer to round the coordinates
-                clickPoint.x = e.getX() / 70 * 70 + 10;
-                clickPoint.y = e.getY() / 70 * 70 + 10;
-
+                moveSelectedPanelTo(clickPoint);
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+              /*  Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
-
-
+            */
                 // move both Piece and the Panel if the move is legal
-                if (selectedPiece.isAbleToMove(destinationSquare)) {
+              /*  if (selectedPiece.isAbleToMove(destinationSquare)) {
                     selectedSquare.move(destinationSquare);
-                    moveSelectedPanelTo(clickPoint); // przesun panel do tego punktu
+                    moveSelectedPanelTo(clickPoint);
                     // pass the turn to the next player
                     Game.nextTurn();
                 } else {
                     System.out.println("Illegal move!");
-                }
+                }*/
             }
 
-            if (!squareWasEmpty) { // a square containing a different panel was clicked
-                clickPoint.x = e.getX() / 70 * 70 + 10;
-                clickPoint.y = e.getY() / 70 * 70 + 10;
+            if (squareWasEmpty == false) { // a square containing a different panel was clicked
+               /* clickPoint.x = e.getX() / 70 * 70 + 10;
+                clickPoint.y = e.getY() / 70 * 70 + 10;*/
                 //robię dwa razy clickPoint ale z jakiegoś powodu nie działa odpowiednio jeśli dam to w try {}
                 //dodałam to tutaj bo potrzebuję koordynatów docelowego pola
 
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+              /*  Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
-
+                */
                 // move both Piece and the Panel if the move is legal
-                if (selectedPiece.isAbleToMove(destinationSquare)) {
+                /*if (selectedPiece.isAbleToMove(destinationSquare)) {
                     selectedSquare.move(destinationSquare);
+                    clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());*/
+                if (clickedPanel != disappearPanel) {
                     clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
-
-                    // get rid of the taken piece
-                    disappearPanel.setLocation(500, 500);
-                    // z jakiegos powodu disappearPanel nie znika jak najedziesz na niego inną figurą
-                    // musimy poprawić logikę zbijania
-                    disappearPanel.removeMouseListener(this);
-                    //mouse listener też nie wygląda na to że się usuwa
-
-                    // pass the turn to the next player
-                    Game.nextTurn();
-                } else {
-                    System.out.println("Illegal move!");
+                    myLayeredPane.remove(disappearPanel);
+                    if (disappearPanel.getBackground() == Color.white) {
+                        capturedWhiteFigures++;
+                        if (capturedWhiteFigures <= 8)
+                            disappearPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
+                        else
+                            disappearPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
+                        capturedWhite.add(disappearPanel);
+                    } else {
+                        capturedBlackFigures++;
+                        if (capturedBlackFigures <= 8)
+                            disappearPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
+                        else
+                            disappearPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
+                        capturedBlack.add(disappearPanel);
+                    }
+                    System.out.println(disappearPanel.getLocation());
                 }
-            }
-            clickedPanel = null; // ustaw ze teraz bedzie wybierac ponownie panel do przesunięcia
-            clickPoint = null;  // i punkt w który chcesz przesunąć też
-            squareWasEmpty = false;
-        } else {
+                // pass the turn to the next player
+                //Game.nextTurn();
+            } /*else {
+                System.out.println("Illegal move!");
+            }*/
+
+        clickedPanel = null;
+        clickPoint = null;
+        squareWasEmpty = false;
+        }else {
             try {
                 clickedPanel = (JPanel) myLayeredPane.getComponentAt(e.getPoint());  //
             } catch (ClassCastException exception) {

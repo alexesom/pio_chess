@@ -1,15 +1,17 @@
 package Pieces;
 
+import java.awt.Color;
+
 public class Rook extends Piece implements PieceInterface{
     private boolean moved = false;
 
-    public Rook(Square rookPosition, ChessColor rookColor) {
+    public Rook(Square rookPosition, Color rookColor) {
         super(rookPosition, rookColor);
 
-        if (pieceColor == ChessColor.BLACK) {
+        if (pieceColor == Color.BLACK) {
             setPieceImage(blackRook);
         }
-        else if (pieceColor == ChessColor.WHITE) {
+        else if (pieceColor == Color.WHITE) {
             setPieceImage(whiteRook);
         }
     }

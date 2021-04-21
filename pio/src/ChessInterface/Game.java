@@ -1,21 +1,21 @@
 package ChessInterface;
 
-import Pieces.*;
+import java.awt.Color;
 
 public class Game {
 
-    public static ChessColor current_turn;
+    public static Color current_turn;
 
     public static void main(String args[]) {
-        current_turn = ChessColor.WHITE;
+        current_turn = Color.WHITE;
         new GameInterface();
     }
 
     public static void nextTurn() {
-        if (current_turn == ChessColor.WHITE) {
-            current_turn = ChessColor.BLACK;
-        } else if (current_turn == ChessColor.BLACK) {
-            current_turn = ChessColor.WHITE;
+        if (current_turn == Color.WHITE) {
+            current_turn = Color.BLACK;
+        } else if (current_turn == Color.BLACK) {
+            current_turn = Color.WHITE;
         }
     }
 }
