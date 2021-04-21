@@ -121,7 +121,7 @@ public class Piece {
                         }
                     }
                     else {
-                        for(int i = xDestinationSquare; i < xSquare; i++) {
+                        for(int i = xDestinationSquare+1; i < xSquare; i++) {
                             if(Chessboard.board[i][ySquare].getSquarePiece() != null)
                                 return false;
                         }

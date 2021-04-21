@@ -86,12 +86,12 @@ public class Adapter extends MouseAdapter {
                         }
                         System.out.println(disappearPanel.getLocation());
                     }
+                    Game.nextTurn();
                 }
-                // pass the turn to the next player
-                //Game.nextTurn();
-            } /*else {
-                System.out.println("Illegal move!");
-            }*/
+                else
+                    System.out.println("Illegal move!");
+
+            }
 
         clickedPanel = null;
         clickPoint = null;

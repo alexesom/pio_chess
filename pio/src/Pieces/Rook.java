@@ -24,11 +24,15 @@ public class Rook extends Piece implements PieceInterface{
         int xRook = getxPieceCoordinate();
         int yRook = getyPieceCoordinate();
 
-        if (xSquare == xRook || ySquare == yRook)
-            if(xSquare == xRook)
-                return isAnyPieceBetween(square, PieceMotion.vertical );
+        if (xSquare == xRook || ySquare == yRook) {
+            if (xSquare == xRook && ySquare == yRook)
+                return false;
+
+            if (xSquare == xRook)
+                return isAnyPieceBetween(square, PieceMotion.vertical);
             else
-                return isAnyPieceBetween(square, PieceMotion.horizontal );
+                return isAnyPieceBetween(square, PieceMotion.horizontal);
+        }
         else
             return false;
     }
