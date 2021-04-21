@@ -1,7 +1,8 @@
 package Pieces;
 
+import java.awt.*;
+
 import static java.lang.Math.abs;
-import java.awt.Color;
 
 public class Queen extends Piece implements PieceInterface{
 
@@ -26,9 +27,18 @@ public class Queen extends Piece implements PieceInterface{
         int xDiff = abs(square.getXSquareCoordinate() - xQueen);
         int yDiff = abs(square.getYSquareCoordinate() - yQueen);
 
+        if(xSquare == xQueen) {
+            return isAnyPieceBetween(square, PieceMotion.vertical );
 
-        return (xSquare == xQueen || ySquare == yQueen) ||
-                (xDiff == yDiff);
+        }
+        else if(ySquare == yQueen) {
+            return isAnyPieceBetween(square, PieceMotion.horizontal );
+        }
+        else if(xDiff == yDiff) {
+            return isAnyPieceBetween(square, PieceMotion.diagonal);
+        }
+        else
+            return false;
     }
 
     @Override
