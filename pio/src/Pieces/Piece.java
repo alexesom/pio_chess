@@ -147,7 +147,7 @@ public class Piece {
         }
         catch (Exception ex)
         {
-
+            System.out.println("Error in isAnyPieceBetween");
         }
         return  true;
     }
