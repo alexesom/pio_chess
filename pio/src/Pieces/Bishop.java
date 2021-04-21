@@ -1,16 +1,17 @@
 package Pieces;
 
 import static java.lang.Math.abs;
+import java.awt.Color;
 
 public class Bishop extends Piece implements PieceInterface{
 
-    public Bishop(Square bishopPosition, ChessColor bishopColor) {
+    public Bishop(Square bishopPosition, Color bishopColor) {
         super(bishopPosition, bishopColor);
 
-        if (pieceColor == ChessColor.BLACK) {
+        if (pieceColor == Color.BLACK) {
             setPieceImage(blackBishop);
         }
-        else if (pieceColor == ChessColor.WHITE) {
+        else if (pieceColor == Color.WHITE) {
             setPieceImage(whiteBishop);
         }
     }

@@ -11,8 +11,6 @@ public class GamePanels {
     public JPanel player2Panel = new JPanel();
     public JPanel boardCoordinatesRightPanel = new JPanel();
     public JPanel boardCoordinatesBottomPanel = new JPanel();
-    public JPanel capturedPiecesPanel1 = new JPanel();
-    public JPanel capturedPiecesPanel2 = new JPanel();
     public JPanel endGamePanel = new JPanel();
 
     public GamePanels() {
@@ -32,7 +30,7 @@ public class GamePanels {
     }
 
     private void titleGamePanel() {
-        titlePanel.setBounds(270,30,560,100);
+        titlePanel.setBounds(420,30,560,100);
         titlePanel.setOpaque(false);
     }
 
@@ -45,14 +43,8 @@ public class GamePanels {
         player1Panel.setBounds(755,50,200,50);
         player1Panel.setOpaque(false);
 
-        capturedPiecesPanel1.setBounds(675,95,360,200);
-        capturedPiecesPanel1.setBackground(Color.gray);
-
         player2Panel.setBounds(755,580,200,50);
         player2Panel.setOpaque(false);
-
-        capturedPiecesPanel2.setBounds(675,375,360,200);
-        capturedPiecesPanel2.setBackground(Color.gray);
 
         endGamePanel.setBounds(500,640, 200, 50);
         endGamePanel.setBackground(Color.lightGray);

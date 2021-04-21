@@ -1,16 +1,18 @@
 package Pieces;
 
+import java.awt.Color;
+
 public class Pawn extends Piece implements PieceInterface{
     private boolean promoted = false;
     private boolean passedTwo = false;
 
-    public Pawn(Square pawnPosition, ChessColor pawnColor) {
+    public Pawn(Square pawnPosition, Color pawnColor) {
         super(pawnPosition, pawnColor);
 
-        if (pieceColor == ChessColor.BLACK) {
+        if (pieceColor == Color.BLACK) {
             setPieceImage(blackPawn);
         }
-        else if (pieceColor == ChessColor.WHITE) {
+        else if (pieceColor == Color.WHITE) {
             setPieceImage(whitePawn);
         }
     }
@@ -27,7 +29,7 @@ public class Pawn extends Piece implements PieceInterface{
         int xPawn = getxPieceCoordinate();
         int yPawn = getyPieceCoordinate();
 
-        if (pieceColor == ChessColor.WHITE) {
+        if (pieceColor == Color.WHITE) {
             if (yPawn == 1 && ((ySquare == 2 || ySquare == 3) && xSquare == xPawn)) {
                 return true;
             } else if (yPawn != 1 && (ySquare == yPawn + 1 && xPawn == xSquare)) {

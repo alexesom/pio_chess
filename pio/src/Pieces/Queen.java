@@ -1,17 +1,18 @@
 package Pieces;
 
 import static java.lang.Math.abs;
+import java.awt.Color;
 
 public class Queen extends Piece implements PieceInterface{
 
 
-    public Queen(Square queenPosition, ChessColor queenColor) {
+    public Queen(Square queenPosition, Color queenColor) {
         super(queenPosition, queenColor);
 
-        if (pieceColor == ChessColor.BLACK) {
+        if (pieceColor == Color.BLACK) {
             setPieceImage(blackQueen);
         }
-        else if (pieceColor == ChessColor.WHITE) {
+        else if (pieceColor == Color.WHITE) {
             setPieceImage(whiteQueen);
         }
     }

@@ -1,17 +1,18 @@
 package Pieces;
 
 import static java.lang.Math.abs;
+import java.awt.Color;
 
 public class King extends Piece implements PieceInterface{
     private boolean moved = false;
 
-    public King(Square kingPosition, ChessColor kingColor) {
+    public King(Square kingPosition, Color kingColor) {
         super(kingPosition, kingColor);
 
-        if (pieceColor == ChessColor.BLACK) {
+        if (pieceColor == Color.BLACK) {
             setPieceImage(blackKing);
         }
-        else if (pieceColor == ChessColor.WHITE) {
+        else if (pieceColor == Color.WHITE) {
             setPieceImage(whiteKing);
         }
     }
