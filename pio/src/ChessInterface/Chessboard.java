@@ -1,6 +1,7 @@
 package ChessInterface;
 
 import Pieces.*;
+
 import java.awt.Color;
 
 import javax.swing.*;
@@ -34,17 +35,17 @@ public class Chessboard {
     }
 
     public void createCapturedPiecesPanel() {
-        capturedPiecesPanel1.setBounds(675,95,560,200);
+        capturedPiecesPanel1.setBounds(675, 95, 560, 200);
         capturedPiecesPanel1.setOpaque(false);
 
-        capturedPiecesPanel2.setBounds(675,375,560,300);
+        capturedPiecesPanel2.setBounds(675, 375, 560, 300);
         capturedPiecesPanel2.setOpaque(false);
     }
 
     private void createChessboardSquares() {
         for (int iy = 7; iy >= 0; iy--) {
             for (int jx = 0; jx < 8; jx++) {
-                board[jx][iy] = new Square(jx, iy,  560, 560);
+                board[jx][iy] = new Square(jx, iy, 560, 560);
                 board[jx][iy].setSquareColor(jx, iy);
                 Color boardSquareColor = board[jx][iy].getSquareColor();
                 board[jx][iy].squarePanel.setBackground(boardSquareColor);
@@ -61,11 +62,11 @@ public class Chessboard {
         board[x][y].setSquarePiece(figure);
     }
 
-    private void addMouse(){
+    private void addMouse() {
         layer.addMouseListener(mouseAdapter);
     }
 
-    public static void movePieceInSquares (Square startSquare, Square destinationSquare) {
+    public static void movePieceInSquares(Square startSquare, Square destinationSquare) {
         int xPiece = destinationSquare.getXSquareCoordinate();
         int yPiece = destinationSquare.getYSquareCoordinate();
         destinationSquare.setSquarePiece(startSquare.getSquarePiece());
@@ -77,41 +78,37 @@ public class Chessboard {
     /*
     Place the pieces in their starting positions
      */
-    private void placeChessboardPieces(){
+    private void placeChessboardPieces() {
         // Black pieces
-        addFigure(new Rook(board[0][7], Color.BLACK));
-        addFigure(new Knight(board[1][7], Color.BLACK));
-        addFigure(new Bishop(board[2][7], Color.BLACK));
-        addFigure(new Queen(board[3][7], Color.BLACK));
-        addFigure(new King(board[4][7], Color.BLACK));
-        addFigure(new Bishop(board[5][7], Color.BLACK));
-        addFigure(new Knight(board[6][7], Color.BLACK));
-        addFigure(new Rook(board[7][7], Color.BLACK));
-        addFigure(new Pawn(board[0][6], Color.BLACK));
-        addFigure(new Pawn(board[1][6], Color.BLACK));
-        addFigure(new Pawn(board[2][6], Color.BLACK));
-        addFigure(new Pawn(board[3][6], Color.BLACK));
-        addFigure(new Pawn(board[4][6], Color.BLACK));
-        addFigure(new Pawn(board[5][6], Color.BLACK));
-        addFigure(new Pawn(board[6][6], Color.BLACK));
-        addFigure(new Pawn(board[7][6], Color.BLACK));
+        placePieces(7, Color.BLACK);
+        placePawns(8,6, Color.BLACK);
 
         // White pieces
-        addFigure(new Rook(board[0][0], Color.WHITE));
-        addFigure(new Knight(board[1][0], Color.WHITE));
-        addFigure(new Bishop(board[2][0], Color.WHITE));
-        addFigure(new Queen(board[3][0], Color.WHITE));
-        addFigure(new King(board[4][0], Color.WHITE));
-        addFigure(new Bishop(board[5][0], Color.WHITE));
-        addFigure(new Knight(board[6][0], Color.WHITE));
-        addFigure(new Rook(board[7][0], Color.WHITE));
-        addFigure(new Pawn(board[0][1], Color.WHITE));
-        addFigure(new Pawn(board[1][1], Color.WHITE));
-        addFigure(new Pawn(board[2][1], Color.WHITE));
-        addFigure(new Pawn(board[3][1], Color.WHITE));
-        addFigure(new Pawn(board[4][1], Color.WHITE));
-        addFigure(new Pawn(board[5][1], Color.WHITE));
-        addFigure(new Pawn(board[6][1], Color.WHITE));
-        addFigure(new Pawn(board[7][1], Color.WHITE));
+        placePieces(0, Color.WHITE);
+        placePawns(8,1, Color.WHITE);
+    }
+
+    /*
+    places the standard piece set of a given color in the specified row
+    (Rook, Knight, Bishop, Queen, King, Bishop, Knight and Rook in this order)
+     */
+    private void placePieces(int row, Color color) {
+        addFigure(new Rook(board[0][row], color));
+        addFigure(new Knight(board[1][row], color));
+        addFigure(new Bishop(board[2][row], color));
+        addFigure(new Queen(board[3][row], color));
+        addFigure(new King(board[4][row], color));
+        addFigure(new Bishop(board[5][row], color));
+        addFigure(new Knight(board[6][row], color));
+        addFigure(new Rook(board[7][row], color));
+    }
+
+    /*
+    places Pawns of a given color in the specified amount of columns and in the specified row
+     */
+    private void placePawns(int columns, int row, Color color) {
+        for(int i = 0; i < columns; i++){
+            addFigure(new Pawn(board[i][row], color));
+        }
     }
 }
