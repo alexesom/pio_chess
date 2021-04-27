@@ -70,8 +70,8 @@ public class Piece {
                     int yCounter = 0;
                     int xCounter = 0;
                     if(xSquare < xDestinationSquare) {
+                        xCounter = xSquare+1;
                         if(ySquare < yDestinationSquare) {
-                            xCounter = xSquare+1;
                             yCounter = ySquare+1;
                             while(xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
@@ -81,7 +81,6 @@ public class Piece {
                             }
                         }
                         else {
-                            xCounter = xSquare+1;
                             yCounter = yDestinationSquare+1;
                             while(xCounter != xDestinationSquare && yCounter != ySquare) {
                                 if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
@@ -130,6 +129,9 @@ public class Piece {
 
 
                 case vertical:
+                    if(Chessboard.board[xSquare][ySquare].getSquarePiece().equals("pawn")) {
+                        yDestinationSquare++;
+                    }
                     if(ySquare < yDestinationSquare){
                         for(int i = ySquare+1; i < yDestinationSquare; i++ ) {
                             if(Chessboard.board[xSquare][i].getSquarePiece() != null)
