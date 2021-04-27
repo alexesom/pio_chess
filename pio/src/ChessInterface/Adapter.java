@@ -1,5 +1,8 @@
 package ChessInterface;
-import Pieces.*;
+
+import Pieces.Pawn;
+import Pieces.Piece;
+import Pieces.Square;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,13 +10,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Adapter extends MouseAdapter {
+    boolean squareWasEmpty = false;
     private JLayeredPane myLayeredPane;
     private JPanel clickedPanel;
     private JPanel disappearPanel;
     private JLayeredPane capturedWhite;
     private JLayeredPane capturedBlack;
     private Point clickPoint;
-    boolean squareWasEmpty = false;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
 
@@ -25,6 +28,12 @@ public class Adapter extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        Piece selectedPiece;
+        int xPiece;
+        int yPiece;
+        Square selectedSquare;
+        Square destinationSquare;
+
         clickPoint = e.getPoint();
 
         if (clickedPanel != null) {
@@ -35,15 +44,15 @@ public class Adapter extends MouseAdapter {
             } catch (ClassCastException ex) { // the clicked square didn't have another panel on it
                 squareWasEmpty = true;
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
+                selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
                 if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    Chessboard.movePieceInSquares(selectedSquare, destinationSquare);//move teraz jest w Chessboard
+                    Chessboard.movePieceInSquares(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
-                    // pass the turn to the next player
+
                     Game.nextTurn();
                 } else {
                     System.out.println("Illegal move!");
@@ -51,19 +60,23 @@ public class Adapter extends MouseAdapter {
             }
 
             if (squareWasEmpty == false) { // a square containing a different panel was clicked
-               clickPoint.x = e.getX() / 70 * 70 + 10;
+                clickPoint.x = e.getX() / 70 * 70 + 10;
                 clickPoint.y = e.getY() / 70 * 70 + 10;
                 //robię dwa razy clickPoint ale z jakiegoś powodu nie działa odpowiednio jeśli dam to w try {}
                 //dodałam to tutaj bo potrzebuję koordynatów docelowego pola
 
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
-               Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
+                selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                xPiece = selectedPiece.getxPieceCoordinate();
+                yPiece = selectedPiece.getyPieceCoordinate();
+                selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
-                if (selectedPiece.isAbleToMove(destinationSquare)) {
+                if (selectedPiece.isAbleToMove(destinationSquare) &&
+                        !(Chessboard.board[xPiece][yPiece].getSquarePiece() instanceof Pawn)) {
+
                     Chessboard.movePieceInSquares(selectedSquare, destinationSquare); //move teraz jest w Chessboard
                     clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
                     if (clickedPanel != disappearPanel) {
@@ -86,17 +99,24 @@ public class Adapter extends MouseAdapter {
                         }
                         System.out.println(disappearPanel.getLocation());
                     }
+
                     Game.nextTurn();
-                }
-                else
+                } else if (selectedPiece.isAbleToMove(destinationSquare) &&
+                        selectedPiece instanceof Pawn &&
+                        Chessboard.EnPassant.isEmpty()) {
+                    Pawn selectedPawn = (Pawn) selectedPiece;
+                    if (selectedPawn.enPassantFlag) {
+
+                    }
+                } else
                     System.out.println("Illegal move!");
 
             }
 
-        clickedPanel = null;
-        clickPoint = null;
-        squareWasEmpty = false;
-        }else {
+            clickedPanel = null;
+            clickPoint = null;
+            squareWasEmpty = false;
+        } else {
             try {
                 clickedPanel = (JPanel) myLayeredPane.getComponentAt(e.getPoint());
             } catch (ClassCastException exception) {

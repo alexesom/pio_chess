@@ -8,7 +8,7 @@ public class Square {
     private int ySquareCoordinate;
     private int xSquareCoordinate;
     private Color squareColor;
-    private Piece squarePiece = null;
+    private Piece squarePiece;
 
     public Square(int x, int y, int width, int height) {
         squarePanel.setSize(width/8, height/8);

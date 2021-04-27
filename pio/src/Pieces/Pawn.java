@@ -1,8 +1,11 @@
 package Pieces;
 
-import java.awt.Color;
+import ChessInterface.Chessboard;
 
-public class Pawn extends Piece implements PieceInterface{
+import java.awt.*;
+
+public class Pawn extends Piece implements PieceInterface {
+    public boolean enPassantFlag = false;
     private boolean promoted = false;
     private boolean passedTwo = false;
 
@@ -11,8 +14,7 @@ public class Pawn extends Piece implements PieceInterface{
 
         if (pieceColor == Color.BLACK) {
             setPieceImage(blackPawn);
-        }
-        else if (pieceColor == Color.WHITE) {
+        } else if (pieceColor == Color.WHITE) {
             setPieceImage(whitePawn);
         }
     }
@@ -29,16 +31,36 @@ public class Pawn extends Piece implements PieceInterface{
         int xPawn = getxPieceCoordinate();
         int yPawn = getyPieceCoordinate();
 
+        if (this.enPassantFlag) {
+            this.enPassantFlag = false;
+            Chessboard.EnPassant.makeNull();
+        }
+
         if (pieceColor == Color.WHITE) {
-            if (yPawn == 1 && ((ySquare == 2 || ySquare == 3) && xSquare == xPawn)) {
-                return isAnyPieceBetween(square, PieceMotion.vertical);
-            } else if (yPawn != 1 && (ySquare == yPawn + 1 && xPawn == xSquare)) {
+            if (!promoted && ySquare == yPawn + 1 && xSquare == xPawn) {
+                promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             }
-        } else {
-            if (yPawn == 6 && ((ySquare == 5 || ySquare == 4) && xSquare == xPawn)) {
+
+            if (promoted && ySquare == yPawn + 1 && xPawn == xSquare) {
                 return isAnyPieceBetween(square, PieceMotion.vertical);
-            } else if (yPawn != 6 && (ySquare == yPawn - 1 && xPawn == xSquare)) {
+            }
+
+            if (!promoted && ySquare == yPawn + 2 && xSquare == xPawn) {
+                this.enPassantFlag = true;
+                Chessboard.EnPassant.setEnPassantPawn(this);
+                Chessboard.EnPassant.setEnPassantSquare(Chessboard.board[xPawn][yPawn]);
+                return isAnyPieceBetween(square, PieceMotion.vertical);
+            }
+
+            if (Chessboard.board[xPawn + 1][yPawn].getSquarePiece() instanceof Pawn) {
+
+            }
+        } else {
+            if (!promoted && ((ySquare == yPawn - 1 || ySquare == yPawn - 2) && xSquare == xPawn)) {
+                promoted = true;
+                return isAnyPieceBetween(square, PieceMotion.vertical);
+            } else if (promoted && (ySquare == yPawn - 1 && xPawn == xSquare)) {
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             }
         }
