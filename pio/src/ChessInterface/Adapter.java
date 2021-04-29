@@ -35,36 +35,26 @@ public class Adapter extends MouseAdapter {
             } catch (ClassCastException ex) { // the clicked square didn't have another panel on it
                 squareWasEmpty = true;
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
-                if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    Chessboard.movePieceInSquares(selectedSquare, destinationSquare);//move teraz jest w Chessboard
+                if (Chessboard.tryMove(selectedSquare, destinationSquare) == 0) {
                     moveSelectedPanelTo(clickPoint);
-                    // pass the turn to the next player
-                    Game.nextTurn();
-                } else {
-                    System.out.println("Illegal move!");
                 }
             }
 
             if (squareWasEmpty == false) { // a square containing a different panel was clicked
                clickPoint.x = e.getX() / 70 * 70 + 10;
                 clickPoint.y = e.getY() / 70 * 70 + 10;
-                //robię dwa razy clickPoint ale z jakiegoś powodu nie działa odpowiednio jeśli dam to w try {}
-                //dodałam to tutaj bo potrzebuję koordynatów docelowego pola
 
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
-               Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
-                if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    Chessboard.movePieceInSquares(selectedSquare, destinationSquare); //move teraz jest w Chessboard
+                if (Chessboard.tryMove(selectedSquare, destinationSquare) == 0) {
                     clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
                     if (clickedPanel != disappearPanel) {
                         clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
@@ -86,10 +76,7 @@ public class Adapter extends MouseAdapter {
                         }
                         System.out.println(disappearPanel.getLocation());
                     }
-                    Game.nextTurn();
                 }
-                else
-                    System.out.println("Illegal move!");
 
             }
 

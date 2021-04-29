@@ -66,13 +66,52 @@ public class Chessboard {
         layer.addMouseListener(mouseAdapter);
     }
 
-    public static void movePieceInSquares(Square startSquare, Square destinationSquare) {
-        int xPiece = destinationSquare.getXSquareCoordinate();
-        int yPiece = destinationSquare.getYSquareCoordinate();
-        destinationSquare.setSquarePiece(startSquare.getSquarePiece());
-        destinationSquare.getSquarePiece().setxPieceCoordinate(xPiece);
-        destinationSquare.getSquarePiece().setyPieceCoordinate(yPiece);
-        startSquare.setSquarePiece(null);
+    /*
+    Checks whether there's a Piece on originSquare and moves it to destinationSquare if the move is legal
+    returns 0 when the move is successful
+           -1 when there was no piece on originSquare (this should never happen)
+            1 when the player tried to move their opponent's piece
+            2 when the move is illegal
+       TO DO: change to void and throw exceptions
+     */
+    public static byte tryMove(Square originSquare, Square destinationSquare) {
+        Piece movingPiece = originSquare.getSquarePiece();
+        if (movingPiece == null){
+            System.err.println("tryMove fail: piece is null(!)");
+            //System.out.println("Piece is null!!");
+            return -1;
+        }
+        /*
+        System.out.println("originSquare: " +originSquare.getXSquareCoordinate() + "," + originSquare.getYSquareCoordinate());
+        System.out.println("destination: " +destinationSquare.getXSquareCoordinate() + "," + destinationSquare.getYSquareCoordinate());
+        System.out.println("movingPiece: " + movingPiece);
+        */
+
+            //check if the piece is the current player's piece
+        if (movingPiece.getPieceColor() != Game.current_turn){
+            //System.err.println("tryMove fail: not this piece's turn");
+            System.out.println("This isn't your piece! Current turn: " + Game.current_turn);
+            return 1;
+        }
+            //check if the move is legal
+        if (!movingPiece.isAbleToMove(destinationSquare)){
+            //System.err.println("tryMove fail: illegal move");
+            System.out.println("Illegal move!");
+            return 2;
+        }
+        else {
+            int newX = destinationSquare.getXSquareCoordinate();
+            int newY = destinationSquare.getYSquareCoordinate();
+            movingPiece.setxPieceCoordinate(newX);
+            movingPiece.setyPieceCoordinate(newY);
+            destinationSquare.setSquarePiece(movingPiece);
+            originSquare.setSquarePiece(null);
+                //pass the turn to the next player
+            Game.nextTurn();
+            return 0;
+        }
+
+
     }
 
     /*

@@ -165,8 +165,13 @@ public class Piece {
 
     }
 
+    public Color getPieceColor() {
+        return pieceColor;
+    }
+
     public boolean isAbleToMove(Square square) {
 
-        return true;
+        return false;
     }
+
 }
