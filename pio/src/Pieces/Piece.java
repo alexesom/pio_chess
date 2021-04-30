@@ -81,8 +81,8 @@ public class Piece {
                             }
                         }
                         else {
-                            yCounter = yDestinationSquare+1;
-                            while(xCounter != xDestinationSquare && yCounter != ySquare) {
+                            yCounter = ySquare-1;
+                            while(xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if(Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
                                     return  false;
                                 xCounter++;
@@ -91,18 +91,18 @@ public class Piece {
                         }
                     }
                     else {
-                        xCounter = xDestinationSquare+1;
+                        xCounter = xSquare - 1;
                         if (ySquare < yDestinationSquare) {
-                            yCounter = ySquare+1;
-                            while (xCounter != xSquare && yCounter != yDestinationSquare) {
+                            yCounter = ySquare + 1;
+                            while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
                                     return false;
                                 xCounter--;
                                 yCounter++;
                             }
                         } else {
-                            yCounter = yDestinationSquare+1;
-                            while (xCounter != xSquare && yCounter != ySquare) {
+                            yCounter = ySquare - 1;
+                            while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
                                     return false;
                                 xCounter--;
@@ -173,5 +173,8 @@ public class Piece {
 
         return false;
     }
+    public boolean isAbleToCastle() {
 
+        return false;
+    }
 }
