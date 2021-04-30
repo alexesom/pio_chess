@@ -90,41 +90,30 @@ public class Chessboard {
     }
     /*
     Checks whether there's a Piece on originSquare and moves it to destinationSquare if the move is legal
-    returns 0 when the move is successful
-           -1 when there was no piece on originSquare (this should never happen)
-            1 when the player tried to move their opponent's piece
-            2 when the move is illegal
-       TO DO: change to void and throw exceptions
      */
-    public static byte tryMove(Square originSquare, Square destinationSquare) {
+    public static void tryMove(Square originSquare, Square destinationSquare) throws Exception{
         Piece movingPiece = originSquare.getSquarePiece();
         if (movingPiece == null){
-            System.err.println("tryMove fail: piece is null(!)");
-            //System.out.println("Piece is null!!");
-            return -1;
+            throw new Exception("tryMove exception: piece is null(!)");
         }
-        /*
-        System.out.println("originSquare: " +originSquare.getXSquareCoordinate() + "," + originSquare.getYSquareCoordinate());
-        System.out.println("destination: " +destinationSquare.getXSquareCoordinate() + "," + destinationSquare.getYSquareCoordinate());
-        System.out.println("movingPiece: " + movingPiece);
-        */
+
             //check if the piece is the current player's piece
         if (movingPiece.getPieceColor() != Game.current_turn){
-            //System.err.println("tryMove fail: not this piece's turn");
+            //System.err.println("tryMove exception: not this piece's turn");
             System.out.println("This isn't your piece! Current turn: " + Game.current_turn);
-            return 1;
+            throw new Exception("tryMove exception: moving other player's piece");
         }
             //check if the move is legal
         if (!movingPiece.isAbleToMove(destinationSquare)){
-            //System.err.println("tryMove fail: illegal move");
+            //System.err.println("tryMove exception: illegal move");
             System.out.println("Illegal move!");
-            return 2;
+            throw new Exception("tryMove exception: illegal move");
         }
             //check if trying to take own piece
             Piece pieceAtDestination = destinationSquare.getSquarePiece();
         if ((pieceAtDestination != null) && (pieceAtDestination.getPieceColor() == Game.current_turn)) {
             System.out.println("You can't take your own piece!");
-            return 3;
+            throw new Exception("tryMove exception: taking own piece");
         }
 
             int newX = destinationSquare.getXSquareCoordinate();
@@ -135,7 +124,6 @@ public class Chessboard {
             originSquare.setSquarePiece(null);
             Game.nextTurn();
             //pass the turn to the next player
-            return 0;
     }
 
     /*

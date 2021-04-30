@@ -1,5 +1,6 @@
 package ChessInterface;
-import Pieces.*;
+
+import Pieces.Square;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,16 +10,17 @@ import java.awt.event.MouseEvent;
 import static java.lang.Math.abs;
 
 public class Adapter extends MouseAdapter {
-    private JLayeredPane myLayeredPane;
+    private final JLayeredPane myLayeredPane;
+    private final JLayeredPane capturedWhite;
+    private final JLayeredPane capturedBlack;
+    boolean squareWasEmpty = false;
+    boolean castling = false;
     private JPanel clickedPanel;
     private JPanel disappearPanel;
-    private JLayeredPane capturedWhite;
-    private JLayeredPane capturedBlack;
     private Point clickPoint;
-    boolean squareWasEmpty = false;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
-    boolean castling = false;
+
     public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack) {
         myLayeredPane = layer;
         this.capturedBlack = capturedBlack;
@@ -41,12 +43,15 @@ public class Adapter extends MouseAdapter {
                 Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
-                if (Chessboard.tryMove(selectedSquare, destinationSquare) == 0) {
+                try {
+                    Chessboard.tryMove(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
+                } catch (Exception ez) {
+                    System.out.println(ez);
                 }
             }
 
-            if (squareWasEmpty == false) { // a square containing a different panel was clicked
+            if (!squareWasEmpty) { // a square containing a different panel was clicked
                 clickPoint.x = e.getX() / 70 * 70 + 10;
                 clickPoint.y = e.getY() / 70 * 70 + 10;
 
@@ -65,42 +70,49 @@ public class Adapter extends MouseAdapter {
                         kingPanel = clickedPanel;
                         rookPanel = disappearPanel;
                     }
-                    if ((abs(kingPanel.getX() - rookPanel.getX()))/70 == 4) {longCastling(kingPanel, rookPanel);}
-                    else {shortCastling(kingPanel, rookPanel);}
+                    if ((abs(kingPanel.getX() - rookPanel.getX())) / 70 == 4) {
+                        longCastling(kingPanel, rookPanel);
+                    } else {
+                        shortCastling(kingPanel, rookPanel);
+                    }
                     castling = true;
                     Game.nextTurn();
-                }
-                else if (Chessboard.tryMove(selectedSquare, destinationSquare) == 0 && castling == false) {
+                } else try {
+                    Chessboard.tryMove(selectedSquare, destinationSquare);
+                    moveSelectedPanelTo(clickPoint);
 
-                    clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
-                    if (clickedPanel != disappearPanel) {
+                    if (!castling) {
                         clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
-                        myLayeredPane.remove(disappearPanel);
-                        if (disappearPanel.getBackground() == Color.white) {
-                            capturedWhiteFigures++;
-                            if (capturedWhiteFigures <= 8)
-                                disappearPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
-                            else
-                                disappearPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
-                            capturedWhite.add(disappearPanel);
-                        } else {
-                            capturedBlackFigures++;
-                            if (capturedBlackFigures <= 8)
-                                disappearPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
-                            else
-                                disappearPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
-                            capturedBlack.add(disappearPanel);
+                        if (clickedPanel != disappearPanel) {
+                            clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
+                            myLayeredPane.remove(disappearPanel);
+                            if (disappearPanel.getBackground() == Color.white) {
+                                capturedWhiteFigures++;
+                                if (capturedWhiteFigures <= 8)
+                                    disappearPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
+                                else
+                                    disappearPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
+                                capturedWhite.add(disappearPanel);
+                            } else {
+                                capturedBlackFigures++;
+                                if (capturedBlackFigures <= 8)
+                                    disappearPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
+                                else
+                                    disappearPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
+                                capturedBlack.add(disappearPanel);
+                            }
+                            System.out.println(disappearPanel.getLocation());
                         }
-                        System.out.println(disappearPanel.getLocation());
                     }
+                } catch (Exception ez) {
+                    System.out.println(ez);
                 }
-
             }
-        castling = false;
-        clickedPanel = null;
-        clickPoint = null;
-        squareWasEmpty = false;
-        }else {
+            castling = false;
+            clickedPanel = null;
+            clickPoint = null;
+            squareWasEmpty = false;
+        } else {
             try {
                 clickedPanel = (JPanel) myLayeredPane.getComponentAt(e.getPoint());
             } catch (ClassCastException exception) {
@@ -134,21 +146,12 @@ public class Adapter extends MouseAdapter {
         return Chessboard.board[sqx][sqy];
     }
 
-    /*
-    returns the Piece at given panel coordinates
-     */
-    private Piece getPieceAtCoordinates(int x, int y) {
-        int sqx = (x - 10) / 70;
-        int sqy = (500 - y) / 70;
-        return Chessboard.board[sqx][sqy].getSquarePiece();
-    }
-
     private void longCastling(JPanel kingPanel, JPanel rookPanel) {
         kingPanel.setLocation(2 * 70 + 10, kingPanel.getY());
         rookPanel.setLocation(3 * 70 + 10, rookPanel.getY());
     }
 
-    private void shortCastling(JPanel kingPanel, JPanel rookPanel){
+    private void shortCastling(JPanel kingPanel, JPanel rookPanel) {
         kingPanel.setLocation(6 * 70 + 10, kingPanel.getY());
         rookPanel.setLocation(5 * 70 + 10, rookPanel.getY());
     }
