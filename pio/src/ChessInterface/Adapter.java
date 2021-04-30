@@ -35,18 +35,12 @@ public class Adapter extends MouseAdapter {
             } catch (ClassCastException ex) { // the clicked square didn't have another panel on it
                 squareWasEmpty = true;
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
-                if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    selectedSquare.move(destinationSquare);
+                if (Chessboard.tryMove(selectedSquare, destinationSquare) == 0) {
                     moveSelectedPanelTo(clickPoint);
-                    // pass the turn to the next player
-                    Game.nextTurn();
-                } else {
-                    System.out.println("Illegal move!");
                 }
             }
 
@@ -56,13 +50,11 @@ public class Adapter extends MouseAdapter {
 
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
-               Piece selectedPiece = getPieceAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
-                if (selectedPiece.isAbleToMove(destinationSquare)) {
-                    selectedSquare.move(destinationSquare);
+                if (Chessboard.tryMove(selectedSquare, destinationSquare) == 0) {
                     clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
                     if (clickedPanel != disappearPanel) {
                         clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
@@ -85,11 +77,8 @@ public class Adapter extends MouseAdapter {
                         System.out.println(disappearPanel.getLocation());
                     }
                 }
-                // pass the turn to the next player
-                //Game.nextTurn();
-            } /*else {
-                System.out.println("Illegal move!");
-            }*/
+
+            }
 
         clickedPanel = null;
         clickPoint = null;
