@@ -120,7 +120,13 @@ public class Chessboard {
             System.out.println("Illegal move!");
             return 2;
         }
-        else {
+            //check if trying to take own piece
+            Piece pieceAtDestination = destinationSquare.getSquarePiece();
+        if ((pieceAtDestination != null) && (pieceAtDestination.getPieceColor() == Game.current_turn)) {
+            System.out.println("You can't take your own piece!");
+            return 3;
+        }
+
             int newX = destinationSquare.getXSquareCoordinate();
             int newY = destinationSquare.getYSquareCoordinate();
             movingPiece.setxPieceCoordinate(newX);
@@ -130,8 +136,6 @@ public class Chessboard {
             Game.nextTurn();
             //pass the turn to the next player
             return 0;
-        }
-
     }
 
     /*
