@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class GameStartImage extends JPanel{
+public class GameStartImage extends JPanel {
     private BufferedImage pict;
 
     public GameStartImage() {

@@ -66,6 +66,28 @@ public class Chessboard {
         layer.addMouseListener(mouseAdapter);
     }
 
+    public static boolean tryCastling(Square originSquare, Square destinationSquare) {
+        Piece movingPiece;
+        Piece destinationPiece;
+
+        if(destinationSquare.getXSquareCoordinate() == 4) {
+            movingPiece = destinationSquare.getSquarePiece();
+            destinationPiece = originSquare.getSquarePiece();
+        } else {
+            movingPiece = originSquare.getSquarePiece();
+            destinationPiece = destinationSquare.getSquarePiece();
+
+        }
+        if((movingPiece.isAbleToCastle() && destinationPiece.isAbleToCastle()))
+        {
+            Square kingSquare = new Square(4, originSquare.getYSquareCoordinate());
+
+            if(destinationPiece.isAbleToMove(kingSquare)) { //
+               return true;
+            }
+        }
+        return false;
+    }
     /*
     Checks whether there's a Piece on originSquare and moves it to destinationSquare if the move is legal
     returns 0 when the move is successful
@@ -86,7 +108,6 @@ public class Chessboard {
         System.out.println("destination: " +destinationSquare.getXSquareCoordinate() + "," + destinationSquare.getYSquareCoordinate());
         System.out.println("movingPiece: " + movingPiece);
         */
-
             //check if the piece is the current player's piece
         if (movingPiece.getPieceColor() != Game.current_turn){
             //System.err.println("tryMove fail: not this piece's turn");
@@ -106,11 +127,10 @@ public class Chessboard {
             movingPiece.setyPieceCoordinate(newY);
             destinationSquare.setSquarePiece(movingPiece);
             originSquare.setSquarePiece(null);
-                //pass the turn to the next player
             Game.nextTurn();
+            //pass the turn to the next player
             return 0;
         }
-
 
     }
 
