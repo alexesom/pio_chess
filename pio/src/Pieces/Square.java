@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class Square {
     public JPanel squarePanel = new JPanel();
-    private int ySquareCoordinate;
     private int xSquareCoordinate;
+    private int ySquareCoordinate;
     private Color squareColor;
     private Piece squarePiece;
 
