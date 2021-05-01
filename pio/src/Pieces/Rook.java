@@ -20,7 +20,6 @@ public class Rook extends Piece implements PieceInterface{
     public boolean isAbleToMove(Square square) {
         int xSquare = square.getXSquareCoordinate();
         int ySquare = square.getYSquareCoordinate();
-
         int xRook = getxPieceCoordinate();
         int yRook = getyPieceCoordinate();
 
@@ -38,7 +37,10 @@ public class Rook extends Piece implements PieceInterface{
     }
 
     @Override
-    public void take(Piece piece) {
-
+    public boolean isAbleToCastle() {
+        if (moved == false) {
+            return true;
+        }
+        return false;
     }
 }
