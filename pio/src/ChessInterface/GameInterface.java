@@ -91,6 +91,7 @@ public class GameInterface implements ActionListener {
             player2.name = "Player 2";
         }
         name2.setFont(new Font("AvantGarde", Font.BOLD, 23));
+        name2.setForeground(new Color(140, 232, 139));
         name2.setText(player2.name);
 
         gamePanels.player1Panel.add(name1);
