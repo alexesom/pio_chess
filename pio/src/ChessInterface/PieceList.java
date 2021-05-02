@@ -2,18 +2,13 @@ package ChessInterface;
 
 import Pieces.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PieceList {
-    final King whiteKing;
-    final King blackKing;
-    List<Piece> whitePieces;
-    List<Piece> blackPieces;
 
-    public PieceList(King whiteKing, King blackKing) {
-        this.whiteKing = whiteKing;
-        this.blackKing = blackKing;
-    }
+    List<Piece> whitePieces = new ArrayList<Piece>();
+    List<Piece> blackPieces = new ArrayList<Piece>();
 
     public void addWhitePiece(Piece piece) {
         whitePieces.add(piece);
@@ -22,16 +17,6 @@ public class PieceList {
     public void addBlackPiece(Piece piece) {
         blackPieces.add(piece);
     }
-
-    public King getBlackKing() {
-        return blackKing;
-    }
-
-
-    public King getWhiteKing() {
-        return whiteKing;
-    }
-
 
     public List<Piece> getBlackPieces() {
         return blackPieces;
