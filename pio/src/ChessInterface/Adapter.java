@@ -20,11 +20,14 @@ public class Adapter extends MouseAdapter {
     private Point clickPoint;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
+    public JPanel backlightPanel;
 
-    public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack) {
+
+    public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel) {
         myLayeredPane = layer;
         this.capturedBlack = capturedBlack;
         this.capturedWhite = capturedWhite;
+        this.backlightPanel = backlightPanel;
     }
 
     @Override
@@ -121,6 +124,8 @@ public class Adapter extends MouseAdapter {
         } else {
             try {
                 clickedPanel = (JPanel) myLayeredPane.getComponentAt(e.getPoint());
+                backlightPanel.setBounds(clickedPanel.getX() + 60, clickedPanel.getY() + 30, 80, 80);
+                backlightPanel.setVisible(true);
             } catch (ClassCastException exception) {
                 System.out.println("Choose Panel!");
             }
@@ -131,6 +136,7 @@ public class Adapter extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         if (!e.getPoint().equals(clickPoint)) {
             clickedPanel = null;
+            backlightPanel.setVisible(false);
         }
         clickPoint = null;
     }
