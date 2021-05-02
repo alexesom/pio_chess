@@ -13,6 +13,7 @@ public class Adapter extends MouseAdapter {
     private final JLayeredPane myLayeredPane;
     private final JLayeredPane capturedWhite;
     private final JLayeredPane capturedBlack;
+    public JPanel backlightPanel;
     boolean squareWasEmpty = false;
     boolean castling = false;
     private JPanel clickedPanel;
@@ -20,7 +21,6 @@ public class Adapter extends MouseAdapter {
     private Point clickPoint;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
-    public JPanel backlightPanel;
 
 
     public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel) {

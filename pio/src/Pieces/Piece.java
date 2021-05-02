@@ -72,9 +72,9 @@ public class Piece {
             int yDestinationSquare = destinationSquare.getYSquareCoordinate();
 
             switch (motion) {
-                case diagonal:
-                    int yCounter = 0;
-                    int xCounter = 0;
+                case diagonal -> {
+                    int yCounter;
+                    int xCounter;
                     if (xSquare < xDestinationSquare) {
                         xCounter = xSquare + 1;
                         if (ySquare < yDestinationSquare) {
@@ -115,8 +115,8 @@ public class Piece {
                         }
                     }
                     return true;
-
-                case horizontal:
+                }
+                case horizontal -> {
                     if (xSquare < xDestinationSquare) {
                         for (int i = xSquare + 1; i < xDestinationSquare; i++) {
                             if (Chessboard.board[i][ySquare].getSquarePiece() != null)
@@ -129,11 +129,14 @@ public class Piece {
                         }
                     }
                     return true;
-
-
-                case vertical:
-                    if (Chessboard.board[xSquare][ySquare].getSquarePiece() instanceof Pawn) {
+                }
+                case vertical -> {
+                    if (Chessboard.board[xSquare][ySquare].getSquarePiece() instanceof Pawn &&
+                            Chessboard.board[xSquare][ySquare].getSquarePiece().getPieceColor() == Color.WHITE) {
                         yDestinationSquare++;
+                    } else if (Chessboard.board[xSquare][ySquare].getSquarePiece() instanceof Pawn &&
+                            Chessboard.board[xSquare][ySquare].getSquarePiece().getPieceColor() == Color.BLACK) {
+                        yDestinationSquare--;
                     }
                     if (ySquare < yDestinationSquare) {
                         for (int i = ySquare + 1; i < yDestinationSquare; i++) {
@@ -147,6 +150,7 @@ public class Piece {
                         }
                     }
                     return true;
+                }
             }
         } catch (Exception ex) {
             System.out.println("Error in isAnyPieceBetween");
