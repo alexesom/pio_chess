@@ -8,13 +8,13 @@ import javax.swing.*;
 import java.util.List;
 
 public class Chessboard {
-    public PieceList harmonogramRokuAkademickiego = new PieceList();
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
     public static Square[][] board = new Square[8][8];
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
-    public JPanel backlightPanel = new DrawSquareFrame();
+    public static List<Piece> pieceList = null;
+    public JPanel backlightPanel = new SquareBacklight(new Color(91, 189, 116));
     private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel);
 
     public Chessboard() {
@@ -26,7 +26,7 @@ public class Chessboard {
     }
 
     public Chessboard(List<Piece> list) {
-
+        pieceList = list;
         createChessboardSquares();
     }
 
@@ -123,10 +123,6 @@ public class Chessboard {
     }
 
     private void addFigure(Piece figure) {
-        if(figure.getPieceColor() == Color.white)
-            harmonogramRokuAkademickiego.addWhitePiece(figure);
-        if(figure.getPieceColor() == Color.BLACK)
-            harmonogramRokuAkademickiego.addBlackPiece(figure);
         int x = figure.getxPieceCoordinate();
         int y = figure.getyPieceCoordinate();
         layer.add(figure.panel);
