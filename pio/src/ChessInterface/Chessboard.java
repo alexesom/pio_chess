@@ -2,20 +2,23 @@ package ChessInterface;
 
 import Pieces.*;
 
+import java.awt.Color;
+
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 public class Chessboard {
-    public static Square[][] board = new Square[8][8];
-    public static List<Piece> pieceList = null;
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
+    public static Square[][] board = new Square[8][8];
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
-    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2);
+    public static List<Piece> pieceList = null;
+    public JPanel backlightPanel = new DrawSquareFrame();
+    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel);
 
     public Chessboard() {
+        backlightPanel.setVisible(false);
         createChessboardSquares();
         createCapturedPiecesPanel();
         placeChessboardPieces();
