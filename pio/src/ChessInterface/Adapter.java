@@ -1,5 +1,6 @@
 package ChessInterface;
-import Pieces.*;
+
+import Pieces.Square;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,9 +29,6 @@ public class Adapter extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Piece selectedPiece;
-        int xPiece;
-        int yPiece;
         Square selectedSquare;
         Square destinationSquare;
 
@@ -44,8 +42,8 @@ public class Adapter extends MouseAdapter {
             } catch (ClassCastException ex) { // the clicked square didn't have another panel on it
                 squareWasEmpty = true;
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
+                selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
 
                 // move both Piece and the Panel if the move is legal
                 try {
@@ -64,8 +62,8 @@ public class Adapter extends MouseAdapter {
 
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
-                Square selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
-                Square destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
+                selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
+                destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
                 // move both Piece and the Panel if the move is legal
                 if (Chessboard.tryCastling(selectedSquare, destinationSquare)) {
                     JPanel kingPanel;
@@ -114,19 +112,8 @@ public class Adapter extends MouseAdapter {
                 } catch (Exception ez) {
                     System.out.println(ez);
                 }
-
-                    Game.nextTurn();
-                } else if (selectedPiece.isAbleToMove(destinationSquare) &&
-                        selectedPiece instanceof Pawn &&
-                        Chessboard.EnPassant.isEmpty()) {
-                    Pawn selectedPawn = (Pawn) selectedPiece;
-                    if (selectedPawn.enPassantFlag) {
-
-                    }
-                } else
-                    System.out.println("Illegal move!");
-
             }
+
             castling = false;
             clickedPanel = null;
             clickPoint = null;
