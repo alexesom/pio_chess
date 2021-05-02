@@ -14,7 +14,7 @@ public class Chessboard {
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
     public static List<Piece> pieceList = null;
-    public JPanel backlightPanel = new DrawSquareFrame();
+    public JPanel backlightPanel = new SquareBacklight(new Color(91, 189, 116));
     private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel);
 
     public Chessboard() {
