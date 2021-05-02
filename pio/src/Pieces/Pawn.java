@@ -29,12 +29,30 @@ public class Pawn extends Piece implements PieceInterface {
         int yPawn = getyPieceCoordinate();
 
         if (pieceColor == Color.WHITE) {
+
+            if (ySquare == yPawn + 1 &&
+                    xSquare == xPawn + 1 &&
+                    xPawn + 1 <= 7 &&
+                    square.getSquarePiece() != null &&
+                    square.getSquarePiece().getPieceColor() != this.getPieceColor()) {
+                return true;
+            } //beat condition for right beat for WHITE
+
+            if (ySquare == yPawn + 1 &&
+                    xSquare == xPawn - 1 &&
+                    xPawn - 1 >= 0 &&
+                    square.getSquarePiece() != null &&
+                    square.getSquarePiece().getPieceColor() != this.getPieceColor()) {
+                return true;
+            } //beat condition for left beat for WHITE
+
             if (!promoted && ySquare == yPawn + 1 && xSquare == xPawn) {
                 promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 1 square
 
             if (!promoted && ySquare == yPawn + 2 && xSquare == xPawn) {
+                promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 2 square
 
@@ -46,7 +64,9 @@ public class Pawn extends Piece implements PieceInterface {
                 return false;
             } //for promoted move not by 1 square
 
-            if (ySquare == yPawn + 1 &&
+        } else {
+
+            if (ySquare == yPawn - 1 &&
                     xSquare == xPawn + 1 &&
                     xPawn + 1 <= 7 &&
                     square.getSquarePiece() != null &&
@@ -54,7 +74,7 @@ public class Pawn extends Piece implements PieceInterface {
                 return true;
             } //beat condition for right beat for WHITE
 
-            if (ySquare == yPawn + 1 &&
+            if (ySquare == yPawn - 1 &&
                     xSquare == xPawn - 1 &&
                     xPawn - 1 >= 0 &&
                     square.getSquarePiece() != null &&
@@ -62,13 +82,13 @@ public class Pawn extends Piece implements PieceInterface {
                 return true;
             } //beat condition for left beat for WHITE
 
-        } else {
             if (!promoted && ySquare == yPawn - 1 && xSquare == xPawn) {
                 promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 1 square
 
             if (!promoted && ySquare == yPawn - 2 && xSquare == xPawn) {
+                promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 2 square
 
@@ -79,22 +99,6 @@ public class Pawn extends Piece implements PieceInterface {
             if (promoted && ySquare != yPawn - 1 && xSquare == xPawn) {
                 return false;
             } //for promoted move not by 1 square
-
-            if (ySquare == yPawn - 1 &&
-                    xSquare == xPawn + 1 &&
-                    xPawn + 1 <= 7 &&
-                    square.getSquarePiece() != null &&
-                    square.getSquarePiece().getPieceColor() != this.getPieceColor()) {
-                return true;
-            } //beat condition for right beat for WHITE
-
-            if (ySquare == yPawn - 1 &&
-                    xSquare == xPawn - 1 &&
-                    xPawn - 1 >= 0 &&
-                    square.getSquarePiece() != null &&
-                    square.getSquarePiece().getPieceColor() != this.getPieceColor()) {
-                return true;
-            } //beat condition for left beat for WHITE
         }
 
         return false;
