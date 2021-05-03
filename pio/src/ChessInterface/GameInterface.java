@@ -31,6 +31,7 @@ public class GameInterface implements ActionListener {
     private void createGamePanels() {
         chessboard.createChessboardPanel(70, 40, 560, 560);
         frame.add(chessboard.layer);
+        frame.add(CheckLogic.checkBacklight);
         frame.add(chessboard.backlightPanel);
         frame.add(chessboard.chessboardPanel);
         frame.add(gamePanels.player1Panel);

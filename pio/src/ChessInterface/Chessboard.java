@@ -13,7 +13,7 @@ public class Chessboard {
     public static Square[][] board = new Square[8][8];
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
-    public static List<Piece> pieceList = null;
+    //public static List<Piece> pieceList = null;
     public JPanel backlightPanel = new SquareBacklight(new Color(91, 189, 116));
     private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel);
 
@@ -26,7 +26,7 @@ public class Chessboard {
     }
 
     public Chessboard(List<Piece> list) {
-        pieceList = list;
+        //pieceList = list;
         createChessboardSquares();
     }
 
@@ -127,7 +127,26 @@ public class Chessboard {
         int y = figure.getyPieceCoordinate();
         layer.add(figure.panel);
         board[x][y].setSquarePiece(figure);
+        PieceList.addListPiece(figure, figure.getPieceColor());
     }
+    private void addKing(King figure) {
+        int x = figure.getxPieceCoordinate();
+        int y = figure.getyPieceCoordinate();
+        layer.add(figure.panel);
+        board[x][y].setSquarePiece(figure);
+
+        if (figure.getPieceColor() == Color.white){
+            if (PieceList.whiteKing != null)
+                System.err.println("White king already existed! King in list overwritten.");
+            PieceList.whiteKing = figure;
+        }
+        else if (figure.getPieceColor() == Color.black){
+            if (PieceList.blackKing != null)
+                System.err.println("Black king already existed! King in list overwritten.");
+            PieceList.blackKing = figure;
+        }
+    }
+
 
     private void addMouse() {
         layer.addMouseListener(mouseAdapter);
@@ -155,7 +174,7 @@ public class Chessboard {
         addFigure(new Knight(board[1][row], color));
         addFigure(new Bishop(board[2][row], color));
         addFigure(new Queen(board[3][row], color));
-        addFigure(new King(board[4][row], color));
+        addKing(new King(board[4][row], color));
         addFigure(new Bishop(board[5][row], color));
         addFigure(new Knight(board[6][row], color));
         addFigure(new Rook(board[7][row], color));
