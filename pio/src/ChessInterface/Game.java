@@ -22,5 +22,10 @@ public class Game {
             gameInterface.name2.setForeground(new Color(102, 205, 99));
             gameInterface.name1.setForeground(Color.BLACK);
         }
+        CheckLogic.checkLoop();
+        CheckLogic.highlightCheck();
+        if (CheckLogic.gameEnded) {
+            //endGame();
+        }
     }
 }

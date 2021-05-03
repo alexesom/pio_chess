@@ -60,9 +60,6 @@ public class Adapter extends MouseAdapter {
             if (!squareWasEmpty) { // a square containing a different panel was clicked
                 clickPoint.x = e.getX() / 70 * 70 + 10;
                 clickPoint.y = e.getY() / 70 * 70 + 10;
-                //robię dwa razy clickPoint ale z jakiegoś powodu nie działa odpowiednio jeśli dam to w try {}
-                //dodałam to tutaj bo potrzebuję koordynatów docelowego pola
-
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
                 selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
