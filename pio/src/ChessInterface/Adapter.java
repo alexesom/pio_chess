@@ -1,5 +1,6 @@
 package ChessInterface;
 
+import Pieces.Piece;
 import Pieces.Square;
 
 import javax.swing.*;
@@ -14,13 +15,13 @@ public class Adapter extends MouseAdapter {
     private final JLayeredPane capturedWhite;
     private final JLayeredPane capturedBlack;
     public JPanel backlightPanel;
-    boolean squareWasEmpty = false;
-    boolean castling = false;
     private JPanel clickedPanel;
     private JPanel disappearPanel;
     private Point clickPoint;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
+    boolean squareWasEmpty = false;
+    boolean castling = false;
 
 
     public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel) {
@@ -53,7 +54,7 @@ public class Adapter extends MouseAdapter {
                     Chessboard.tryMove(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
                 } catch (Exception ez) {
-                    System.out.println(ez);
+                    exceptionHandler(selectedSquare, destinationSquare);
                 }
             }
 
@@ -110,10 +111,9 @@ public class Adapter extends MouseAdapter {
                         }
                     }
                 } catch (Exception ez) {
-                    System.out.println(ez);
+                    exceptionHandler(selectedSquare, destinationSquare);
                 }
             }
-
             castling = false;
             clickedPanel = null;
             clickPoint = null;
@@ -124,7 +124,7 @@ public class Adapter extends MouseAdapter {
                 backlightPanel.setBounds(clickedPanel.getX() + 60, clickedPanel.getY() + 30, 80, 80);
                 backlightPanel.setVisible(true);
             } catch (ClassCastException exception) {
-                System.out.println("Choose Panel!");
+                MessagesForUsers.createMessage1();
             }
         }
     }
@@ -163,6 +163,20 @@ public class Adapter extends MouseAdapter {
     private void shortCastling(JPanel kingPanel, JPanel rookPanel) {
         kingPanel.setLocation(6 * 70 + 10, kingPanel.getY());
         rookPanel.setLocation(5 * 70 + 10, rookPanel.getY());
+    }
+
+    private void exceptionHandler(Square originSquare, Square destinationSquare) {
+        Piece movingPiece = originSquare.getSquarePiece();
+        Piece pieceAtDestination = destinationSquare.getSquarePiece();
+        Color chosenPieceColor = movingPiece.getPieceColor();
+
+        if(Game.current_turn != chosenPieceColor) {
+            MessagesForUsers.createMessage2(); // trying to move another players piece
+        } else if(pieceAtDestination != null && pieceAtDestination.getPieceColor() == Game.current_turn) {
+            MessagesForUsers.createMessage3(); // trying to take own piece
+        } else if(!movingPiece.isAbleToMove(destinationSquare)) {
+            MessagesForUsers.createMessage4(); // illegal move
+        }
     }
 }
 

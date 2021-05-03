@@ -63,20 +63,15 @@ public class Chessboard {
 
         //check if the piece is the current player's piece
         if (movingPiece.getPieceColor() != Game.current_turn) {
-            //System.err.println("tryMove exception: not this piece's turn");
-            System.out.println("This isn't your piece! Current turn: " + Game.current_turn.toString());
             throw new Exception("tryMove exception: moving other player's piece");
         }
         //check if the move is legal
         if (!movingPiece.isAbleToMove(destinationSquare)) {
-            //System.err.println("tryMove exception: illegal move");
-            System.out.println("Illegal move!");
             throw new Exception("tryMove exception: illegal move");
         }
         //check if trying to take own piece
         Piece pieceAtDestination = destinationSquare.getSquarePiece();
         if ((pieceAtDestination != null) && (pieceAtDestination.getPieceColor() == Game.current_turn)) {
-            System.out.println("You can't take your own piece!");
             throw new Exception("tryMove exception: taking own piece");
         }
 

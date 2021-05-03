@@ -40,6 +40,7 @@ public class GameInterface implements ActionListener {
         frame.add(chessboard.capturedPiecesPanel2);
         frame.add(gamePanels.boardCoordinatesBottomPanel);
         frame.add(gamePanels.boardCoordinatesRightPanel);
+        frame.add(MessagesForUsers.messagePanel);
         frame.add(gamePanels.mainPanel);
     }
 
