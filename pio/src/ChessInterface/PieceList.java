@@ -48,6 +48,16 @@ public class PieceList {
         }
     }
 
+    public static List<Piece> getColorPieces(Color color) {
+        assert (color == Color.WHITE || color == Color.BLACK);
+        if (color == Color.WHITE) {
+            return whitePieces;
+        }
+        else {
+            return blackPieces;
+        }
+    }
+
     public static King getKing(Color kingColor) {
         assert (kingColor == Color.WHITE || kingColor == Color.BLACK);
         if (kingColor == Color.WHITE) {

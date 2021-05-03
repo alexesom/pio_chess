@@ -10,7 +10,8 @@ public class CheckLogic {
     public static boolean checkState = false;
     public static boolean gameEnded = false;
     public static JPanel checkBacklight = new SquareBacklight(new Color(219, 82, 55));
-
+    private static int figuresChecking = 0;
+    private static Square checkingSquare;
     public static void checkLoop() {
         setCheckState();
         if (checkState)
@@ -21,18 +22,23 @@ public class CheckLogic {
     private static boolean isChecked(Square square, Color kingColor) {
         for (Pieces.Piece piece : PieceList.getOppositeColorPieces(kingColor)) {
             if (piece.isAbleToMove(square)) {
-                return true;
+                figuresChecking++;
+                checkingSquare = Chessboard.board[piece.getxPieceCoordinate()][piece.getyPieceCoordinate()];
+                System.out.println("bulka");
             }
+            if(figuresChecking != 0)
+                return true;
         }
         return false;
     }
 
     private static boolean isCheckmated() {
-        if (canKingMove()) {
+        if (canAttackerBeTaken()) {
             return false;
-        } else if (canAttackerBeTaken()) {
+        } else if (canKingMove()) {
             return false;
-        } else return !canKingBeProtected();
+        }
+         else return !canKingBeProtected();
     }
 
     private static boolean canKingMove() {
@@ -40,7 +46,25 @@ public class CheckLogic {
     }
 
     private static boolean canAttackerBeTaken() {
-        return true;
+
+        if (figuresChecking > 1) {
+            figuresChecking = 0;
+            return false;
+        }
+        if (figuresChecking == 0)
+            return true;
+
+        else {
+            for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
+                System.out.println(Game.current_turn);
+                if (piece.isAbleToMove(checkingSquare)) {
+                    System.out.println( piece + " " + "Piece can take");
+                    figuresChecking = 0;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     private static boolean canKingBeProtected() {
