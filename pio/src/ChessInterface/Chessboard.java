@@ -13,7 +13,6 @@ public class Chessboard {
     public static Square[][] board = new Square[8][8];
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
-    //public static List<Piece> pieceList = null;
     public JPanel backlightPanel = new SquareBacklight(new Color(91, 189, 116));
     private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel);
 
@@ -23,11 +22,6 @@ public class Chessboard {
         createCapturedPiecesPanel();
         placeChessboardPieces();
         addMouse();
-    }
-
-    public Chessboard(List<Piece> list) {
-        //pieceList = list;
-        createChessboardSquares();
     }
 
     public static boolean tryCastling(Square originSquare, Square destinationSquare) {
