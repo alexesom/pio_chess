@@ -1,9 +1,12 @@
 package Pieces;
 
+import javax.swing.*;
 import java.awt.Color;
 
 public class Rook extends Piece implements PieceInterface{
     private boolean moved = false;
+    JLabel whiteRook = new JLabel(new StretchIcon("piecesIcons/whiterook.png"));
+    JLabel blackRook = new JLabel(new StretchIcon("piecesIcons/blackrook.png"));
 
     public Rook(Square rookPosition, Color rookColor) {
         super(rookPosition, rookColor);
@@ -38,9 +41,6 @@ public class Rook extends Piece implements PieceInterface{
 
     @Override
     public boolean isAbleToCastle() {
-        if (moved == false) {
-            return true;
-        }
-        return false;
+        return !moved;
     }
 }

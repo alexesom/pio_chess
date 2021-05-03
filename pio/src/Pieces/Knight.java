@@ -1,9 +1,13 @@
 package Pieces;
 
+import javax.swing.*;
+
 import static java.lang.Math.abs;
 import java.awt.Color;
 
 public class Knight extends Piece implements PieceInterface{
+    JLabel whiteKnight = new JLabel(new StretchIcon("piecesIcons/whiteknight.png"));
+    JLabel blackKnight = new JLabel(new StretchIcon("piecesIcons/blackknight.png"));
 
     public Knight(Square knightPosition, Color knightColor) {
         super(knightPosition, knightColor);

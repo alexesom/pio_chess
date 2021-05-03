@@ -1,11 +1,13 @@
 package Pieces;
 
+import javax.swing.*;
 import java.awt.*;
 
 import static java.lang.Math.abs;
 
 public class Queen extends Piece implements PieceInterface{
-
+    JLabel whiteQueen = new JLabel(new StretchIcon("piecesIcons/whitequeen.png"));
+    JLabel blackQueen = new JLabel(new StretchIcon("piecesIcons/blackqueen.png"));
 
     public Queen(Square queenPosition, Color queenColor) {
         super(queenPosition, queenColor);
