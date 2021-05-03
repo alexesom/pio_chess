@@ -1,10 +1,14 @@
 package Pieces;
 
+import javax.swing.*;
+
 import static java.lang.Math.abs;
 import java.awt.Color;
 
 public class King extends Piece implements PieceInterface{
     private boolean moved = false;
+    JLabel whiteKing = new JLabel(new StretchIcon("piecesIcons/whiteking.png"));
+    JLabel blackKing = new JLabel(new StretchIcon("piecesIcons/blackking.png"));
 
     public King(Square kingPosition, Color kingColor) {
         super(kingPosition, kingColor);

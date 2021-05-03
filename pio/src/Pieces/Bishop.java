@@ -1,9 +1,13 @@
 package Pieces;
 
+import javax.swing.*;
+
 import static java.lang.Math.abs;
 import java.awt.Color;
 
 public class Bishop extends Piece implements PieceInterface{
+    JLabel whiteBishop = new JLabel(new StretchIcon("piecesIcons/whitebishop.png"));
+    JLabel blackBishop = new JLabel(new StretchIcon("piecesIcons/blackbishop.png"));
 
     public Bishop(Square bishopPosition, Color bishopColor) {
         super(bishopPosition, bishopColor);

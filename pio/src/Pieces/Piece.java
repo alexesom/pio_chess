@@ -10,18 +10,7 @@ public class Piece {
     protected Color pieceColor;
     protected int xPieceCoordinate;
     protected int yPieceCoordinate;
-    JLabel whitePawn = new JLabel(new StretchIcon("piecesIcons/whitepawn.png"));
-    JLabel blackPawn = new JLabel(new StretchIcon("piecesIcons/blackpawn.png"));
-    JLabel whiteRook = new JLabel(new StretchIcon("piecesIcons/whiterook.png"));
-    JLabel blackRook = new JLabel(new StretchIcon("piecesIcons/blackrook.png"));
-    JLabel whiteKnight = new JLabel(new StretchIcon("piecesIcons/whiteknight.png"));
-    JLabel blackKnight = new JLabel(new StretchIcon("piecesIcons/blackknight.png"));
-    JLabel whiteBishop = new JLabel(new StretchIcon("piecesIcons/whitebishop.png"));
-    JLabel blackBishop = new JLabel(new StretchIcon("piecesIcons/blackbishop.png"));
-    JLabel whiteQueen = new JLabel(new StretchIcon("piecesIcons/whitequeen.png"));
-    JLabel blackQueen = new JLabel(new StretchIcon("piecesIcons/blackqueen.png"));
-    JLabel whiteKing = new JLabel(new StretchIcon("piecesIcons/whiteking.png"));
-    JLabel blackKing = new JLabel(new StretchIcon("piecesIcons/blackking.png"));
+
 
     /*
     Using Piece() constructor is not recommended,
