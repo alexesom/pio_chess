@@ -37,7 +37,13 @@ public class King extends Piece implements PieceInterface{
     }
 
     @Override
+    public void move() {
+        moved = true;
+    }
+
+    @Override
     public boolean isAbleToCastle(){
-        return true;
+        return !moved;
+
     }
 }

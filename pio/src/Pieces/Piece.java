@@ -159,7 +159,9 @@ public class Piece {
 
         return false;
     }
+    public void move() {
 
+    }
     public boolean isAbleToCastle() {
 
         return false;

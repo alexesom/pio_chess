@@ -28,7 +28,7 @@ public class Chessboard {
         Piece movingPiece;
         Piece destinationPiece;
 
-        if (destinationSquare.getXSquareCoordinate() == 4) {
+        if(destinationSquare.getXSquareCoordinate() == 4) {
             movingPiece = destinationSquare.getSquarePiece();
             destinationPiece = originSquare.getSquarePiece();
         } else {
@@ -36,10 +36,12 @@ public class Chessboard {
             destinationPiece = destinationSquare.getSquarePiece();
 
         }
-        if ((movingPiece.isAbleToCastle() && destinationPiece.isAbleToCastle())) {
+        if((movingPiece.isAbleToCastle() && destinationPiece.isAbleToCastle()))
+        {
             Square kingSquare = new Square(4, originSquare.getYSquareCoordinate());
 
-            if (destinationPiece.isAbleToMove(kingSquare)) { //
+            if(destinationPiece.isAbleToMove(kingSquare)) {
+
                 return true;
             }
         }
@@ -72,6 +74,7 @@ public class Chessboard {
 
         int newX = destinationSquare.getXSquareCoordinate();
         int newY = destinationSquare.getYSquareCoordinate();
+        movingPiece.move();
         movingPiece.setxPieceCoordinate(newX);
         movingPiece.setyPieceCoordinate(newY);
         destinationSquare.setSquarePiece(movingPiece);
