@@ -119,7 +119,7 @@ public class Chessboard {
         int y = figure.getyPieceCoordinate();
         layer.add(figure.panel);
         board[x][y].setSquarePiece(figure);
-        PieceList.addListPiece(figure, figure.getPieceColor());
+        PieceList.addPiece(figure);
     }
     private void addKing(King figure) {
         int x = figure.getxPieceCoordinate();

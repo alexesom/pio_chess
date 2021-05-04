@@ -21,7 +21,8 @@ public class PieceList {
         blackPieces.add(piece);
     }
 
-    public static void addListPiece(Piece piece, Color pieceColor) {
+    public static void addPiece(Piece piece) {
+        Color pieceColor = piece.getPieceColor();
         if (pieceColor == Color.white) {
             whitePieces.add(piece);
         } else if (pieceColor == Color.black) {
@@ -42,8 +43,7 @@ public class PieceList {
         assert (color == Color.WHITE || color == Color.BLACK);
         if (color == Color.BLACK) {
             return whitePieces;
-        }
-        else {
+        } else {
             return blackPieces;
         }
     }
@@ -52,8 +52,7 @@ public class PieceList {
         assert (color == Color.WHITE || color == Color.BLACK);
         if (color == Color.WHITE) {
             return whitePieces;
-        }
-        else {
+        } else {
             return blackPieces;
         }
     }
@@ -65,5 +64,24 @@ public class PieceList {
         }
         return blackKing;
     }
+
+    public static void removeWhitePiece(Piece piece) {
+        assert piece.getPieceColor() == Color.WHITE;
+        whitePieces.remove(piece);
+    }
+
+    public static void removeBlackPiece(Piece piece) {
+        assert piece.getPieceColor() == Color.BLACK;
+        blackPieces.remove(piece);
+    }
+
+    public static void removePiece(Piece piece) {
+        Color pieceColor = piece.getPieceColor();
+        assert (pieceColor == Color.BLACK || pieceColor == Color.WHITE);
+        if (pieceColor == Color.BLACK) {
+            blackPieces.remove(piece);
+        } else whitePieces.remove(piece);
+    }
+
 }
 

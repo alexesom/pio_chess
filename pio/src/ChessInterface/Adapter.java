@@ -15,13 +15,13 @@ public class Adapter extends MouseAdapter {
     private final JLayeredPane capturedWhite;
     private final JLayeredPane capturedBlack;
     public JPanel backlightPanel;
+    boolean squareWasEmpty = false;
+    boolean castling = false;
     private JPanel clickedPanel;
     private JPanel disappearPanel;
     private Point clickPoint;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
-    boolean squareWasEmpty = false;
-    boolean castling = false;
 
 
     public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel) {
@@ -65,13 +65,14 @@ public class Adapter extends MouseAdapter {
                 // find the Piece that was selected to move and the Square that was selected as its destination
                 selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
+                Piece takenPiece = destinationSquare.getSquarePiece();
                 if (selectedSquare.getSquarePiece().getPieceColor() == Game.current_turn &&
                         Chessboard.tryCastling(selectedSquare, destinationSquare)) {
                     JPanel kingPanel;
                     JPanel rookPanel;
                     Piece movingPiece;
                     Piece destinationPiece;
-                    if (disappearPanel.getX()/70 == 4) {
+                    if (disappearPanel.getX() / 70 == 4) {
                         kingPanel = disappearPanel;
                         rookPanel = clickedPanel;
                         movingPiece = destinationSquare.getSquarePiece();
@@ -90,8 +91,8 @@ public class Adapter extends MouseAdapter {
                         finalKing = getSquareAtCoordinates(2 * 70 + 10, clickedPanel.getY());
                         finalRook = getSquareAtCoordinates(3 * 70 + 10, clickedPanel.getY());
                         movingPiece.setxPieceCoordinate(2);
-                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
-                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
+                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
                         destinationPiece.setxPieceCoordinate(3);
 
 
@@ -100,8 +101,8 @@ public class Adapter extends MouseAdapter {
                         finalKing = getSquareAtCoordinates(6 * 70 + 10, clickedPanel.getY());
                         finalRook = getSquareAtCoordinates(5 * 70 + 10, clickedPanel.getY());
                         movingPiece.setxPieceCoordinate(6);
-                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
-                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
+                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
                         destinationPiece.setxPieceCoordinate(5);
                     }
 
@@ -120,6 +121,8 @@ public class Adapter extends MouseAdapter {
                         clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
                         if (clickedPanel != disappearPanel) {
                             clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
+                            System.out.println("removing piece " + takenPiece);
+                            PieceList.removePiece(takenPiece);
                             myLayeredPane.remove(disappearPanel);
                             if (disappearPanel.getBackground() == Color.white) {
                                 capturedWhiteFigures++;
@@ -199,11 +202,11 @@ public class Adapter extends MouseAdapter {
         Piece pieceAtDestination = destinationSquare.getSquarePiece();
         Color chosenPieceColor = movingPiece.getPieceColor();
 
-        if(Game.current_turn != chosenPieceColor) {
+        if (Game.current_turn != chosenPieceColor) {
             MessagesForUsers.createMessage2(); // trying to move another players piece
-        } else if(pieceAtDestination != null && pieceAtDestination.getPieceColor() == Game.current_turn) {
+        } else if (pieceAtDestination != null && pieceAtDestination.getPieceColor() == Game.current_turn) {
             MessagesForUsers.createMessage3(); // trying to take own piece
-        } else if(!movingPiece.isAbleToMove(destinationSquare)) {
+        } else if (!movingPiece.isAbleToMove(destinationSquare)) {
             MessagesForUsers.createMessage4(); // illegal move
         }
     }
