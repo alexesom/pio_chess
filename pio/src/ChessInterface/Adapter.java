@@ -65,22 +65,51 @@ public class Adapter extends MouseAdapter {
                 // find the Piece that was selected to move and the Square that was selected as its destination
                 selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
-                // move both Piece and the Panel if the move is legal
-                if (Chessboard.tryCastling(selectedSquare, destinationSquare)) {
+                if (selectedSquare.getSquarePiece().getPieceColor() == Game.current_turn &&
+                        Chessboard.tryCastling(selectedSquare, destinationSquare)) {
                     JPanel kingPanel;
                     JPanel rookPanel;
-                    if (disappearPanel.getX() == 4) {
+                    Piece movingPiece;
+                    Piece destinationPiece;
+                    if (disappearPanel.getX()/70 == 4) {
                         kingPanel = disappearPanel;
                         rookPanel = clickedPanel;
+                        movingPiece = destinationSquare.getSquarePiece();
+                        destinationPiece = selectedSquare.getSquarePiece();
                     } else {
                         kingPanel = clickedPanel;
                         rookPanel = disappearPanel;
+                        destinationPiece = destinationSquare.getSquarePiece();
+                        movingPiece = selectedSquare.getSquarePiece();
                     }
+                    Square finalKing;
+                    Square finalRook;
+
                     if ((abs(kingPanel.getX() - rookPanel.getX())) / 70 == 4) {
                         longCastling(kingPanel, rookPanel);
+                        finalKing = getSquareAtCoordinates(2 * 70 + 10, clickedPanel.getY());
+                        finalRook = getSquareAtCoordinates(3 * 70 + 10, clickedPanel.getY());
+                        movingPiece.setxPieceCoordinate(2);
+                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        destinationPiece.setxPieceCoordinate(3);
+
+
                     } else {
                         shortCastling(kingPanel, rookPanel);
+                        finalKing = getSquareAtCoordinates(6 * 70 + 10, clickedPanel.getY());
+                        finalRook = getSquareAtCoordinates(5 * 70 + 10, clickedPanel.getY());
+                        movingPiece.setxPieceCoordinate(6);
+                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        destinationPiece.setxPieceCoordinate(5);
                     }
+
+                    finalKing.setSquarePiece(movingPiece);
+                    finalRook.setSquarePiece(destinationPiece);
+                    selectedSquare.setSquarePiece(null);
+                    destinationSquare.setSquarePiece(null);
+
                     castling = true;
                     Game.nextTurn();
                 } else try {

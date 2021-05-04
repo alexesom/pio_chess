@@ -38,6 +38,10 @@ public class Rook extends Piece implements PieceInterface{
         else
             return false;
     }
+    @Override
+    public void move() {
+        moved = true;
+    }
 
     @Override
     public boolean isAbleToCastle() {
