@@ -1,6 +1,7 @@
 package ChessInterface;
 
 import Pieces.King;
+import Pieces.Piece;
 import Pieces.Square;
 
 import javax.swing.*;
@@ -24,9 +25,9 @@ public class CheckLogic {
             if (piece.isAbleToMove(square)) {
                 figuresChecking++;
                 checkingSquare = Chessboard.board[piece.getxPieceCoordinate()][piece.getyPieceCoordinate()];
-                System.out.println("bulka");
+                System.out.println("Which figure checked" + piece);
             }
-            if(figuresChecking != 0)
+            if (figuresChecking != 0)
                 return true;
         }
         return false;
@@ -42,21 +43,32 @@ public class CheckLogic {
     }
 
     private static boolean canKingMove() {
+        Color kingColor = Game.current_turn;
+        King checkedKing = PieceList.getKing(kingColor);
+        for (int y = checkedKing.getyPieceCoordinate() - 1; y <= checkedKing.getyPieceCoordinate() + 1; y++) {
+            for (int x = checkedKing.getxPieceCoordinate() - 1; x <= checkedKing.getxPieceCoordinate() + 1; x++) {
+                figuresChecking = 0;
+                if (x >= 0 && y >= 0 && x < 8 &&  y < 8) {
+                   if(checkedKing.isAbleToMove(Chessboard.board[x][y]) &&
+                           !isChecked(Chessboard.board[x][y], kingColor)) {
+                       System.out.println("can move to" + Chessboard.board[x][y]);
+                       return true;
+                   }
+                }
+            }
+        }
         return true;
     }
 
     private static boolean canAttackerBeTaken() {
-
-        if (figuresChecking > 1) {
-            figuresChecking = 0;
-            return false;
-        }
         if (figuresChecking == 0)
             return true;
 
-        else {
+        else if (figuresChecking > 1) {
+            figuresChecking = 0;
+            return false;
+        } else {
             for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
-                System.out.println(Game.current_turn);
                 if (piece.isAbleToMove(checkingSquare)) {
                     System.out.println( piece + " " + "Piece can take");
                     figuresChecking = 0;
@@ -65,6 +77,7 @@ public class CheckLogic {
             }
             return false;
         }
+
     }
 
     private static boolean canKingBeProtected() {
