@@ -22,12 +22,14 @@ public class PieceList {
     }
 
     public static void addPiece(Piece piece) {
-        Color pieceColor = piece.getPieceColor();
-        if (pieceColor == Color.white) {
-            whitePieces.add(piece);
-        } else if (pieceColor == Color.black) {
-            blackPieces.add(piece);
-        } else System.err.print("Trying to add non black/white piece to List!");
+        if (piece != null) {
+            Color pieceColor = piece.getPieceColor();
+            if (pieceColor == Color.white) {
+                whitePieces.add(piece);
+            } else if (pieceColor == Color.black) {
+                blackPieces.add(piece);
+            } else System.err.print("Trying to add non black/white piece to List!");
+        }
     }
 
 
@@ -76,11 +78,12 @@ public class PieceList {
     }
 
     public static void removePiece(Piece piece) {
-        Color pieceColor = piece.getPieceColor();
-        assert (pieceColor == Color.BLACK || pieceColor == Color.WHITE);
-        if (pieceColor == Color.BLACK) {
-            blackPieces.remove(piece);
-        } else whitePieces.remove(piece);
+        if (piece != null) {
+            Color pieceColor = piece.getPieceColor();
+            if (pieceColor == Color.BLACK) {
+                blackPieces.remove(piece);
+            } else whitePieces.remove(piece);
+        }
     }
 
 }

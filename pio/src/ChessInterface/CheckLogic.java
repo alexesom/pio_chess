@@ -20,6 +20,18 @@ public class CheckLogic {
         gameEnded = isCheckmated();
     }
 
+    public static boolean isChecked(){
+        King currentKing = PieceList.getKing(Game.current_turn);
+        assert currentKing != null;
+        Square kingSquare = Chessboard.getBoardSquare(currentKing.getxPieceCoordinate(), currentKing.getyPieceCoordinate());
+        Color kingColor = currentKing.getPieceColor();
+        for (Pieces.Piece piece : PieceList.getOppositeColorPieces(kingColor)) {
+            if (piece.isAbleToMove(kingSquare)) {
+                return true;
+            }
+        }
+        return false;
+    }
     private static boolean isChecked(Square square, Color kingColor) {
         for (Pieces.Piece piece : PieceList.getOppositeColorPieces(kingColor)) {
             if (piece.isAbleToMove(square)) {
@@ -27,10 +39,8 @@ public class CheckLogic {
                 checkingSquare = Chessboard.board[piece.getxPieceCoordinate()][piece.getyPieceCoordinate()];
                 System.out.println("Which figure checked" + piece);
             }
-            if (figuresChecking != 0)
-                return true;
         }
-        return false;
+        return figuresChecking != 0;
     }
 
     private static boolean isCheckmated() {
@@ -101,7 +111,6 @@ public class CheckLogic {
             int y = 500 - 70 * kingY;
             checkBacklight.setBounds(x + 60, y + 30, 80, 80);
             checkBacklight.setVisible(true);
-            System.out.println("checkbacklight: " + x + "," + y + checkBacklight.getVisibleRect());
         } else checkBacklight.setVisible(false);
     }
 }
