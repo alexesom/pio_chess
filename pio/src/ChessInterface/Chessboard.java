@@ -41,7 +41,6 @@ public class Chessboard {
             Square kingSquare = new Square(4, originSquare.getYSquareCoordinate());
 
             if(destinationPiece.isAbleToMove(kingSquare)) {
-
                 return true;
             }
         }
@@ -71,16 +70,28 @@ public class Chessboard {
             throw new Exception("tryMove exception: taking own piece");
         }
 
-
+        int oldX = originSquare.getXSquareCoordinate();
+        int oldY = originSquare.getYSquareCoordinate();
+        Piece oldPiece = destinationSquare.getSquarePiece();
         int newX = destinationSquare.getXSquareCoordinate();
         int newY = destinationSquare.getYSquareCoordinate();
-        movingPiece.move();
-        movingPiece.setxPieceCoordinate(newX);
-        movingPiece.setyPieceCoordinate(newY);
+
+        movingPiece.setPieceCoordinates(newX, newY);
         destinationSquare.setSquarePiece(movingPiece);
         originSquare.setSquarePiece(null);
-        Game.nextTurn();
-        //pass the turn to the next player
+        PieceList.removePiece(oldPiece);
+        if (CheckLogic.isChecked()){
+            movingPiece.setPieceCoordinates(oldX, oldY);
+            originSquare.setSquarePiece(movingPiece);
+            destinationSquare.setSquarePiece(oldPiece);
+            PieceList.addPiece(oldPiece);
+            throw new Exception("tryMove exception: own king checked after move");
+        } else {
+            movingPiece.move();
+            Game.nextTurn();
+        }
+
+
     }
 
     public static Square getBoardSquare(int x, int y) {

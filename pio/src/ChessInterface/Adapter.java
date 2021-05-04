@@ -54,7 +54,7 @@ public class Adapter extends MouseAdapter {
                     Chessboard.tryMove(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
                 } catch (Exception ez) {
-                    exceptionHandler(selectedSquare, destinationSquare);
+                    exceptionHandler(selectedSquare, destinationSquare, ez);
                 }
             }
 
@@ -65,7 +65,6 @@ public class Adapter extends MouseAdapter {
                 // find the Piece that was selected to move and the Square that was selected as its destination
                 selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
                 destinationSquare = getSquareAtCoordinates(clickPoint.x, clickPoint.y);
-                Piece takenPiece = destinationSquare.getSquarePiece();
                 if (selectedSquare.getSquarePiece().getPieceColor() == Game.current_turn &&
                         Chessboard.tryCastling(selectedSquare, destinationSquare)) {
                     JPanel kingPanel;
@@ -121,8 +120,6 @@ public class Adapter extends MouseAdapter {
                         clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
                         if (clickedPanel != disappearPanel) {
                             clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
-                            System.out.println("removing piece " + takenPiece);
-                            PieceList.removePiece(takenPiece);
                             myLayeredPane.remove(disappearPanel);
                             if (disappearPanel.getBackground() == Color.white) {
                                 capturedWhiteFigures++;
@@ -143,7 +140,7 @@ public class Adapter extends MouseAdapter {
                         }
                     }
                 } catch (Exception ez) {
-                    exceptionHandler(selectedSquare, destinationSquare);
+                    exceptionHandler(selectedSquare, destinationSquare, ez);
                 }
             }
             castling = false;
@@ -197,7 +194,7 @@ public class Adapter extends MouseAdapter {
         rookPanel.setLocation(5 * 70 + 10, rookPanel.getY());
     }
 
-    private void exceptionHandler(Square originSquare, Square destinationSquare) {
+    private void exceptionHandler(Square originSquare, Square destinationSquare, Exception exceptionMessage) {
         Piece movingPiece = originSquare.getSquarePiece();
         Piece pieceAtDestination = destinationSquare.getSquarePiece();
         Color chosenPieceColor = movingPiece.getPieceColor();
@@ -208,7 +205,7 @@ public class Adapter extends MouseAdapter {
             MessagesForUsers.createMessage3(); // trying to take own piece
         } else if (!movingPiece.isAbleToMove(destinationSquare)) {
             MessagesForUsers.createMessage4(); // illegal move
-        }
+        } else System.err.println("exceptionHandler unhandled: " + exceptionMessage);
     }
 }
 

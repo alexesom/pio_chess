@@ -25,9 +25,7 @@ public class Piece {
         panel.setBounds(10 + 70 * getxPieceCoordinate(), 500 - 70 * getyPieceCoordinate(), 50, 50);
     }
 
-    /*
-    converts X coordinate on the board to position on the JPanel
-    */
+
     public int getxPieceCoordinate() {
         return xPieceCoordinate;
     }
@@ -36,15 +34,17 @@ public class Piece {
         this.xPieceCoordinate = xPieceCoordinate;
     }
 
-    /*
-    converts Y coordinate on the board to position on the JPanel
-    */
     public int getyPieceCoordinate() {
         return yPieceCoordinate;
     }
 
     public void setyPieceCoordinate(int yPieceCoordinate) {
         this.yPieceCoordinate = yPieceCoordinate;
+    }
+
+    public void setPieceCoordinates(int x, int y){
+        xPieceCoordinate = x;
+        yPieceCoordinate = y;
     }
 
     protected void setPieceImage(JLabel image) {
