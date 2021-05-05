@@ -2,23 +2,21 @@ package ChessInterface;
 
 import Pieces.*;
 
-import java.awt.Color;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Chessboard implements ActionListener {
+    public static Square promotedSquare;
+    public static Square[][] board = new Square[8][8];
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
-    public static Square[][] board = new Square[8][8];
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
     public JPanel backlightPanel = new SquareBacklight(new Color(91, 189, 116));
     public JPanel whitePromotionPanel = new JPanel();
     public JPanel blackPromotionPanel = new JPanel();
-    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel, whitePromotionPanel, blackPromotionPanel);
     public JButton chooseWhiteRook = new JButton();
     public JButton chooseWhiteKnight = new JButton();
     public JButton chooseWhiteBishop = new JButton();
@@ -27,6 +25,7 @@ public class Chessboard implements ActionListener {
     public JButton chooseBlackKnight = new JButton();
     public JButton chooseBlackBishop = new JButton();
     public JButton chooseBlackQueen = new JButton();
+    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel, whitePromotionPanel, blackPromotionPanel);
 
     public Chessboard() {
         backlightPanel.setVisible(false);
@@ -42,7 +41,7 @@ public class Chessboard implements ActionListener {
         Piece movingPiece;
         Piece destinationPiece;
 
-        if(destinationSquare.getXSquareCoordinate() == 4) {
+        if (destinationSquare.getXSquareCoordinate() == 4) {
             movingPiece = destinationSquare.getSquarePiece();
             destinationPiece = originSquare.getSquarePiece();
         } else {
@@ -50,15 +49,14 @@ public class Chessboard implements ActionListener {
             destinationPiece = destinationSquare.getSquarePiece();
 
         }
-        if(movingPiece.getPieceColor() != destinationPiece.getPieceColor()) {
+        if (movingPiece.getPieceColor() != destinationPiece.getPieceColor()) {
             return false;
         }
 
-        if((movingPiece.isAbleToCastle() && destinationPiece.isAbleToCastle()))
-        {
+        if ((movingPiece.isAbleToCastle() && destinationPiece.isAbleToCastle())) {
             Square kingSquare = new Square(4, originSquare.getYSquareCoordinate());
 
-            if(destinationPiece.isAbleToMove(kingSquare)) {
+            if (destinationPiece.isAbleToMove(kingSquare)) {
 
                 return true;
             }
@@ -70,6 +68,9 @@ public class Chessboard implements ActionListener {
     Checks whether there's a Piece on originSquare and moves it to destinationSquare if the move is legal
      */
     public static void tryMove(Square originSquare, Square destinationSquare) throws Exception {
+        int oldX = originSquare.getXSquareCoordinate();
+        int oldY = originSquare.getYSquareCoordinate();
+        Piece oldPiece = destinationSquare.getSquarePiece();
         Piece movingPiece = originSquare.getSquarePiece();
         if (movingPiece == null) {
             throw new Exception("tryMove exception: piece is null(!)");
@@ -88,25 +89,35 @@ public class Chessboard implements ActionListener {
         if ((pieceAtDestination != null) && (pieceAtDestination.getPieceColor() == Game.current_turn)) {
             throw new Exception("tryMove exception: taking own piece");
         }
+
+        if (CheckLogic.isChecked()) {
+            movingPiece.setPieceCoordinates(oldX, oldY);
+            originSquare.setSquarePiece(movingPiece);
+            destinationSquare.setSquarePiece(oldPiece);
+            PieceList.addPiece(oldPiece);
+            throw new Exception("tryMove exception: own king checked after move");
+        } else {
+            movingPiece.move();
+        }
     }
 
+
+    public static void moveAndGoNextTurn(Square originSquare, Square destinationSquare) {
         int oldX = originSquare.getXSquareCoordinate();
         int oldY = originSquare.getYSquareCoordinate();
         Piece oldPiece = destinationSquare.getSquarePiece();
-    public static void moveAndGoNextTurn(Square originSquare, Square destinationSquare) {
         Piece movingPiece = originSquare.getSquarePiece();
         int newX = destinationSquare.getXSquareCoordinate();
         int newY = destinationSquare.getYSquareCoordinate();
 
-        movingPiece.setPieceCoordinates(newX, newY);
-
-        if(movingPiece instanceof Pawn) {
+        if (movingPiece instanceof Pawn) {
             Pawn movingPawn = (Pawn) movingPiece;
-            if(movingPawn.getPieceColor() == Color.WHITE) {
+            if (movingPawn.getPieceColor() == Color.WHITE) {
                 if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 2 &&
                         newX == movingPawn.getxPieceCoordinate()) {
                     movingPawn.promoted = true;
-                    getBoardSquare(newX, newY-1).enPassantSquareFlag = true;
+                    Chessboard.promotedSquare = getBoardSquare(newX, newY - 1);
+                    promotedSquare.enPassantSquareFlag = true;
                     Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
                 }
 
@@ -117,7 +128,7 @@ public class Chessboard implements ActionListener {
                 if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() - 2 &&
                         newX == movingPawn.getxPieceCoordinate()) {
                     movingPawn.promoted = true;
-                    getBoardSquare(newX, newY+1).enPassantSquareFlag = true;
+                    getBoardSquare(newX, newY + 1).enPassantSquareFlag = true;
                     Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
                 }
 
@@ -133,18 +144,7 @@ public class Chessboard implements ActionListener {
         destinationSquare.setSquarePiece(movingPiece);
         originSquare.setSquarePiece(null);
         PieceList.removePiece(oldPiece);
-        if (CheckLogic.isChecked()){
-            movingPiece.setPieceCoordinates(oldX, oldY);
-            originSquare.setSquarePiece(movingPiece);
-            destinationSquare.setSquarePiece(oldPiece);
-            PieceList.addPiece(oldPiece);
-            throw new Exception("tryMove exception: own king checked after move");
-        } else {
-            movingPiece.move();
-            Game.nextTurn();
-        }
-
-
+        Game.nextTurn();
     }
 
     public static Square getBoardSquare(int x, int y) {
@@ -190,6 +190,7 @@ public class Chessboard implements ActionListener {
         board[x][y].setSquarePiece(figure);
         PieceList.addListPiece(figure, figure.getPieceColor());
     }
+
     private void addKing(King figure) {
         int x = figure.getxPieceCoordinate();
         int y = figure.getyPieceCoordinate();
@@ -197,12 +198,11 @@ public class Chessboard implements ActionListener {
         board[x][y].setSquarePiece(figure);
 
         PieceList.addPiece(figure);
-        if (figure.getPieceColor() == Color.white){
+        if (figure.getPieceColor() == Color.white) {
             if (PieceList.whiteKing != null)
                 System.err.println("White king already existed! King in list overwritten.");
             PieceList.whiteKing = figure;
-        }
-        else if (figure.getPieceColor() == Color.black){
+        } else if (figure.getPieceColor() == Color.black) {
             if (PieceList.blackKing != null)
                 System.err.println("Black king already existed! King in list overwritten.");
             PieceList.blackKing = figure;
@@ -258,7 +258,7 @@ public class Chessboard implements ActionListener {
 
         ImageIcon figure = new ImageIcon("piecesIcons/whiterook.png");
         Image image = figure.getImage();
-        Image newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        Image newimg = image.getScaledInstance(100, 120, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton rookButton = new JButton(figure);
         chooseWhiteRook = rookButton;
@@ -268,7 +268,7 @@ public class Chessboard implements ActionListener {
 
         figure = new ImageIcon("piecesIcons/whiteknight.png");
         image = figure.getImage();
-        newimg = image.getScaledInstance(110, 120,  java.awt.Image.SCALE_SMOOTH);
+        newimg = image.getScaledInstance(110, 120, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton knightButton = new JButton(figure);
         chooseWhiteKnight = knightButton;
@@ -278,7 +278,7 @@ public class Chessboard implements ActionListener {
 
         figure = new ImageIcon("piecesIcons/whitebishop.png");
         image = figure.getImage();
-        newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        newimg = image.getScaledInstance(100, 120, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton bishopButton = new JButton(figure);
         chooseWhiteBishop = bishopButton;
@@ -288,7 +288,7 @@ public class Chessboard implements ActionListener {
 
         figure = new ImageIcon("piecesIcons/whitequeen.png");
         image = figure.getImage();
-        newimg = image.getScaledInstance(120, 110,  java.awt.Image.SCALE_SMOOTH);
+        newimg = image.getScaledInstance(120, 110, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton queenButton = new JButton(figure);
         chooseWhiteQueen = queenButton;
@@ -307,7 +307,7 @@ public class Chessboard implements ActionListener {
 
         ImageIcon figure = new ImageIcon("piecesIcons/blackrook.png");
         Image image = figure.getImage();
-        Image newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        Image newimg = image.getScaledInstance(100, 120, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton rookButton = new JButton(figure);
         chooseBlackRook = rookButton;
@@ -317,7 +317,7 @@ public class Chessboard implements ActionListener {
 
         figure = new ImageIcon("piecesIcons/blackknight.png");
         image = figure.getImage();
-        newimg = image.getScaledInstance(110, 120,  java.awt.Image.SCALE_SMOOTH);
+        newimg = image.getScaledInstance(110, 120, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton knightButton = new JButton(figure);
         chooseBlackKnight = knightButton;
@@ -327,7 +327,7 @@ public class Chessboard implements ActionListener {
 
         figure = new ImageIcon("piecesIcons/blackbishop.png");
         image = figure.getImage();
-        newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        newimg = image.getScaledInstance(100, 120, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton bishopButton = new JButton(figure);
         chooseBlackBishop = bishopButton;
@@ -337,7 +337,7 @@ public class Chessboard implements ActionListener {
 
         figure = new ImageIcon("piecesIcons/blackqueen.png");
         image = figure.getImage();
-        newimg = image.getScaledInstance(120, 110,  java.awt.Image.SCALE_SMOOTH);
+        newimg = image.getScaledInstance(120, 110, java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton queenButton = new JButton(figure);
         chooseBlackQueen = queenButton;
@@ -349,9 +349,49 @@ public class Chessboard implements ActionListener {
         blackPromotionPanel.setEnabled(false);
     }
 
+    public void actionPerformed(ActionEvent e) {
+        Object button = e.getSource();
+        try {
+            if (button == chooseWhiteRook) {
+                promotion(new Rook(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiterook.png")));
+            } else if (button == chooseWhiteKnight) {
+                promotion(new Knight(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiteknight.png")));
+            } else if (button == chooseWhiteBishop) {
+                promotion(new Bishop(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitebishop.png")));
+            } else if (button == chooseWhiteQueen) {
+                promotion(new Queen(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitequeen.png")));
+            }
+            if (button == chooseBlackRook) {
+                promotion(new Rook(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackrook.png")));
+            } else if (button == chooseBlackKnight) {
+                promotion(new Knight(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackknight.png")));
+            } else if (button == chooseBlackBishop) {
+                promotion(new Bishop(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackbishop.png")));
+            } else if (button == chooseBlackQueen) {
+                promotion(new Queen(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackqueen.png")));
+            }
+            whitePromotionPanel.setVisible(false);
+            whitePromotionPanel.setEnabled(false);
+            blackPromotionPanel.setVisible(false);
+            blackPromotionPanel.setEnabled(false);
+
+        } catch (IllegalArgumentException sourceError) {
+            System.err.println("ActionEvent fail");
+        }
+    }
+
     public static class EnPassant {
         private static Pawn enPassantPawn;
         private static Square enPassantSquare;
+        private static Square enPassantPawnSquare;
+
+        public static Square getEnPassantPawnSquare() {
+            return enPassantPawnSquare;
+        }
+
+        public static void setEnPassantPawnSquare(Square enPassantPawnSquare) {
+            EnPassant.enPassantPawnSquare = enPassantPawnSquare;
+        }
 
         public static Pawn getEnPassantPawn() {
             return enPassantPawn;
@@ -374,23 +414,29 @@ public class Chessboard implements ActionListener {
             int selectedSquareX = selectedSquare.getXSquareCoordinate();
             int selectedSquareY = selectedSquare.getYSquareCoordinate();
             int destinationSquareY = destinationSquare.getYSquareCoordinate();
+            int destinationSquareX = destinationSquare.getXSquareCoordinate();
 
             if (selectedSquarePiece.isAbleToMove(destinationSquare) &&
                     selectedSquarePiece instanceof Pawn) {
                 if (Chessboard.EnPassant.isEmpty() &&
                         ((destinationSquareY - selectedSquareY) == 2)) {
                     Chessboard.EnPassant.setEnPassantPawn((Pawn) selectedSquarePiece);
-                    Chessboard.EnPassant.setEnPassantSquare(Chessboard.board[selectedSquareX][selectedSquareY - 1]);
+                    Chessboard.EnPassant.setEnPassantSquare(Chessboard.board[selectedSquareX][destinationSquareY - 1]);
+                    Chessboard.EnPassant.setEnPassantPawnSquare(Chessboard.board[selectedSquareX][destinationSquareY]);
                     //here we get previous Square to check if the next move will be EnPassant
 
                 } else if (Chessboard.EnPassant.isEmpty() &&
                         ((destinationSquareY - selectedSquareY) == -2)) {
                     Chessboard.EnPassant.setEnPassantPawn((Pawn) selectedSquarePiece);
-                    Chessboard.EnPassant.setEnPassantSquare(Chessboard.board[selectedSquareX][selectedSquareY + 1]);
+                    Chessboard.EnPassant.setEnPassantSquare(Chessboard.board[selectedSquareX][destinationSquareY + 1]);
+                    Chessboard.EnPassant.setEnPassantPawnSquare(Chessboard.board[selectedSquareX][destinationSquareY]);
                     //here we get previous Square to check if the next move will be EnPassant
 
-                } else
-                    if (destinationSquareY == EnPassant.getEnPassantSquare().getYSquareCoordinate()) { return true; }
+                } else if (EnPassant.getEnPassantSquare() != null &&
+                        destinationSquareY == EnPassant.getEnPassantSquare().getYSquareCoordinate() &&
+                        destinationSquareX == EnPassant.getEnPassantSquare().getXSquareCoordinate()) {
+                    return true;
+                }
             }
             return false;
         }
@@ -398,41 +444,11 @@ public class Chessboard implements ActionListener {
         public static void makeNull() {
             enPassantPawn = null;
             enPassantSquare = null;
+            enPassantPawnSquare = null;
         }
 
         public static boolean isEmpty() {
-            return enPassantPawn == null && enPassantSquare == null;
-        }
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        Object button = e.getSource();
-        try {
-            if (button == chooseWhiteRook ){
-                    promotion(new Rook(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiterook.png")));
-            } else if (button == chooseWhiteKnight ){
-                    promotion(new Knight(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiteknight.png")));
-            } else if (button == chooseWhiteBishop ){
-                    promotion(new Bishop(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitebishop.png")));
-            } else if (button == chooseWhiteQueen ) {
-                    promotion(new Queen(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitequeen.png")));
-            }
-            if (button == chooseBlackRook){
-                    promotion(new Rook(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackrook.png")));
-            } else if (button == chooseBlackKnight){
-                    promotion(new Knight(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackknight.png")));
-            } else if (button == chooseBlackBishop){
-                    promotion(new Bishop(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackbishop.png")));
-            } else if (button == chooseBlackQueen) {
-                    promotion(new Queen(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackqueen.png")));
-            }
-                whitePromotionPanel.setVisible(false);
-                whitePromotionPanel.setEnabled(false);
-                blackPromotionPanel.setVisible(false);
-                blackPromotionPanel.setEnabled(false);
-
-        } catch (IllegalArgumentException sourceError) {
-            System.err.println("ActionEvent fail");
+            return enPassantPawn == null && enPassantSquare == null && enPassantPawnSquare == null;
         }
     }
 

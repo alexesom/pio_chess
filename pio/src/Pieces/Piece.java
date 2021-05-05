@@ -43,7 +43,7 @@ public class Piece {
         this.yPieceCoordinate = yPieceCoordinate;
     }
 
-    public void setPieceCoordinates(int x, int y){
+    public void setPieceCoordinates(int x, int y) {
         xPieceCoordinate = x;
         yPieceCoordinate = y;
     }
@@ -178,9 +178,11 @@ public class Piece {
 
         return false;
     }
+
     public void move() {
 
     }
+
     public boolean isAbleToCastle() {
 
         return false;

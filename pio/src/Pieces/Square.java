@@ -5,15 +5,15 @@ import java.awt.*;
 
 public class Square {
     public JPanel squarePanel = new JPanel();
+    public boolean enPassantSquareFlag;
     private int xSquareCoordinate;
     private int ySquareCoordinate;
     private Color squareColor;
     private Piece squarePiece;
-    public boolean enPassantSquareFlag;
 
     public Square(int x, int y, int width, int height) {
-        squarePanel.setSize(width/8, height/8);
-        squarePanel.setLocation(  x * width/8, height - height/8 * (y+1));
+        squarePanel.setSize(width / 8, height / 8);
+        squarePanel.setLocation(x * width / 8, height - height / 8 * (y + 1));
         xSquareCoordinate = x;
         ySquareCoordinate = y;
         enPassantSquareFlag = false;
@@ -48,7 +48,9 @@ public class Square {
         return squareColor;
     }
 
-    public void setSquareColor(Color color) {squareColor = color;}
+    public void setSquareColor(Color color) {
+        squareColor = color;
+    }
     //endregion
 
     //region Square Piece property
