@@ -82,6 +82,11 @@ public class CheckLogic {
             //figuresChecking = 0;
             return false;
         } else {
+            if (PieceList.getKing(Game.current_turn).isAbleToMove(checkingSquare)) {
+                System.out.println(Game.current_turn);
+                figuresChecking = 0;
+                return true;
+            }
             for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
                 if (piece.isAbleToMove(checkingSquare)) {
                     System.out.println( piece + " " + "Piece can take");
@@ -95,6 +100,10 @@ public class CheckLogic {
     }
 
     private static boolean canKingBeProtected() {
+        if(Game.current_turn == Color.black)
+            currentKing = PieceList.getKing(Color.white);
+        else
+            currentKing = PieceList.getKing(Color.BLACK);
         System.out.println(figuresChecking);
         if(figuresChecking > 1) {
             System.out.println(figuresChecking);
@@ -102,7 +111,7 @@ public class CheckLogic {
         } else if(figuresChecking == 0) {
             return true;
         } else {
-            Square kingSquare = Chessboard.getBoardSquare(currentKing.getxPieceCoordinate(), currentKing.getyPieceCoordinate() + 7);
+            Square kingSquare = Chessboard.getBoardSquare(currentKing.getxPieceCoordinate(), currentKing.getyPieceCoordinate());
             System.out.println(Game.current_turn);
             System.out.println(kingSquare.getYSquareCoordinate());
             Piece checkingPiece = checkingSquare.getSquarePiece();
