@@ -32,9 +32,24 @@ public class PieceList {
         }
     }
 
+    public static void addListPiece(Piece piece, Color pieceColor) {
+        if (pieceColor == Color.white) {
+            whitePieces.add(piece);
+        } else if (pieceColor == Color.black) {
+            blackPieces.add(piece);
+        } else System.err.print("Trying to add non black/white piece to List!");
+    }
 
     public static List<Piece> getBlackPieces() {
         return blackPieces;
+    }
+
+    public static void removeListPiece(Piece piece, Color pieceColor) {
+        if (pieceColor == Color.white) {
+            whitePieces.remove(piece);
+        } else if (pieceColor == Color.black) {
+            blackPieces.remove(piece);
+        } else System.err.print("Trying to remove non black/white piece to List!");
     }
 
     public static List<Piece> getWhitePieces() {
