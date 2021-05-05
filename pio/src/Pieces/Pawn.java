@@ -1,11 +1,12 @@
 package Pieces;
 
+import ChessInterface.Chessboard;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Pawn extends Piece implements PieceInterface {
-    public boolean enPassantFlag = false;
-    private boolean promoted = false;
+    public boolean promoted = false;
     JLabel whitePawn = new JLabel(new StretchIcon("piecesIcons/whitepawn.png"));
     JLabel blackPawn = new JLabel(new StretchIcon("piecesIcons/blackpawn.png"));
 
@@ -34,6 +35,20 @@ public class Pawn extends Piece implements PieceInterface {
         if (pieceColor == Color.WHITE) {
 
             if (ySquare == yPawn + 1 &&
+                    xSquare == xPawn - 1 &&
+                    xPawn - 1 >= 0 &&
+                    square.enPassantSquareFlag) {
+                return true;
+            } //beat EnPassant
+
+            if (ySquare == yPawn + 1 &&
+                    xSquare == xPawn + 1 &&
+                    xPawn + 1 <= 7 &&
+                    square.enPassantSquareFlag) {
+                return true;
+            } //beat EnPassant
+
+            if (ySquare == yPawn + 1 &&
                     xSquare == xPawn + 1 &&
                     xPawn + 1 <= 7 &&
                     square.getSquarePiece() != null &&
@@ -50,12 +65,10 @@ public class Pawn extends Piece implements PieceInterface {
             } //beat condition for left beat for WHITE
 
             if (!promoted && ySquare == yPawn + 1 && xSquare == xPawn) {
-                promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 1 square
 
             if (!promoted && ySquare == yPawn + 2 && xSquare == xPawn) {
-                promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 2 square
 
@@ -68,6 +81,20 @@ public class Pawn extends Piece implements PieceInterface {
             } //for promoted move not by 1 square
 
         } else {
+
+            if (ySquare == yPawn - 1 &&
+                    xSquare == xPawn + 1 &&
+                    xPawn + 1 <= 7 &&
+                    square.enPassantSquareFlag) {
+                return true;
+            } //beat EnPassant
+
+            if (ySquare == yPawn - 1 &&
+                    xSquare == xPawn - 1 &&
+                    xPawn - 1 >= 0 &&
+                    square.enPassantSquareFlag) {
+                return true;
+            } //beat EnPassant
 
             if (ySquare == yPawn - 1 &&
                     xSquare == xPawn + 1 &&
@@ -86,12 +113,10 @@ public class Pawn extends Piece implements PieceInterface {
             } //beat condition for left beat for WHITE
 
             if (!promoted && ySquare == yPawn - 1 && xSquare == xPawn) {
-                promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 1 square
 
             if (!promoted && ySquare == yPawn - 2 && xSquare == xPawn) {
-                promoted = true;
                 return isAnyPieceBetween(square, PieceMotion.vertical);
             } //for not promoted move by 2 square
 

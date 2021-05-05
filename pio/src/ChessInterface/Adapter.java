@@ -52,6 +52,34 @@ public class Adapter extends MouseAdapter {
                 // move both Piece and the Panel if the move is legal
                 try {
                     Chessboard.tryMove(selectedSquare, destinationSquare);
+                    if(Chessboard.EnPassant.getEnPassantSquare() != null || Chessboard.EnPassant.getEnPassantPawn() != null) {
+                        if(Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare)) {
+                            if(selectedSquare.getSquarePiece().getPieceColor() == Color.WHITE) {
+                                JPanel enPassantPanel = Chessboard.EnPassant.getEnPassantPawn().panel;
+                                myLayeredPane.remove(enPassantPanel);
+                                if (enPassantPanel.getBackground() == Color.WHITE) {
+                                    capturedWhiteFigures++;
+                                    if (capturedWhiteFigures <= 8)
+                                        enPassantPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
+                                    else
+                                        enPassantPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
+                                    capturedWhite.add(enPassantPanel);
+                                } else {
+                                    capturedBlackFigures++;
+                                    if (capturedBlackFigures <= 8)
+                                        enPassantPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
+                                    else
+                                        enPassantPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
+                                    capturedBlack.add(enPassantPanel);
+                                }
+                                Chessboard.EnPassant.makeNull();
+                            } else {
+                                myLayeredPane.remove(Chessboard.EnPassant.getEnPassantPawn().panel);
+                                Chessboard.EnPassant.makeNull();
+                            }
+                        }
+                    }
+                    Chessboard.moveAndGoNextTurn(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
                 } catch (Exception ez) {
                     exceptionHandler(selectedSquare, destinationSquare);
@@ -114,6 +142,7 @@ public class Adapter extends MouseAdapter {
                     Game.nextTurn();
                 } else try {
                     Chessboard.tryMove(selectedSquare, destinationSquare);
+                    Chessboard.moveAndGoNextTurn(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
 
                     if (!castling) {
@@ -158,6 +187,7 @@ public class Adapter extends MouseAdapter {
         }
     }
 
+
     @Override
     public void mouseReleased(MouseEvent e) {
         if (!e.getPoint().equals(clickPoint)) {
@@ -182,6 +212,12 @@ public class Adapter extends MouseAdapter {
         int sqx = (x - 10) / 70;
         int sqy = (500 - y) / 70;
         return Chessboard.board[sqx][sqy];
+    }
+
+    private JPanel getPanelAtCoordinates(int x, int y) {
+        int sqx = (x*70)+10;
+        int sqy = 500-(y*70);
+        return ((JPanel) myLayeredPane.getComponentAt(new Point(sqx, sqy)));
     }
 
     private void longCastling(JPanel kingPanel, JPanel rookPanel) {

@@ -1,5 +1,5 @@
 package Pieces;
 
-enum PieceMotion {
+public enum PieceMotion {
     diagonal, horizontal, vertical
 }
