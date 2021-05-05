@@ -50,6 +50,10 @@ public class Chessboard implements ActionListener {
             destinationPiece = destinationSquare.getSquarePiece();
 
         }
+        if(movingPiece.getPieceColor() != destinationPiece.getPieceColor()) {
+            return false;
+        }
+
         if((movingPiece.isAbleToCastle() && destinationPiece.isAbleToCastle()))
         {
             Square kingSquare = new Square(4, originSquare.getYSquareCoordinate());
