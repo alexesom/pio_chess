@@ -49,10 +49,10 @@ public class CheckLogic {
         if(canAttackerBeTaken()) {
             return false;
         }
-        if (canKingBeProtected()) {
+        if (canKingMove()) {
             return false;
         }
-         else return !canKingMove();
+         else return !canKingBeProtected();
     }
 
     private static boolean canKingMove() {
@@ -64,8 +64,12 @@ public class CheckLogic {
                 if (x >= 0 && y >= 0 && x < 8 &&  y < 8) {
                    if(checkedKing.isAbleToMove(Chessboard.board[x][y]) &&
                            !isChecked(Chessboard.board[x][y], kingColor)) {
+                       figuresChecking = 0;
                        System.out.println("can move to" + Chessboard.board[x][y]);
                        return true;
+                   }
+                   else {
+                       figuresChecking = 0;
                    }
                 }
             }
@@ -79,7 +83,7 @@ public class CheckLogic {
 
 
         else if (figuresChecking > 1) {
-            //figuresChecking = 0;
+            figuresChecking = 0;
             return false;
         } else {
             if (PieceList.getKing(Game.current_turn).isAbleToMove(checkingSquare)) {
@@ -100,10 +104,11 @@ public class CheckLogic {
     }
 
     private static boolean canKingBeProtected() {
+        King tmpKing;
         if(Game.current_turn == Color.black)
-            currentKing = PieceList.getKing(Color.white);
+            tmpKing = PieceList.getKing(Color.white);
         else
-            currentKing = PieceList.getKing(Color.BLACK);
+            tmpKing = PieceList.getKing(Color.BLACK);
         System.out.println(figuresChecking);
         if(figuresChecking > 1) {
             System.out.println(figuresChecking);
@@ -111,7 +116,7 @@ public class CheckLogic {
         } else if(figuresChecking == 0) {
             return true;
         } else {
-            Square kingSquare = Chessboard.getBoardSquare(currentKing.getxPieceCoordinate(), currentKing.getyPieceCoordinate());
+            Square kingSquare = Chessboard.getBoardSquare(tmpKing.getxPieceCoordinate(), tmpKing.getyPieceCoordinate());
             System.out.println(Game.current_turn);
             System.out.println(kingSquare.getYSquareCoordinate());
             Piece checkingPiece = checkingSquare.getSquarePiece();
