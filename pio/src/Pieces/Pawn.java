@@ -1,7 +1,5 @@
 package Pieces;
 
-import ChessInterface.Chessboard;
-
 import javax.swing.*;
 import java.awt.*;
 
