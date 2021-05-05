@@ -22,17 +22,23 @@ public class Adapter extends MouseAdapter {
     private Point clickPoint;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
+    private JPanel promotionPanel;
+    public Square promotionSquare;
+    private boolean enable = true;
 
-
-    public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel) {
+    public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel, JPanel promotionPanel) {
         myLayeredPane = layer;
         this.capturedBlack = capturedBlack;
         this.capturedWhite = capturedWhite;
         this.backlightPanel = backlightPanel;
+        this.promotionPanel = promotionPanel;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (!enable)
+            return;
+
         Square selectedSquare;
         Square destinationSquare;
 
@@ -81,6 +87,7 @@ public class Adapter extends MouseAdapter {
                     }
                     Chessboard.moveAndGoNextTurn(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
+                    checkPromotion(destinationSquare);
                 } catch (Exception ez) {
                     exceptionHandler(selectedSquare, destinationSquare, ez);
                 }
@@ -144,6 +151,7 @@ public class Adapter extends MouseAdapter {
                     Chessboard.tryMove(selectedSquare, destinationSquare);
                     Chessboard.moveAndGoNextTurn(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
+                    checkPromotion(destinationSquare);
 
                     if (!castling) {
                         clickedPanel.setLocation(disappearPanel.getX(), disappearPanel.getY());
@@ -186,6 +194,7 @@ public class Adapter extends MouseAdapter {
             }
         }
     }
+    // bez pozytywnego myślenia program nie zadziała
 
 
     @Override
@@ -218,6 +227,43 @@ public class Adapter extends MouseAdapter {
         int sqx = (x*70)+10;
         int sqy = 500-(y*70);
         return ((JPanel) myLayeredPane.getComponentAt(new Point(sqx, sqy)));
+    }
+
+    private void checkPromotion(Square destinationSquare){
+        /* check whether the promotion conditions are met */
+        int x = destinationSquare.getXSquareCoordinate();
+        int y = destinationSquare.getYSquareCoordinate();
+        if(Chessboard.board[x][y].getSquarePiece() instanceof Pieces.Pawn && (y == 7 || y == 0)){
+            enable = false;
+            promotionSquare = destinationSquare;
+            promotionPanel.setVisible(true);
+            clickedPanel.setVisible(false);
+            myLayeredPane.remove(clickedPanel);
+        }
+    }
+
+    public void promote(Piece promotionPiece, JLabel newLabel) {
+        Piece removedPiece = promotionSquare.getSquarePiece();
+        Color pieceColor;
+        if(Game.current_turn == Color.white)
+            pieceColor = Color.black;
+        else
+            pieceColor = Color.white;
+        PieceList.removeListPiece(removedPiece, pieceColor);
+        promotionSquare.setSquarePiece(promotionPiece);
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        newLabel.setPreferredSize(new Dimension(panel.getWidth() - 5, panel.getHeight() - 5));
+        panel.add(newLabel);
+        myLayeredPane.add(panel);
+        PieceList.addListPiece(removedPiece, pieceColor);
+
+        CheckLogic.checkLoop();
+        CheckLogic.highlightCheck();
+        if (CheckLogic.gameEnded) {
+            //endGame();
+        }
+        enable = true;
     }
 
     private void longCastling(JPanel kingPanel, JPanel rookPanel) {
