@@ -9,12 +9,14 @@ public class Square {
     private int ySquareCoordinate;
     private Color squareColor;
     private Piece squarePiece;
+    public boolean enPassantSquareFlag;
 
     public Square(int x, int y, int width, int height) {
         squarePanel.setSize(width/8, height/8);
         squarePanel.setLocation(  x * width/8, height - height/8 * (y+1));
         xSquareCoordinate = x;
         ySquareCoordinate = y;
+        enPassantSquareFlag = false;
     }
 
 

@@ -61,6 +61,9 @@ public class Chessboard {
         if (movingPiece.getPieceColor() != Game.current_turn) {
             throw new Exception("tryMove exception: moving other player's piece");
         }
+
+        EnPassant.enPassantMove(originSquare, destinationSquare);
+
         //check if the move is legal
         if (!movingPiece.isAbleToMove(destinationSquare)) {
             throw new Exception("tryMove exception: illegal move");
@@ -70,10 +73,40 @@ public class Chessboard {
         if ((pieceAtDestination != null) && (pieceAtDestination.getPieceColor() == Game.current_turn)) {
             throw new Exception("tryMove exception: taking own piece");
         }
+    }
 
-
+    public static void moveAndGoNextTurn(Square originSquare, Square destinationSquare) {
+        Piece movingPiece = originSquare.getSquarePiece();
         int newX = destinationSquare.getXSquareCoordinate();
         int newY = destinationSquare.getYSquareCoordinate();
+
+        if(movingPiece instanceof Pawn) {
+            Pawn movingPawn = (Pawn) movingPiece;
+            if(movingPawn.getPieceColor() == Color.WHITE) {
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 2 &&
+                        newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                    getBoardSquare(newX, newY-1).enPassantSquareFlag = true;
+                    Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
+                }
+
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 1 && newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                }
+            } else {
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() - 2 &&
+                        newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                    getBoardSquare(newX, newY+1).enPassantSquareFlag = true;
+                    Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
+                }
+
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() - 1 && newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                }
+            }
+        }
+
         movingPiece.move();
         movingPiece.setxPieceCoordinate(newX);
         movingPiece.setyPieceCoordinate(newY);
@@ -215,10 +248,14 @@ public class Chessboard {
                     Chessboard.EnPassant.setEnPassantSquare(Chessboard.board[selectedSquareX][selectedSquareY - 1]);
                     //here we get previous Square to check if the next move will be EnPassant
 
-                } else if (destinationSquareY == EnPassant.getEnPassantSquare().getYSquareCoordinate()) {
-                    //trzeba usunąć pionek enPassant.getEnPassantPawn z szachownicy
-                    return true;
-                }
+                } else if (Chessboard.EnPassant.isEmpty() &&
+                        ((destinationSquareY - selectedSquareY) == -2)) {
+                    Chessboard.EnPassant.setEnPassantPawn((Pawn) selectedSquarePiece);
+                    Chessboard.EnPassant.setEnPassantSquare(Chessboard.board[selectedSquareX][selectedSquareY + 1]);
+                    //here we get previous Square to check if the next move will be EnPassant
+
+                } else
+                    if (destinationSquareY == EnPassant.getEnPassantSquare().getYSquareCoordinate()) { return true; }
             }
             return false;
         }
