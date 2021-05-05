@@ -25,7 +25,8 @@ public class Game {
         CheckLogic.checkLoop();
         CheckLogic.highlightCheck();
         if (CheckLogic.gameEnded) {
-            //endGame();
+            GamePanels.endGamePanel.setVisible(true);
+            Adapter.enable = false;
         }
     }
 }

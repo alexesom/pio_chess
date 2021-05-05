@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.Font;
 
 public class GameInterface implements ActionListener {
-    private JFrame frame = new JFrame("Chess");
+    public static JFrame frame = new JFrame("Chess");
     private JLabel titleText = new JLabel("CHESS GAME");
     private JButton startButton = new JButton("START");
     public Chessboard chessboard = new Chessboard();
@@ -42,6 +42,7 @@ public class GameInterface implements ActionListener {
         frame.add(chessboard.capturedPiecesPanel2);
         frame.add(gamePanels.boardCoordinatesBottomPanel);
         frame.add(gamePanels.boardCoordinatesRightPanel);
+        frame.add(gamePanels.endGamePanel);
         frame.add(MessagesForUsers.messagePanel);
         frame.add(gamePanels.mainPanel);
     }
@@ -97,6 +98,8 @@ public class GameInterface implements ActionListener {
         name2.setFont(new Font("AvantGarde", Font.BOLD, 23));
         name2.setForeground(new Color(140, 232, 139));
         name2.setText(player2.name);
+
+        gamePanels.endGamePanel(player1.name);
 
         gamePanels.player1Panel.add(name1);
         gamePanels.player2Panel.add(name2);
