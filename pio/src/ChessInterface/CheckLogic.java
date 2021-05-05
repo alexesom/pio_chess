@@ -57,10 +57,10 @@ public class CheckLogic {
 
     private static boolean canKingMove() {
         Color kingColor = Game.current_turn;
+        figuresChecking = 0;
         King checkedKing = PieceList.getKing(kingColor);
         for (int y = checkedKing.getyPieceCoordinate() - 1; y <= checkedKing.getyPieceCoordinate() + 1; y++) {
             for (int x = checkedKing.getxPieceCoordinate() - 1; x <= checkedKing.getxPieceCoordinate() + 1; x++) {
-                figuresChecking = 0;
                 if (x >= 0 && y >= 0 && x < 8 &&  y < 8) {
                    if(checkedKing.isAbleToMove(Chessboard.board[x][y]) &&
                            !isChecked(Chessboard.board[x][y], kingColor)) {
@@ -70,7 +70,7 @@ public class CheckLogic {
                 }
             }
         }
-        return true;
+        return false;
     }
 
     private static boolean canAttackerBeTaken() {
