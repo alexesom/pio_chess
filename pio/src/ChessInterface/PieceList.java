@@ -2,6 +2,7 @@ package ChessInterface;
 
 import Pieces.King;
 import Pieces.Piece;
+import Pieces.Square;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class PieceList {
     public static King blackKing = null;
     static List<Piece> whitePieces = new ArrayList<>();
     static List<Piece> blackPieces = new ArrayList<>();
+    public static List<Square> checkedSquaresPath = new ArrayList<>();
 
     public static void addWhitePiece(Piece piece) {
         whitePieces.add(piece);
@@ -32,9 +34,24 @@ public class PieceList {
         }
     }
 
+    public static void addListPiece(Piece piece, Color pieceColor) {
+        if (pieceColor == Color.white) {
+            whitePieces.add(piece);
+        } else if (pieceColor == Color.black) {
+            blackPieces.add(piece);
+        } else System.err.print("Trying to add non black/white piece to List!");
+    }
 
     public static List<Piece> getBlackPieces() {
         return blackPieces;
+    }
+
+    public static void removeListPiece(Piece piece, Color pieceColor) {
+        if (pieceColor == Color.white) {
+            whitePieces.remove(piece);
+        } else if (pieceColor == Color.black) {
+            blackPieces.remove(piece);
+        } else System.err.print("Trying to remove non black/white piece to List!");
     }
 
     public static List<Piece> getWhitePieces() {

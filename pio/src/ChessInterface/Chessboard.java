@@ -5,16 +5,23 @@ import Pieces.*;
 import java.awt.Color;
 
 import javax.swing.*;
-import java.util.List;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Chessboard {
+public class Chessboard implements ActionListener {
     public JPanel chessboardPanel = new JPanel();
     public JLayeredPane layer = new JLayeredPane();
     public static Square[][] board = new Square[8][8];
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
     public JPanel backlightPanel = new SquareBacklight(new Color(91, 189, 116));
-    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel);
+    public JPanel promotionPanel = new JPanel();
+    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel, promotionPanel);
+    public JButton chooseRook = new JButton();
+    public JButton chooseKnight = new JButton();
+    public JButton chooseBishop = new JButton();
+    public JButton chooseQueen = new JButton();
 
     public Chessboard() {
         backlightPanel.setVisible(false);
@@ -22,6 +29,7 @@ public class Chessboard {
         createCapturedPiecesPanel();
         placeChessboardPieces();
         addMouse();
+        createPromotionPanel();
     }
 
     public static boolean tryCastling(Square originSquare, Square destinationSquare) {
@@ -160,7 +168,12 @@ public class Chessboard {
         }
     }
 
-    private void addFigure(Piece figure) {
+    public void promotion(Piece promotionFigure, JLabel newLabel) {
+        addFigure(promotionFigure);
+        mouseAdapter.promote(promotionFigure, newLabel);
+    }
+
+    public void addFigure(Piece figure) {
         int x = figure.getxPieceCoordinate();
         int y = figure.getyPieceCoordinate();
         layer.add(figure.panel);
@@ -227,6 +240,54 @@ public class Chessboard {
         }
     }
 
+    public void createPromotionPanel() {
+        promotionPanel.setBounds(210, 180, 280, 280);
+        promotionPanel.setLayout(new GridLayout(2, 2));
+        promotionPanel.setOpaque(false);
+
+        ImageIcon figure = new ImageIcon("piecesIcons/whiterook.png");
+        Image image = figure.getImage();
+        Image newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton rookButton = new JButton(figure);
+        chooseRook = rookButton;
+        chooseRook.setOpaque(false);
+        chooseRook.addActionListener(this);
+        promotionPanel.add(chooseRook);
+
+        figure = new ImageIcon("piecesIcons/whiteknight.png");
+        image = figure.getImage();
+        newimg = image.getScaledInstance(110, 120,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton knightButton = new JButton(figure);
+        chooseKnight = knightButton;
+        chooseKnight.setOpaque(false);
+        chooseKnight.addActionListener(this);
+        promotionPanel.add(chooseKnight);
+
+        figure = new ImageIcon("piecesIcons/whitebishop.png");
+        image = figure.getImage();
+        newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton bishopButton = new JButton(figure);
+        chooseBishop = bishopButton;
+        chooseBishop.setOpaque(false);
+        chooseBishop.addActionListener(this);
+        promotionPanel.add(chooseBishop);
+
+        figure = new ImageIcon("piecesIcons/whitequeen.png");
+        image = figure.getImage();
+        newimg = image.getScaledInstance(120, 110,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton queenButton = new JButton(figure);
+        chooseQueen = queenButton;
+        chooseQueen.setOpaque(false);
+        chooseQueen.addActionListener(this);
+        promotionPanel.add(chooseQueen);
+
+        promotionPanel.setVisible(false);
+    }
+
     public static class EnPassant {
         private static Pawn enPassantPawn;
         private static Square enPassantSquare;
@@ -282,4 +343,39 @@ public class Chessboard {
             return enPassantPawn == null && enPassantSquare == null;
         }
     }
+
+    public void actionPerformed(ActionEvent e) {
+        Object button = e.getSource();
+        try {
+            if (button == chooseRook){
+                if(Game.current_turn == Color.black)
+                    promotion(new Rook(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiterook.png")));
+                else
+                    promotion(new Rook(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackrook.png")));
+                promotionPanel.setVisible(false);
+            } else if (button == chooseKnight){
+                if(Game.current_turn == Color.black)
+                    promotion(new Knight(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiteknight.png")));
+                else
+                    promotion(new Knight(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackknight.png")));
+                promotionPanel.setVisible(false);
+            } else if (button == chooseBishop){
+                if(Game.current_turn == Color.black)
+                    promotion(new Bishop(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitebishop.png")));
+                else
+                    promotion(new Bishop(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackbishop.png")));
+                promotionPanel.setVisible(false);
+            } else if (button == chooseQueen){
+                if(Game.current_turn == Color.black)
+                    promotion(new Queen(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitequeen.png")));
+                else
+                    promotion(new Queen(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackqueen.png")));
+                promotionPanel.setVisible(false);
+            }
+
+        } catch (IllegalArgumentException sourceError) {
+            System.err.println("ActionEvent fail");
+        }
+    }
+
 }
