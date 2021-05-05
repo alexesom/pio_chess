@@ -15,13 +15,13 @@ public class Adapter extends MouseAdapter {
     private final JLayeredPane capturedWhite;
     private final JLayeredPane capturedBlack;
     public JPanel backlightPanel;
+    boolean squareWasEmpty = false;
+    boolean castling = false;
     private JPanel clickedPanel;
     private JPanel disappearPanel;
     private Point clickPoint;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
-    boolean squareWasEmpty = false;
-    boolean castling = false;
 
 
     public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel) {
@@ -82,7 +82,7 @@ public class Adapter extends MouseAdapter {
                     Chessboard.moveAndGoNextTurn(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
                 } catch (Exception ez) {
-                    exceptionHandler(selectedSquare, destinationSquare);
+                    exceptionHandler(selectedSquare, destinationSquare, ez);
                 }
             }
 
@@ -99,7 +99,7 @@ public class Adapter extends MouseAdapter {
                     JPanel rookPanel;
                     Piece movingPiece;
                     Piece destinationPiece;
-                    if (disappearPanel.getX()/70 == 4) {
+                    if (disappearPanel.getX() / 70 == 4) {
                         kingPanel = disappearPanel;
                         rookPanel = clickedPanel;
                         movingPiece = destinationSquare.getSquarePiece();
@@ -118,8 +118,8 @@ public class Adapter extends MouseAdapter {
                         finalKing = getSquareAtCoordinates(2 * 70 + 10, clickedPanel.getY());
                         finalRook = getSquareAtCoordinates(3 * 70 + 10, clickedPanel.getY());
                         movingPiece.setxPieceCoordinate(2);
-                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
-                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
+                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
                         destinationPiece.setxPieceCoordinate(3);
 
 
@@ -128,8 +128,8 @@ public class Adapter extends MouseAdapter {
                         finalKing = getSquareAtCoordinates(6 * 70 + 10, clickedPanel.getY());
                         finalRook = getSquareAtCoordinates(5 * 70 + 10, clickedPanel.getY());
                         movingPiece.setxPieceCoordinate(6);
-                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
-                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY())/70);
+                        movingPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
+                        destinationPiece.setyPieceCoordinate((500 - clickedPanel.getY()) / 70);
                         destinationPiece.setxPieceCoordinate(5);
                     }
 
@@ -169,7 +169,7 @@ public class Adapter extends MouseAdapter {
                         }
                     }
                 } catch (Exception ez) {
-                    exceptionHandler(selectedSquare, destinationSquare);
+                    exceptionHandler(selectedSquare, destinationSquare, ez);
                 }
             }
             castling = false;
@@ -230,18 +230,18 @@ public class Adapter extends MouseAdapter {
         rookPanel.setLocation(5 * 70 + 10, rookPanel.getY());
     }
 
-    private void exceptionHandler(Square originSquare, Square destinationSquare) {
+    private void exceptionHandler(Square originSquare, Square destinationSquare, Exception exceptionMessage) {
         Piece movingPiece = originSquare.getSquarePiece();
         Piece pieceAtDestination = destinationSquare.getSquarePiece();
         Color chosenPieceColor = movingPiece.getPieceColor();
 
-        if(Game.current_turn != chosenPieceColor) {
+        if (Game.current_turn != chosenPieceColor) {
             MessagesForUsers.createMessage2(); // trying to move another players piece
-        } else if(pieceAtDestination != null && pieceAtDestination.getPieceColor() == Game.current_turn) {
+        } else if (pieceAtDestination != null && pieceAtDestination.getPieceColor() == Game.current_turn) {
             MessagesForUsers.createMessage3(); // trying to take own piece
-        } else if(!movingPiece.isAbleToMove(destinationSquare)) {
+        } else if (!movingPiece.isAbleToMove(destinationSquare)) {
             MessagesForUsers.createMessage4(); // illegal move
-        }
+        } else System.err.println("exceptionHandler unhandled: " + exceptionMessage);
     }
 }
 

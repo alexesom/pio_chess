@@ -61,9 +61,6 @@ public class Chessboard {
         if (movingPiece.getPieceColor() != Game.current_turn) {
             throw new Exception("tryMove exception: moving other player's piece");
         }
-
-        EnPassant.enPassantMove(originSquare, destinationSquare);
-
         //check if the move is legal
         if (!movingPiece.isAbleToMove(destinationSquare)) {
             throw new Exception("tryMove exception: illegal move");
@@ -75,10 +72,15 @@ public class Chessboard {
         }
     }
 
+        int oldX = originSquare.getXSquareCoordinate();
+        int oldY = originSquare.getYSquareCoordinate();
+        Piece oldPiece = destinationSquare.getSquarePiece();
     public static void moveAndGoNextTurn(Square originSquare, Square destinationSquare) {
         Piece movingPiece = originSquare.getSquarePiece();
         int newX = destinationSquare.getXSquareCoordinate();
         int newY = destinationSquare.getYSquareCoordinate();
+
+        movingPiece.setPieceCoordinates(newX, newY);
 
         if(movingPiece instanceof Pawn) {
             Pawn movingPawn = (Pawn) movingPiece;
@@ -112,8 +114,19 @@ public class Chessboard {
         movingPiece.setyPieceCoordinate(newY);
         destinationSquare.setSquarePiece(movingPiece);
         originSquare.setSquarePiece(null);
-        Game.nextTurn();
-        //pass the turn to the next player
+        PieceList.removePiece(oldPiece);
+        if (CheckLogic.isChecked()){
+            movingPiece.setPieceCoordinates(oldX, oldY);
+            originSquare.setSquarePiece(movingPiece);
+            destinationSquare.setSquarePiece(oldPiece);
+            PieceList.addPiece(oldPiece);
+            throw new Exception("tryMove exception: own king checked after move");
+        } else {
+            movingPiece.move();
+            Game.nextTurn();
+        }
+
+
     }
 
     public static Square getBoardSquare(int x, int y) {

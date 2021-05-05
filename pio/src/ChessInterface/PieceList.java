@@ -21,12 +21,15 @@ public class PieceList {
         blackPieces.add(piece);
     }
 
-    public static void addListPiece(Piece piece, Color pieceColor) {
-        if (pieceColor == Color.white) {
-            whitePieces.add(piece);
-        } else if (pieceColor == Color.black) {
-            blackPieces.add(piece);
-        } else System.err.print("Trying to add non black/white piece to List!");
+    public static void addPiece(Piece piece) {
+        if (piece != null) {
+            Color pieceColor = piece.getPieceColor();
+            if (pieceColor == Color.white) {
+                whitePieces.add(piece);
+            } else if (pieceColor == Color.black) {
+                blackPieces.add(piece);
+            } else System.err.print("Trying to add non black/white piece to List!");
+        }
     }
 
 
@@ -42,8 +45,7 @@ public class PieceList {
         assert (color == Color.WHITE || color == Color.BLACK);
         if (color == Color.BLACK) {
             return whitePieces;
-        }
-        else {
+        } else {
             return blackPieces;
         }
     }
@@ -52,8 +54,7 @@ public class PieceList {
         assert (color == Color.WHITE || color == Color.BLACK);
         if (color == Color.WHITE) {
             return whitePieces;
-        }
-        else {
+        } else {
             return blackPieces;
         }
     }
@@ -65,5 +66,25 @@ public class PieceList {
         }
         return blackKing;
     }
+
+    public static void removeWhitePiece(Piece piece) {
+        assert piece.getPieceColor() == Color.WHITE;
+        whitePieces.remove(piece);
+    }
+
+    public static void removeBlackPiece(Piece piece) {
+        assert piece.getPieceColor() == Color.BLACK;
+        blackPieces.remove(piece);
+    }
+
+    public static void removePiece(Piece piece) {
+        if (piece != null) {
+            Color pieceColor = piece.getPieceColor();
+            if (pieceColor == Color.BLACK) {
+                blackPieces.remove(piece);
+            } else whitePieces.remove(piece);
+        }
+    }
+
 }
 
