@@ -1,6 +1,7 @@
 package Pieces;
 
 import ChessInterface.Chessboard;
+import ChessInterface.PieceList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +56,8 @@ public class Piece {
 
     public boolean isAnyPieceBetween(Square destinationSquare, PieceMotion motion) {
         try {
+            //PieceList.checkedSquaresPath.clear();
+
             int xSquare = getxPieceCoordinate();
             int xDestinationSquare = destinationSquare.getXSquareCoordinate();
             int ySquare = getyPieceCoordinate();
@@ -69,16 +72,20 @@ public class Piece {
                         if (ySquare < yDestinationSquare) {
                             yCounter = ySquare + 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
-                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
                                     return false;
+                                }
+                                PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter++;
                                 yCounter++;
                             }
                         } else {
                             yCounter = ySquare - 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
-                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
                                     return false;
+                                }
+                                PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter++;
                                 yCounter--;
                             }
@@ -88,16 +95,20 @@ public class Piece {
                         if (ySquare < yDestinationSquare) {
                             yCounter = ySquare + 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
-                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
                                     return false;
+                                }
+                                PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter--;
                                 yCounter++;
                             }
                         } else {
                             yCounter = ySquare - 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
-                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null)
+                                if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
                                     return false;
+                                }
+                                PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter--;
                                 yCounter--;
                             }
@@ -108,13 +119,17 @@ public class Piece {
                 case horizontal -> {
                     if (xSquare < xDestinationSquare) {
                         for (int i = xSquare + 1; i < xDestinationSquare; i++) {
-                            if (Chessboard.board[i][ySquare].getSquarePiece() != null)
+                            if (Chessboard.board[i][ySquare].getSquarePiece() != null) {
                                 return false;
+                            }
+                            PieceList.checkedSquaresPath.add(Chessboard.board[i][ySquare]);
                         }
                     } else {
                         for (int i = xDestinationSquare + 1; i < xSquare; i++) {
-                            if (Chessboard.board[i][ySquare].getSquarePiece() != null)
+                            if (Chessboard.board[i][ySquare].getSquarePiece() != null) {
                                 return false;
+                            }
+                            PieceList.checkedSquaresPath.add(Chessboard.board[i][ySquare]);
                         }
                     }
                     return true;
@@ -129,13 +144,17 @@ public class Piece {
                     }
                     if (ySquare < yDestinationSquare) {
                         for (int i = ySquare + 1; i < yDestinationSquare; i++) {
-                            if (Chessboard.board[xSquare][i].getSquarePiece() != null)
+                            if (Chessboard.board[xSquare][i].getSquarePiece() != null) {
                                 return false;
+                            }
+                            PieceList.checkedSquaresPath.add(Chessboard.board[xSquare][i]);
                         }
                     } else {
                         for (int i = yDestinationSquare + 1; i < ySquare; i++) {
-                            if (Chessboard.board[xSquare][i].getSquarePiece() != null)
+                            if (Chessboard.board[xSquare][i].getSquarePiece() != null) {
                                 return false;
+                            }
+                            PieceList.checkedSquaresPath.add(Chessboard.board[xSquare][i]);
                         }
                     }
                     return true;

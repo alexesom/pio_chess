@@ -2,6 +2,7 @@ package ChessInterface;
 
 import Pieces.King;
 import Pieces.Piece;
+import Pieces.Square;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class PieceList {
     public static King blackKing = null;
     static List<Piece> whitePieces = new ArrayList<>();
     static List<Piece> blackPieces = new ArrayList<>();
+    public static List<Square> checkedSquaresPath = new ArrayList<>();
 
     public static void addWhitePiece(Piece piece) {
         whitePieces.add(piece);
