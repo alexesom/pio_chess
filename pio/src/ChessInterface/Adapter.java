@@ -22,16 +22,18 @@ public class Adapter extends MouseAdapter {
     private Point clickPoint;
     private int capturedWhiteFigures = 0;
     private int capturedBlackFigures = 0;
-    private JPanel promotionPanel;
+    private JPanel whitePromotionPanel;
+    private JPanel blackPromotionPanel;
     public Square promotionSquare;
     private boolean enable = true;
 
-    public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel, JPanel promotionPanel) {
+    public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel, JPanel whitePromotionPanel, JPanel blackPromotionPanel) {
         myLayeredPane = layer;
         this.capturedBlack = capturedBlack;
         this.capturedWhite = capturedWhite;
         this.backlightPanel = backlightPanel;
-        this.promotionPanel = promotionPanel;
+        this.whitePromotionPanel = whitePromotionPanel;
+        this.blackPromotionPanel = blackPromotionPanel;
     }
 
     @Override
@@ -182,7 +184,6 @@ public class Adapter extends MouseAdapter {
             clickedPanel.setLocation(x, y);
         }
     }
-
     /*
     returns the game logic Square at given panel coordinates
     */
@@ -196,10 +197,16 @@ public class Adapter extends MouseAdapter {
         /* check whether the promotion conditions are met */
         int x = destinationSquare.getXSquareCoordinate();
         int y = destinationSquare.getYSquareCoordinate();
-        if(Chessboard.board[x][y].getSquarePiece() instanceof Pieces.Pawn && (y == 7 || y == 0)){
+        if(Chessboard.board[x][y].getSquarePiece() instanceof Pieces.Pawn && (y == 7 || y == 0)) {
             enable = false;
             promotionSquare = destinationSquare;
-            promotionPanel.setVisible(true);
+            if(Game.current_turn == Color.black) {
+                whitePromotionPanel.setVisible(true);
+                whitePromotionPanel.setEnabled(true);
+            } else {
+                blackPromotionPanel.setVisible(true);
+                blackPromotionPanel.setEnabled(true);
+            }
             clickedPanel.setVisible(false);
             myLayeredPane.remove(clickedPanel);
         }

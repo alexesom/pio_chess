@@ -16,12 +16,17 @@ public class Chessboard implements ActionListener {
     public JLayeredPane capturedPiecesPanel1 = new JLayeredPane();
     public JLayeredPane capturedPiecesPanel2 = new JLayeredPane();
     public JPanel backlightPanel = new SquareBacklight(new Color(91, 189, 116));
-    public JPanel promotionPanel = new JPanel();
-    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel, promotionPanel);
-    public JButton chooseRook = new JButton();
-    public JButton chooseKnight = new JButton();
-    public JButton chooseBishop = new JButton();
-    public JButton chooseQueen = new JButton();
+    public JPanel whitePromotionPanel = new JPanel();
+    public JPanel blackPromotionPanel = new JPanel();
+    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel, whitePromotionPanel, blackPromotionPanel);
+    public JButton chooseWhiteRook = new JButton();
+    public JButton chooseWhiteKnight = new JButton();
+    public JButton chooseWhiteBishop = new JButton();
+    public JButton chooseWhiteQueen = new JButton();
+    public JButton chooseBlackRook = new JButton();
+    public JButton chooseBlackKnight = new JButton();
+    public JButton chooseBlackBishop = new JButton();
+    public JButton chooseBlackQueen = new JButton();
 
     public Chessboard() {
         backlightPanel.setVisible(false);
@@ -29,7 +34,8 @@ public class Chessboard implements ActionListener {
         createCapturedPiecesPanel();
         placeChessboardPieces();
         addMouse();
-        createPromotionPanel();
+        createWhitePromotionPanel();
+        createBlackPromotionPanel();
     }
 
     public static boolean tryCastling(Square originSquare, Square destinationSquare) {
@@ -205,52 +211,102 @@ public class Chessboard implements ActionListener {
         }
     }
 
-    public void createPromotionPanel() {
-        promotionPanel.setBounds(210, 180, 280, 280);
-        promotionPanel.setLayout(new GridLayout(2, 2));
-        promotionPanel.setOpaque(false);
+    public void createWhitePromotionPanel() {
+        whitePromotionPanel.setBounds(210, 180, 280, 280);
+        whitePromotionPanel.setLayout(new GridLayout(2, 2));
+        whitePromotionPanel.setOpaque(false);
 
         ImageIcon figure = new ImageIcon("piecesIcons/whiterook.png");
         Image image = figure.getImage();
         Image newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton rookButton = new JButton(figure);
-        chooseRook = rookButton;
-        chooseRook.setOpaque(false);
-        chooseRook.addActionListener(this);
-        promotionPanel.add(chooseRook);
+        chooseWhiteRook = rookButton;
+        chooseWhiteRook.setOpaque(false);
+        chooseWhiteRook.addActionListener(this);
+        whitePromotionPanel.add(chooseWhiteRook);
 
         figure = new ImageIcon("piecesIcons/whiteknight.png");
         image = figure.getImage();
         newimg = image.getScaledInstance(110, 120,  java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton knightButton = new JButton(figure);
-        chooseKnight = knightButton;
-        chooseKnight.setOpaque(false);
-        chooseKnight.addActionListener(this);
-        promotionPanel.add(chooseKnight);
+        chooseWhiteKnight = knightButton;
+        chooseWhiteKnight.setOpaque(false);
+        chooseWhiteKnight.addActionListener(this);
+        whitePromotionPanel.add(chooseWhiteKnight);
 
         figure = new ImageIcon("piecesIcons/whitebishop.png");
         image = figure.getImage();
         newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton bishopButton = new JButton(figure);
-        chooseBishop = bishopButton;
-        chooseBishop.setOpaque(false);
-        chooseBishop.addActionListener(this);
-        promotionPanel.add(chooseBishop);
+        chooseWhiteBishop = bishopButton;
+        chooseWhiteBishop.setOpaque(false);
+        chooseWhiteBishop.addActionListener(this);
+        whitePromotionPanel.add(chooseWhiteBishop);
 
         figure = new ImageIcon("piecesIcons/whitequeen.png");
         image = figure.getImage();
         newimg = image.getScaledInstance(120, 110,  java.awt.Image.SCALE_SMOOTH);
         figure = new ImageIcon(newimg);
         JButton queenButton = new JButton(figure);
-        chooseQueen = queenButton;
-        chooseQueen.setOpaque(false);
-        chooseQueen.addActionListener(this);
-        promotionPanel.add(chooseQueen);
+        chooseWhiteQueen = queenButton;
+        chooseWhiteQueen.setOpaque(false);
+        chooseWhiteQueen.addActionListener(this);
+        whitePromotionPanel.add(chooseWhiteQueen);
 
-        promotionPanel.setVisible(false);
+        whitePromotionPanel.setVisible(false);
+        whitePromotionPanel.setEnabled(false);
+    }
+
+    public void createBlackPromotionPanel() {
+        blackPromotionPanel.setBounds(210, 180, 280, 280);
+        blackPromotionPanel.setLayout(new GridLayout(2, 2));
+        blackPromotionPanel.setOpaque(false);
+
+        ImageIcon figure = new ImageIcon("piecesIcons/blackrook.png");
+        Image image = figure.getImage();
+        Image newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton rookButton = new JButton(figure);
+        chooseBlackRook = rookButton;
+        chooseBlackRook.setOpaque(false);
+        chooseBlackRook.addActionListener(this);
+        blackPromotionPanel.add(chooseBlackRook);
+
+        figure = new ImageIcon("piecesIcons/blackknight.png");
+        image = figure.getImage();
+        newimg = image.getScaledInstance(110, 120,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton knightButton = new JButton(figure);
+        chooseBlackKnight = knightButton;
+        chooseBlackKnight.setOpaque(false);
+        chooseBlackKnight.addActionListener(this);
+        blackPromotionPanel.add(chooseBlackKnight);
+
+        figure = new ImageIcon("piecesIcons/blackbishop.png");
+        image = figure.getImage();
+        newimg = image.getScaledInstance(100, 120,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton bishopButton = new JButton(figure);
+        chooseBlackBishop = bishopButton;
+        chooseBlackBishop.setOpaque(false);
+        chooseBlackBishop.addActionListener(this);
+        blackPromotionPanel.add(chooseBlackBishop);
+
+        figure = new ImageIcon("piecesIcons/blackqueen.png");
+        image = figure.getImage();
+        newimg = image.getScaledInstance(120, 110,  java.awt.Image.SCALE_SMOOTH);
+        figure = new ImageIcon(newimg);
+        JButton queenButton = new JButton(figure);
+        chooseBlackQueen = queenButton;
+        chooseBlackQueen.setOpaque(false);
+        chooseBlackQueen.addActionListener(this);
+        blackPromotionPanel.add(chooseBlackQueen);
+
+        blackPromotionPanel.setVisible(false);
+        blackPromotionPanel.setEnabled(false);
     }
 
     public static class EnPassant {
@@ -308,31 +364,28 @@ public class Chessboard implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object button = e.getSource();
         try {
-            if (button == chooseRook){
-                if(Game.current_turn == Color.black)
+            if (button == chooseWhiteRook ){
                     promotion(new Rook(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiterook.png")));
-                else
-                    promotion(new Rook(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackrook.png")));
-                promotionPanel.setVisible(false);
-            } else if (button == chooseKnight){
-                if(Game.current_turn == Color.black)
+            } else if (button == chooseWhiteKnight ){
                     promotion(new Knight(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whiteknight.png")));
-                else
-                    promotion(new Knight(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackknight.png")));
-                promotionPanel.setVisible(false);
-            } else if (button == chooseBishop){
-                if(Game.current_turn == Color.black)
+            } else if (button == chooseWhiteBishop ){
                     promotion(new Bishop(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitebishop.png")));
-                else
-                    promotion(new Bishop(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackbishop.png")));
-                promotionPanel.setVisible(false);
-            } else if (button == chooseQueen){
-                if(Game.current_turn == Color.black)
+            } else if (button == chooseWhiteQueen ) {
                     promotion(new Queen(mouseAdapter.promotionSquare, Color.white), new JLabel(new StretchIcon("piecesIcons/whitequeen.png")));
-                else
-                    promotion(new Queen(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackqueen.png")));
-                promotionPanel.setVisible(false);
             }
+            if (button == chooseBlackRook){
+                    promotion(new Rook(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackrook.png")));
+            } else if (button == chooseBlackKnight){
+                    promotion(new Knight(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackknight.png")));
+            } else if (button == chooseBlackBishop){
+                    promotion(new Bishop(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackbishop.png")));
+            } else if (button == chooseBlackQueen) {
+                    promotion(new Queen(mouseAdapter.promotionSquare, Color.black), new JLabel(new StretchIcon("piecesIcons/blackqueen.png")));
+            }
+                whitePromotionPanel.setVisible(false);
+                whitePromotionPanel.setEnabled(false);
+                blackPromotionPanel.setVisible(false);
+                blackPromotionPanel.setEnabled(false);
 
         } catch (IllegalArgumentException sourceError) {
             System.err.println("ActionEvent fail");
