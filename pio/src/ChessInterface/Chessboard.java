@@ -157,6 +157,7 @@ public class Chessboard implements ActionListener {
         layer.add(figure.panel);
         board[x][y].setSquarePiece(figure);
 
+        PieceList.addPiece(figure);
         if (figure.getPieceColor() == Color.white){
             if (PieceList.whiteKing != null)
                 System.err.println("White king already existed! King in list overwritten.");
