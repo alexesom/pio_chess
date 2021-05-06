@@ -68,9 +68,6 @@ public class Chessboard implements ActionListener {
     Checks whether there's a Piece on originSquare and moves it to destinationSquare if the move is legal
      */
     public static void tryMove(Square originSquare, Square destinationSquare) throws Exception {
-        int oldX = originSquare.getXSquareCoordinate();
-        int oldY = originSquare.getYSquareCoordinate();
-        Piece oldPiece = destinationSquare.getSquarePiece();
         Piece movingPiece = originSquare.getSquarePiece();
         if (movingPiece == null) {
             throw new Exception("tryMove exception: piece is null(!)");
@@ -90,7 +87,19 @@ public class Chessboard implements ActionListener {
             throw new Exception("tryMove exception: taking own piece");
         }
 
-        if (CheckLogic.isChecked()) {
+        int oldX = originSquare.getXSquareCoordinate();
+        int oldY = originSquare.getYSquareCoordinate();
+        Piece oldPiece = destinationSquare.getSquarePiece();
+        int newX = destinationSquare.getXSquareCoordinate();
+        int newY = destinationSquare.getYSquareCoordinate();
+
+        pawnCheck(movingPiece, newX, newY, originSquare, destinationSquare);
+
+        movingPiece.setPieceCoordinates(newX, newY);
+        destinationSquare.setSquarePiece(movingPiece);
+        originSquare.setSquarePiece(null);
+        PieceList.removePiece(oldPiece);
+        if (CheckLogic.isChecked()){
             movingPiece.setPieceCoordinates(oldX, oldY);
             originSquare.setSquarePiece(movingPiece);
             destinationSquare.setSquarePiece(oldPiece);
@@ -98,54 +107,12 @@ public class Chessboard implements ActionListener {
             throw new Exception("tryMove exception: own king checked after move");
         } else {
             movingPiece.move();
-        }
-    }
-
-
-    public static void moveAndGoNextTurn(Square originSquare, Square destinationSquare) {
-        int oldX = originSquare.getXSquareCoordinate();
-        int oldY = originSquare.getYSquareCoordinate();
-        Piece oldPiece = destinationSquare.getSquarePiece();
-        Piece movingPiece = originSquare.getSquarePiece();
-        int newX = destinationSquare.getXSquareCoordinate();
-        int newY = destinationSquare.getYSquareCoordinate();
-
-        if (movingPiece instanceof Pawn) {
-            Pawn movingPawn = (Pawn) movingPiece;
-            if (movingPawn.getPieceColor() == Color.WHITE) {
-                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 2 &&
-                        newX == movingPawn.getxPieceCoordinate()) {
-                    movingPawn.promoted = true;
-                    Chessboard.promotedSquare = getBoardSquare(newX, newY - 1);
-                    promotedSquare.enPassantSquareFlag = true;
-                    Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
-                }
-
-                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 1 && newX == movingPawn.getxPieceCoordinate()) {
-                    movingPawn.promoted = true;
-                }
-            } else {
-                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() - 2 &&
-                        newX == movingPawn.getxPieceCoordinate()) {
-                    movingPawn.promoted = true;
-                    getBoardSquare(newX, newY + 1).enPassantSquareFlag = true;
-                    Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
-                }
-
-                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() - 1 && newX == movingPawn.getxPieceCoordinate()) {
-                    movingPawn.promoted = true;
-                }
-            }
+            Game.nextTurn();
         }
 
-        movingPiece.move();
-        movingPiece.setxPieceCoordinate(newX);
-        movingPiece.setyPieceCoordinate(newY);
-        destinationSquare.setSquarePiece(movingPiece);
-        originSquare.setSquarePiece(null);
-        PieceList.removePiece(oldPiece);
-        Game.nextTurn();
+
     }
+
 
     public static Square getBoardSquare(int x, int y) {
         return Chessboard.board[x][y];
@@ -377,6 +344,65 @@ public class Chessboard implements ActionListener {
 
         } catch (IllegalArgumentException sourceError) {
             System.err.println("ActionEvent fail");
+        }
+    }
+
+    public static void tryMoveChecker(Square originSquare, Square destinationSquare) throws Exception {
+        int oldX = originSquare.getXSquareCoordinate();
+        int oldY = originSquare.getYSquareCoordinate();
+        Piece oldPiece = destinationSquare.getSquarePiece();
+        Piece movingPiece = originSquare.getSquarePiece();
+
+        if (movingPiece == null) {
+            throw new Exception("tryMove exception: piece is null(!)");
+        }
+
+        //check if the piece is the current player's piece
+        if (movingPiece.getPieceColor() != Game.current_turn) {
+            throw new Exception("tryMove exception: moving other player's piece");
+        }
+        //check if the move is legal
+        if (!movingPiece.isAbleToMove(destinationSquare)) {
+            throw new Exception("tryMove exception: illegal move");
+        }
+        //check if trying to take own piece
+        Piece pieceAtDestination = destinationSquare.getSquarePiece();
+        if ((pieceAtDestination != null) && (pieceAtDestination.getPieceColor() == Game.current_turn)) {
+            throw new Exception("tryMove exception: taking own piece");
+        }
+
+        if (CheckLogic.isChecked())
+            throw new Exception("tryMove exception: own king checked after move");
+
+    }
+
+    private static void pawnCheck(Piece movingPiece, int newX, int newY, Square originSquare, Square destinationSquare) {
+        if (movingPiece instanceof Pawn) {
+            Pawn movingPawn = (Pawn) movingPiece;
+            if (movingPawn.getPieceColor() == Color.WHITE) {
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 2 &&
+                        newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                    Chessboard.promotedSquare = getBoardSquare(newX, newY - 1);
+                    promotedSquare.enPassantSquareFlag = true;
+                    Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
+                }
+
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 1 && newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                }
+            } else {
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() - 2 &&
+                        newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                    getBoardSquare(newX, newY + 1).enPassantSquareFlag = true;
+                    Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
+                }
+
+                if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() - 1 && newX == movingPawn.getxPieceCoordinate()) {
+                    movingPawn.promoted = true;
+                }
+            }
         }
     }
 
