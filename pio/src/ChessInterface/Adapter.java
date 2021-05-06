@@ -59,44 +59,8 @@ public class Adapter extends MouseAdapter {
 
                 // move both Piece and the Panel if the move is legal
                 try {
-                    if (!Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare)) {
-                        Chessboard.EnPassant.makeNull();
-                        if (Chessboard.promotedSquare != null)
-                            Chessboard.promotedSquare.enPassantSquareFlag = false;
-                    }
-
-                    Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare);
+                    enPassant(selectedSquare, destinationSquare);
                     Chessboard.tryMove(selectedSquare, destinationSquare);
-                    if (Chessboard.EnPassant.getEnPassantSquare() != null || Chessboard.EnPassant.getEnPassantPawn() != null) {
-                        if (Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare)) {
-                            JPanel enPassantPanel = Chessboard.EnPassant.getEnPassantPawn().panel;
-                            if (selectedSquare.getSquarePiece().getPieceColor() == Color.WHITE) {
-                                myLayeredPane.remove(enPassantPanel);
-
-                                capturedBlackFigures++;
-                                if (capturedBlackFigures <= 8)
-                                    enPassantPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
-                                else
-                                    enPassantPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
-                                capturedBlack.add(enPassantPanel);
-
-                                Chessboard.EnPassant.makeNull();
-                            } else {
-                                myLayeredPane.remove(enPassantPanel);
-
-                                capturedWhiteFigures++;
-                                if (capturedWhiteFigures <= 8)
-                                    enPassantPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
-                                else
-                                    enPassantPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
-                                capturedWhite.add(enPassantPanel);
-
-                                Chessboard.EnPassant.makeNull();
-                            }
-                        }
-                    }
-
-                    Chessboard.moveAndGoNextTurn(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
                     checkPromotion(destinationSquare);
                 } catch (Exception ez) {
@@ -160,7 +124,6 @@ public class Adapter extends MouseAdapter {
                     Game.nextTurn();
                 } else try {
                     Chessboard.tryMove(selectedSquare, destinationSquare);
-                    Chessboard.moveAndGoNextTurn(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
                     checkPromotion(destinationSquare);
 
@@ -307,5 +270,52 @@ public class Adapter extends MouseAdapter {
         } else
             MessagesForUsers.createMessage5(); //System.err.println("exceptionHandler unhandled: " + exceptionMessage);
     }
+    private void enPassant(Square selectedSquare, Square destinationSquare) {
+        try {
+            if (!Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare)) {
+                Chessboard.EnPassant.makeNull();
+                if (Chessboard.promotedSquare != null)
+                    Chessboard.promotedSquare.enPassantSquareFlag = false;
+            }
+
+            Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare);
+            Chessboard.tryMoveChecker(selectedSquare, destinationSquare);
+
+            if (Chessboard.EnPassant.getEnPassantSquare() != null || Chessboard.EnPassant.getEnPassantPawn() != null) {
+                if (Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare)) {
+                    JPanel enPassantPanel = Chessboard.EnPassant.getEnPassantPawn().panel;
+                    if (selectedSquare.getSquarePiece().getPieceColor() == Color.WHITE) {
+                        Chessboard.board[Chessboard.EnPassant.getEnPassantPawn().getxPieceCoordinate()]
+                                [Chessboard.EnPassant.getEnPassantPawn().getyPieceCoordinate()].setSquarePiece(null);
+                        myLayeredPane.remove(enPassantPanel);
+
+                        capturedBlackFigures++;
+                        if (capturedBlackFigures <= 8)
+                            enPassantPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
+                        else
+                            enPassantPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
+                        capturedBlack.add(enPassantPanel);
+
+                        Chessboard.EnPassant.makeNull();
+                    } else {
+                        myLayeredPane.remove(enPassantPanel);
+
+                        capturedWhiteFigures++;
+                        if (capturedWhiteFigures <= 8)
+                            enPassantPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
+                        else
+                            enPassantPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
+                        capturedWhite.add(enPassantPanel);
+
+                        Chessboard.EnPassant.makeNull();
+                    }
+                }
+            }
+        }  catch (Exception ez) {
+        exceptionHandler(selectedSquare, destinationSquare, ez);
+        }
+    }
 }
+
+
 
