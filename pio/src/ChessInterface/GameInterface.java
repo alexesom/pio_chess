@@ -11,8 +11,8 @@ public class GameInterface implements ActionListener {
     private JButton startButton = new JButton("START");
     public Chessboard chessboard = new Chessboard();
     private GamePanels gamePanels = new GamePanels();
-    private UsernameBox player1 = new UsernameBox();
-    private UsernameBox player2 = new UsernameBox();
+    public static UsernameBox player1 = new UsernameBox();
+    public static UsernameBox player2 = new UsernameBox();
     public JLabel name1 = new JLabel();
     public JLabel name2 = new JLabel();
     public JLabel bottomCoordinates = new JLabel();
@@ -42,7 +42,7 @@ public class GameInterface implements ActionListener {
         frame.add(chessboard.capturedPiecesPanel2);
         frame.add(gamePanels.boardCoordinatesBottomPanel);
         frame.add(gamePanels.boardCoordinatesRightPanel);
-        frame.add(gamePanels.endGamePanel);
+        frame.add(GamePanels.endGamePanel);
         frame.add(MessagesForUsers.messagePanel);
         frame.add(gamePanels.mainPanel);
     }
@@ -99,13 +99,10 @@ public class GameInterface implements ActionListener {
         name2.setForeground(new Color(140, 232, 139));
         name2.setText(player2.name);
 
-        gamePanels.endGamePanel(player1.name);
-
         gamePanels.player1Panel.add(name1);
         gamePanels.player2Panel.add(name2);
         gamePanels.boardCoordinatesBottomPanel.add(bottomCoordinates);
         gamePanels.boardCoordinatesRightPanel.add(rightCoordinates);
-
     }
 
     public void actionPerformed(ActionEvent e) {
