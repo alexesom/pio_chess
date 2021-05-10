@@ -48,15 +48,13 @@ public class UsernameBox implements ActionListener {
             displayName.setText("");
             name = enterName.getText();
 
-            displayName.setText("Player " + getPlayerNumber() + ": " + name);
-            System.out.println(name + "f");
-
             name = name.trim();
 
             if (name.length() > 20) {
-                name = name.substring(0,19);
-
+                name = name.substring(0,20);
             }
+
+            displayName.setText("Player " + getPlayerNumber() + ": " + name);
         }
     }
 }

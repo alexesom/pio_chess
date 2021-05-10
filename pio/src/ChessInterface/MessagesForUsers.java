@@ -11,6 +11,8 @@ public class MessagesForUsers {
     private static JLabel message3 = new JLabel(imageIcon3);
     private static ImageIcon imageIcon4 = new ImageIcon("pio/message4.png");
     private static JLabel message4 = new JLabel(imageIcon4);
+    private static ImageIcon imageIcon5 = new ImageIcon("pio/message5.png");
+    private static JLabel message5 = new JLabel(imageIcon5);
     private static int delay = 1500; // Delay in milliseconds
     public static JPanel messagePanel = new JPanel();
 
@@ -49,4 +51,9 @@ public class MessagesForUsers {
     public static void createMessage4() {
         createMessage(message4);
     }
+
+    public static void createMessage5() {
+        createMessage(message5);
+    }
+
 }
