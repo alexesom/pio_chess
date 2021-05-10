@@ -25,6 +25,13 @@ public class Game {
         CheckLogic.checkLoop();
         CheckLogic.highlightCheck();
         if (CheckLogic.gameEnded) {
+            if(Game.current_turn == Color.WHITE) {
+                GamePanels.endGamePanel(GameInterface.player1.name);
+            }
+            else {
+                GamePanels.endGamePanel(GameInterface.player2.name);
+            }
+
             GamePanels.endGamePanel.setVisible(true);
             Adapter.enable = false;
         }

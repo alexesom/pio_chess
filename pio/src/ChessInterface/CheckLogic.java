@@ -47,18 +47,14 @@ public class CheckLogic {
 
     private static boolean isCheckmated() {
         if(canAttackerBeTaken()) {
-            System.out.println("it can be taken");
             return false;
         }
         if (canKingMove()) {
-            System.out.println("moze");
             return false;
         }
         if(canKingBeProtected()) {
-            System.out.println("i caly misterny plan w pizdu");
             return false;
         }
-        System.out.println("tu blad!!!!!!!!!!!!");
         return true;
     }
 
@@ -74,8 +70,9 @@ public class CheckLogic {
                        figuresChecking = 0;
                        System.out.println("can move to" + Chessboard.board[x][y].getXSquareCoordinate() + "; " + Chessboard.board[x][y].getYSquareCoordinate() );
                        System.out.println(Chessboard.board[x][y].getSquareColor());
-                       if(Chessboard.board[x][y].getSquarePiece() != null && Chessboard.board[x][y].getSquarePiece().getPieceColor() == kingColor) {
-                           System.out.println("kolory sie zgadzaja");
+                       if(Chessboard.board[x][y].getSquarePiece() != null &&
+                               Chessboard.board[x][y].getSquarePiece().getPieceColor() == kingColor) {
+                           System.out.println(figuresChecking);
                        } else return true;
                    }
                    else {
@@ -94,15 +91,10 @@ public class CheckLogic {
             figuresChecking = 0;
             return false;
         } else {
-            /*if (PieceList.getKing(Game.current_turn).isAbleToMove(checkingSquare)) {
-                System.out.println(Game.current_turn);
-                figuresChecking = 0;
-                return true;
-            }*/
             for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
                 if (piece.isAbleToMove(checkingSquare)) {
                     if(piece instanceof King) {
-                        System.out.println("o to chooodzi");
+                        System.out.println(figuresChecking);
                     } else {
                         System.out.println( piece + " " + "Piece can take");
                         figuresChecking = 0;
@@ -135,7 +127,6 @@ public class CheckLogic {
                 for (Pieces.Square checkedSquare : PieceList.checkedSquaresPath) {
                     for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
                         if(piece.isAbleToMove(checkedSquare)) {
-                            System.out.println("yes pies gps" + piece);
                             figuresChecking = 0;
                             return true;
                         }

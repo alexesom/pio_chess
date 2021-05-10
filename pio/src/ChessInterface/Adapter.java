@@ -119,6 +119,9 @@ public class Adapter extends MouseAdapter {
                     selectedSquare.setSquarePiece(null);
                     destinationSquare.setSquarePiece(null);
 
+                    movingPiece.move();
+                    destinationPiece.move();
+
                     castling = true;
                     Game.nextTurn();
                 } else try {
@@ -230,9 +233,7 @@ public class Adapter extends MouseAdapter {
 
         CheckLogic.checkLoop();
         CheckLogic.highlightCheck();
-        if (CheckLogic.gameEnded) {
-            //endGame();
-        }
+
         enable = true;
     }
 
@@ -257,7 +258,6 @@ public class Adapter extends MouseAdapter {
             MessagesForUsers.createMessage3(); // trying to take own piece
         } else if (!movingPiece.isAbleToMove(destinationSquare)) {
             MessagesForUsers.createMessage4(); // illegal move
-        } else MessagesForUsers.createMessage5(); //System.err.println("exceptionHandler unhandled: " + exceptionMessage);
+        } else MessagesForUsers.createMessage5();
     }
 }
-
