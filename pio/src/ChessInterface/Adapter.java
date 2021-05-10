@@ -25,7 +25,7 @@ public class Adapter extends MouseAdapter {
     private JPanel whitePromotionPanel;
     private JPanel blackPromotionPanel;
     public Square promotionSquare;
-    private boolean enable = true;
+    public static boolean enable = true;
 
     public Adapter(JLayeredPane layer, JLayeredPane capturedWhite, JLayeredPane capturedBlack, JPanel backlightPanel, JPanel whitePromotionPanel, JPanel blackPromotionPanel) {
         myLayeredPane = layer;
@@ -118,6 +118,9 @@ public class Adapter extends MouseAdapter {
                     finalRook.setSquarePiece(destinationPiece);
                     selectedSquare.setSquarePiece(null);
                     destinationSquare.setSquarePiece(null);
+
+                    movingPiece.move();
+                    destinationPiece.move();
 
                     castling = true;
                     Game.nextTurn();
@@ -230,9 +233,7 @@ public class Adapter extends MouseAdapter {
 
         CheckLogic.checkLoop();
         CheckLogic.highlightCheck();
-        if (CheckLogic.gameEnded) {
-            //endGame();
-        }
+
         enable = true;
     }
 
@@ -257,7 +258,6 @@ public class Adapter extends MouseAdapter {
             MessagesForUsers.createMessage3(); // trying to take own piece
         } else if (!movingPiece.isAbleToMove(destinationSquare)) {
             MessagesForUsers.createMessage4(); // illegal move
-        } else System.err.println("exceptionHandler unhandled: " + exceptionMessage);
+        } else MessagesForUsers.createMessage5();
     }
 }
-

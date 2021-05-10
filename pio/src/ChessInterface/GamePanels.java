@@ -11,7 +11,7 @@ public class GamePanels {
     public JPanel player2Panel = new JPanel();
     public JPanel boardCoordinatesRightPanel = new JPanel();
     public JPanel boardCoordinatesBottomPanel = new JPanel();
-    public JPanel endGamePanel = new JPanel();
+    public static JPanel endGamePanel = new JPanel();
 
     public GamePanels() {
         mainGamePanel();
@@ -34,21 +34,23 @@ public class GamePanels {
         titlePanel.setOpaque(false);
     }
 
-    public void endGamePanel(UsernameBox player) {
-        endGamePanel.setVisible(true);
-        endGamePanel.add(new JLabel(player.name + " " + "wins! Congrats!"));
+    public static void endGamePanel(String player) {
+        endGamePanel.setVisible(false);
+        endGamePanel.setBounds(400,680,400,80);
+        endGamePanel.setOpaque(false);
+        JLabel label = new JLabel(player + " " + "wins! Congrats!");
+        endGamePanel.add(label);
+        label.setForeground(new Color(112, 206, 85));
+        Font font = new Font("Verdana", Font.BOLD, 23);
+        label.setFont(font);
     }
 
     private void setPlayerPanels() {
-        player1Panel.setBounds(755,50,200,50);
+        player1Panel.setBounds(755,50,300,50);
         player1Panel.setOpaque(false);
 
-        player2Panel.setBounds(755,580,200,50);
+        player2Panel.setBounds(755,580,300,50);
         player2Panel.setOpaque(false);
-
-        endGamePanel.setBounds(500,640, 200, 50);
-        endGamePanel.setBackground(Color.lightGray);
-        endGamePanel.setVisible(false);
     }
 
     private void setBoardCoordinatesPanels() {
