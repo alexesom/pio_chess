@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Pawn extends Piece implements PieceInterface {
     public boolean enPassantFlag = false;
-    private boolean promoted = false;
+    public boolean promoted = false;
     JLabel whitePawn = new JLabel(new StretchIcon("piecesIcons/whitepawn.png"));
     JLabel blackPawn = new JLabel(new StretchIcon("piecesIcons/blackpawn.png"));
 

@@ -25,7 +25,9 @@ public class Bishop extends Piece implements PieceInterface{
         int xDiff = abs(square.getXSquareCoordinate() - getxPieceCoordinate());
         int yDiff = abs(square.getYSquareCoordinate() - getyPieceCoordinate());
 
-        if(xDiff == yDiff)
+        if(square.getXSquareCoordinate() == getxPieceCoordinate() && square.getYSquareCoordinate() == getyPieceCoordinate())
+            return false;
+        else if(xDiff == yDiff)
             return isAnyPieceBetween(square, PieceMotion.diagonal);
         else
             return false;
