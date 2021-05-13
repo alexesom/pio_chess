@@ -22,7 +22,15 @@ public class CheckLogic {
         gameEnded = isCheckmated();
     }
 
-    public static boolean isChecked(){
+    public static void setFiguresChecking(int figuresChecking) {
+        CheckLogic.figuresChecking = figuresChecking;
+    }
+
+    public static void setCheckingSquare(Square square) {
+        CheckLogic.checkingSquare = square;
+    }
+
+    public static boolean isChecked() {
         currentKing = PieceList.getKing(Game.current_turn);
         assert currentKing != null;
         Square kingSquare = Chessboard.getBoardSquare(currentKing.getxPieceCoordinate(), currentKing.getyPieceCoordinate());
@@ -34,6 +42,7 @@ public class CheckLogic {
         }
         return false;
     }
+
     public static boolean isChecked(Square square, Color kingColor) {
         for (Pieces.Piece piece : PieceList.getOppositeColorPieces(kingColor)) {
             if (piece.isAbleToMove(square)) {
@@ -45,19 +54,19 @@ public class CheckLogic {
         return figuresChecking != 0;
     }
 
-    public static void resetFiguresChecking(){
+    public static void resetFiguresChecking() {
         figuresChecking = 0;
     }
 
 
     private static boolean isCheckmated() {
-        if(canAttackerBeTaken()) {
+        if (canAttackerBeTaken()) {
             return false;
         }
         if (canKingMove()) {
             return false;
         }
-        if(canKingBeProtected()) {
+        if (canKingBeProtected()) {
             return false;
         }
         return true;
@@ -69,27 +78,26 @@ public class CheckLogic {
         King checkedKing = PieceList.getKing(kingColor);
         for (int y = checkedKing.getyPieceCoordinate() - 1; y <= checkedKing.getyPieceCoordinate() + 1; y++) {
             for (int x = checkedKing.getxPieceCoordinate() - 1; x <= checkedKing.getxPieceCoordinate() + 1; x++) {
-                if (x >= 0 && y >= 0 && x < 8 &&  y < 8) {
-                   if(checkedKing.isAbleToMove(Chessboard.board[x][y]) &&
-                           !isChecked(Chessboard.board[x][y], kingColor)) {
-                       figuresChecking = 0;
-                       System.out.println("can move to" + Chessboard.board[x][y].getXSquareCoordinate() + "; " + Chessboard.board[x][y].getYSquareCoordinate() );
-                       System.out.println(Chessboard.board[x][y].getSquareColor());
-                       if(Chessboard.board[x][y].getSquarePiece() != null &&
-                               Chessboard.board[x][y].getSquarePiece().getPieceColor() == kingColor) {
-                           System.out.println(figuresChecking);
-                       } else return true;
-                   }
-                   else {
-                       figuresChecking = 0;
-                   }
+                if (x >= 0 && y >= 0 && x < 8 && y < 8) {
+                    if (checkedKing.isAbleToMove(Chessboard.board[x][y]) &&
+                            !isChecked(Chessboard.board[x][y], kingColor)) {
+                        figuresChecking = 0;
+                        System.out.println("can move to" + Chessboard.board[x][y].getXSquareCoordinate() + "; " + Chessboard.board[x][y].getYSquareCoordinate());
+                        System.out.println(Chessboard.board[x][y].getSquareColor());
+                        if (Chessboard.board[x][y].getSquarePiece() != null &&
+                                Chessboard.board[x][y].getSquarePiece().getPieceColor() == kingColor) {
+                            System.out.println(figuresChecking);
+                        } else return true;
+                    } else {
+                        figuresChecking = 0;
+                    }
                 }
             }
         }
         return false;
     }
 
-    private static boolean canAttackerBeTaken() {
+    public static boolean canAttackerBeTaken() {
         if (figuresChecking == 0)
             return true;
         else if (figuresChecking > 1) {
@@ -98,10 +106,10 @@ public class CheckLogic {
         } else {
             for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
                 if (piece.isAbleToMove(checkingSquare)) {
-                    if(piece instanceof King) {
+                    if (piece instanceof King) {
                         System.out.println(figuresChecking);
                     } else {
-                        System.out.println( piece + " " + "Piece can take");
+                        System.out.println(piece + " " + "Piece can take");
                         figuresChecking = 0;
                         return true;
                     }
@@ -114,12 +122,12 @@ public class CheckLogic {
 
     private static boolean canKingBeProtected() {
         King tmpKing;
-        if(Game.current_turn == Color.black)
+        if (Game.current_turn == Color.black)
             tmpKing = PieceList.getKing(Color.white);
         else
             tmpKing = PieceList.getKing(Color.BLACK);
         System.out.println(figuresChecking);
-        if(figuresChecking > 1) {
+        if (figuresChecking > 1) {
             System.out.println(figuresChecking);
             return false;
         } else {
@@ -128,10 +136,10 @@ public class CheckLogic {
             System.out.println(kingSquare.getYSquareCoordinate());
             Piece checkingPiece = checkingSquare.getSquarePiece();
             System.out.println(checkingPiece);
-            if(checkingPiece.isAbleToMove(kingSquare)) {
+            if (checkingPiece.isAbleToMove(kingSquare)) {
                 for (Pieces.Square checkedSquare : PieceList.checkedSquaresPath) {
                     for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
-                        if(piece.isAbleToMove(checkedSquare)) {
+                        if (piece.isAbleToMove(checkedSquare)) {
                             figuresChecking = 0;
                             return true;
                         }
