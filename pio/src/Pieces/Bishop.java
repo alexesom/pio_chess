@@ -1,9 +1,9 @@
 package Pieces;
 
 import javax.swing.*;
-import java.awt.*;
 
 import static java.lang.Math.abs;
+import java.awt.Color;
 
 public class Bishop extends Piece implements PieceInterface {
     JLabel whiteBishop = new JLabel(new StretchIcon("piecesIcons/whitebishop.png"));
@@ -24,7 +24,9 @@ public class Bishop extends Piece implements PieceInterface {
         int xDiff = abs(square.getXSquareCoordinate() - getxPieceCoordinate());
         int yDiff = abs(square.getYSquareCoordinate() - getyPieceCoordinate());
 
-        if (xDiff == yDiff)
+        if(square.getXSquareCoordinate() == getxPieceCoordinate() && square.getYSquareCoordinate() == getyPieceCoordinate())
+            return false;
+        else if(xDiff == yDiff)
             return isAnyPieceBetween(square, PieceMotion.diagonal);
         else
             return false;
