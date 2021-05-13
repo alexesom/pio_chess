@@ -34,7 +34,7 @@ public class CheckLogic {
         }
         return false;
     }
-    private static boolean isChecked(Square square, Color kingColor) {
+    public static boolean isChecked(Square square, Color kingColor) {
         for (Pieces.Piece piece : PieceList.getOppositeColorPieces(kingColor)) {
             if (piece.isAbleToMove(square)) {
                 figuresChecking++;
@@ -44,6 +44,11 @@ public class CheckLogic {
         }
         return figuresChecking != 0;
     }
+
+    public static void resetFiguresChecking(){
+        figuresChecking = 0;
+    }
+
 
     private static boolean isCheckmated() {
         if(canAttackerBeTaken()) {

@@ -11,6 +11,7 @@ public class Piece {
     protected Color pieceColor;
     protected int xPieceCoordinate;
     protected int yPieceCoordinate;
+    public static boolean isBetween = false;
 
 
     /*
@@ -73,7 +74,8 @@ public class Piece {
                             yCounter = ySquare + 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
-                                    return false;
+                                    isBetween = false;
+                                    return isBetween;
                                 }
                                 PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter++;
@@ -83,7 +85,8 @@ public class Piece {
                             yCounter = ySquare - 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
-                                    return false;
+                                    isBetween = false;
+                                    return isBetween;
                                 }
                                 PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter++;
@@ -96,7 +99,8 @@ public class Piece {
                             yCounter = ySquare + 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
-                                    return false;
+                                    isBetween = false;
+                                    return isBetween;
                                 }
                                 PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter--;
@@ -106,7 +110,8 @@ public class Piece {
                             yCounter = ySquare - 1;
                             while (xCounter != xDestinationSquare && yCounter != yDestinationSquare) {
                                 if (Chessboard.board[xCounter][yCounter].getSquarePiece() != null) {
-                                    return false;
+                                    isBetween = false;
+                                    return isBetween;
                                 }
                                 PieceList.checkedSquaresPath.add(Chessboard.board[xCounter][yCounter]);
                                 xCounter--;
@@ -114,25 +119,29 @@ public class Piece {
                             }
                         }
                     }
-                    return true;
+                    isBetween = true;
+                    return isBetween;
                 }
                 case horizontal -> {
                     if (xSquare < xDestinationSquare) {
                         for (int i = xSquare + 1; i < xDestinationSquare; i++) {
                             if (Chessboard.board[i][ySquare].getSquarePiece() != null) {
-                                return false;
+                                isBetween = false;
+                                return isBetween;
                             }
                             PieceList.checkedSquaresPath.add(Chessboard.board[i][ySquare]);
                         }
                     } else {
                         for (int i = xDestinationSquare + 1; i < xSquare; i++) {
                             if (Chessboard.board[i][ySquare].getSquarePiece() != null) {
-                                return false;
+                                isBetween = false;
+                                return isBetween;
                             }
                             PieceList.checkedSquaresPath.add(Chessboard.board[i][ySquare]);
                         }
                     }
-                    return true;
+                    isBetween = true;
+                    return isBetween;
                 }
                 case vertical -> {
                     if (Chessboard.board[xSquare][ySquare].getSquarePiece() instanceof Pawn &&
@@ -145,25 +154,29 @@ public class Piece {
                     if (ySquare < yDestinationSquare) {
                         for (int i = ySquare + 1; i < yDestinationSquare; i++) {
                             if (Chessboard.board[xSquare][i].getSquarePiece() != null) {
-                                return false;
+                                isBetween = false;
+                                return isBetween;
                             }
                             PieceList.checkedSquaresPath.add(Chessboard.board[xSquare][i]);
                         }
                     } else {
                         for (int i = yDestinationSquare + 1; i < ySquare; i++) {
                             if (Chessboard.board[xSquare][i].getSquarePiece() != null) {
-                                return false;
+                                isBetween = false;
+                                return isBetween;
                             }
                             PieceList.checkedSquaresPath.add(Chessboard.board[xSquare][i]);
                         }
                     }
-                    return true;
+                    isBetween = true;
+                    return isBetween;
                 }
             }
         } catch (Exception ex) {
             System.out.println("Error in isAnyPieceBetween");
         }
-        return true;
+        isBetween = true;
+        return isBetween;
     }
 
     public void take(Piece piece) {

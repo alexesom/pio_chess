@@ -29,7 +29,10 @@ public class Queen extends Piece implements PieceInterface{
         int xDiff = abs(square.getXSquareCoordinate() - xQueen);
         int yDiff = abs(square.getYSquareCoordinate() - yQueen);
 
-        if(xSquare == xQueen) {
+        if(xSquare == xQueen && ySquare == yQueen) {
+            return false;
+        }
+        else if(xSquare == xQueen) {
             return isAnyPieceBetween(square, PieceMotion.vertical );
 
         }
