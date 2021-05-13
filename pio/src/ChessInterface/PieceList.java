@@ -11,8 +11,8 @@ import java.util.List;
 public class PieceList {
     public static King whiteKing = null;
     public static King blackKing = null;
-    static List<Piece> whitePieces = new ArrayList<>();
-    static List<Piece> blackPieces = new ArrayList<>();
+    public static List<Piece> whitePieces = new ArrayList<>();
+    public static List<Piece> blackPieces = new ArrayList<>();
     public static List<Square> checkedSquaresPath = new ArrayList<>();
 
     public static void addWhitePiece(Piece piece) {
