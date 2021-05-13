@@ -59,6 +59,52 @@ public class Adapter extends MouseAdapter {
 
                 // move both Piece and the Panel if the move is legal
                 try {
+                    Chessboard.tryMoveChecker(selectedSquare, destinationSquare);
+                    if(Chessboard.EnPassant.enPassantMove(selectedSquare, destinationSquare)) {
+                        JPanel pawnPanel = Chessboard.EnPassant.getEnPassantPawn().panel;
+                        int pawnX = Chessboard.EnPassant.getEnPassantPawn().getxPieceCoordinate();
+                        int pawnY = Chessboard.EnPassant.getEnPassantPawn().getyPieceCoordinate();
+                        Square pawnSquare = Chessboard.getBoardSquare(pawnX, pawnY);
+                        if (selectedSquare.getSquareColor() == Color.WHITE) {
+                            myLayeredPane.remove(pawnPanel);
+                            pawnSquare.setSquarePiece(null);
+                            if (pawnPanel.getBackground() == Color.white) {
+                                capturedWhiteFigures++;
+                                if (capturedWhiteFigures <= 8)
+                                    pawnPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
+                                else
+                                    pawnPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
+                                capturedWhite.add(pawnPanel);
+                            } else {
+                                capturedBlackFigures++;
+                                if (capturedBlackFigures <= 8)
+                                    pawnPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
+                                else
+                                    pawnPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
+                                capturedBlack.add(pawnPanel);
+                            }
+                            System.out.println(pawnPanel.getLocation());
+                        } else {
+                            myLayeredPane.remove(pawnPanel);
+                            pawnSquare.setSquarePiece(null);
+                            if (pawnPanel.getBackground() == Color.white) {
+                                capturedWhiteFigures++;
+                                if (capturedWhiteFigures <= 8)
+                                    pawnPanel.setLocation(10 + 70 * (capturedWhiteFigures - 1), 10);
+                                else
+                                    pawnPanel.setLocation(10 + 70 * (capturedWhiteFigures - 9), 80);
+                                capturedWhite.add(pawnPanel);
+                            } else {
+                                capturedBlackFigures++;
+                                if (capturedBlackFigures <= 8)
+                                    pawnPanel.setLocation(10 + 70 * (capturedBlackFigures - 1), 10);
+                                else
+                                    pawnPanel.setLocation(10 + 70 * (capturedBlackFigures - 9), 80);
+                                capturedBlack.add(pawnPanel);
+                            }
+                            System.out.println(pawnPanel.getLocation());
+                        }
+                    }
                     Chessboard.tryMove(selectedSquare, destinationSquare);
                     moveSelectedPanelTo(clickPoint);
                     checkPromotion(destinationSquare);
@@ -70,6 +116,8 @@ public class Adapter extends MouseAdapter {
             if (!squareWasEmpty) { // a square containing a different panel was clicked
                 clickPoint.x = e.getX() / 70 * 70 + 10;
                 clickPoint.y = e.getY() / 70 * 70 + 10;
+
+                Chessboard.EnPassant.makeNull();
 
                 // find the Piece that was selected to move and the Square that was selected as its destination
                 selectedSquare = getSquareAtCoordinates(clickedPanel.getX(), clickedPanel.getY());
@@ -196,7 +244,7 @@ public class Adapter extends MouseAdapter {
         return Chessboard.board[sqx][sqy];
     }
 
-    private void checkPromotion(Square destinationSquare){
+    public void checkPromotion(Square destinationSquare){
         /* check whether the promotion conditions are met */
         int x = destinationSquare.getXSquareCoordinate();
         int y = destinationSquare.getYSquareCoordinate();
@@ -210,8 +258,10 @@ public class Adapter extends MouseAdapter {
                 blackPromotionPanel.setVisible(true);
                 blackPromotionPanel.setEnabled(true);
             }
-            clickedPanel.setVisible(false);
-            myLayeredPane.remove(clickedPanel);
+            if(clickedPanel != null) {
+                clickedPanel.setVisible(false);
+                myLayeredPane.remove(clickedPanel);
+            }
         }
     }
 

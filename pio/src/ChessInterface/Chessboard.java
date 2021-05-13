@@ -25,7 +25,7 @@ public class Chessboard implements ActionListener {
     public JButton chooseBlackKnight = new JButton();
     public JButton chooseBlackBishop = new JButton();
     public JButton chooseBlackQueen = new JButton();
-    private Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel, whitePromotionPanel, blackPromotionPanel);
+    public Adapter mouseAdapter = new Adapter(layer, capturedPiecesPanel1, capturedPiecesPanel2, backlightPanel, whitePromotionPanel, blackPromotionPanel);
 
     public Chessboard() {
         backlightPanel.setVisible(false);
@@ -383,7 +383,7 @@ public class Chessboard implements ActionListener {
                 if (!movingPawn.promoted && newY == movingPawn.getyPieceCoordinate() + 2 &&
                         newX == movingPawn.getxPieceCoordinate()) {
                     movingPawn.promoted = true;
-                    Chessboard.promotedSquare = getBoardSquare(newX, newY - 1);
+                    promotedSquare = getBoardSquare(newX, newY - 1);
                     promotedSquare.enPassantSquareFlag = true;
                     Chessboard.EnPassant.enPassantMove(originSquare, destinationSquare);
                 }

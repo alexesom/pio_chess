@@ -19,6 +19,8 @@ public class Rook extends Piece implements PieceInterface{
         }
     }
 
+    public boolean isMoved() { return  moved;}
+
     @Override
     public boolean isAbleToMove(Square square) {
         int xSquare = square.getXSquareCoordinate();

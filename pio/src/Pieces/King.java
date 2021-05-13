@@ -21,6 +21,8 @@ public class King extends Piece implements PieceInterface{
         }
     }
 
+    public boolean isMoved() { return  moved;}
+
     @Override
     public boolean isAbleToMove(Square square) {
         int xDiff = square.getXSquareCoordinate() - getxPieceCoordinate();

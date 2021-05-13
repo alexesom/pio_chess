@@ -1,16 +1,13 @@
 package test;
 
-import ChessInterface.Chessboard;
-import ChessInterface.Game;
-import ChessInterface.PieceList;
+import ChessInterface.*;
 import Pieces.*;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
 import static ChessInterface.Chessboard.tryMove;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ChessboardTest {
 
@@ -87,7 +84,9 @@ class ChessboardTest {
     // attempts to move Pawn B2 to B3
     @Test
     void tryMovingPieceInGame() {
+        Chessboard.board = new Square[8][8];
         Game.main(null);
+        Chessboard testChessboard = new Chessboard();
         Square originSquare = Chessboard.getBoardSquare(1, 1);
         Square destinationSquare = Chessboard.getBoardSquare(1, 2);
         try {
@@ -98,4 +97,78 @@ class ChessboardTest {
         }
     }
 
+    @Test
+    void checkPromotionIfPromotedTest() {
+        Chessboard.board = new Square[8][8];
+        Game.main(null);
+        Chessboard testChessboard = new Chessboard();
+        Adapter testAdapter = Game.gameInterface.chessboard.mouseAdapter;
+        Square destinationSquare = new Square(0, 7);
+        Pawn testPawn = new Pawn(destinationSquare, Color.WHITE);
+        destinationSquare.setSquarePiece(testPawn);
+        Chessboard.board[0][7].setSquarePiece(testPawn);
+
+        testAdapter.checkPromotion(destinationSquare);
+
+        assertFalse((Adapter.enable && testAdapter.promotionSquare == null),
+                "checkPromotionIfPromotedTest: expected change of parameters by checkPromotion but there were no change");
+        Adapter.enable = true;
+    }
+
+    @Test
+    void checkPromotionIfNotPromotedTest() {
+        Chessboard.board = new Square[8][8];
+        Game.main(null);
+        Game.gameInterface.chessboard = new Chessboard();
+        Adapter testAdapter = Game.gameInterface.chessboard.mouseAdapter;
+        Square destinationSquare = new Square(0, 4);
+        Pawn testPawn = new Pawn(destinationSquare, Color.WHITE);
+        destinationSquare.setSquarePiece(testPawn);
+        Chessboard.board[0][4].setSquarePiece(testPawn);
+
+        testAdapter.checkPromotion(destinationSquare);
+
+        assertTrue((Adapter.enable && testAdapter.promotionSquare == null),
+                "checkPromotionIfNotPromotedTest: expected change of parameters by checkPromotion but there were no change");
+    }
+
+    @Test
+    void checkPromotionIfAnotherFigure() {
+        Chessboard.board = new Square[8][8];
+        Game.main(null);
+        Game.gameInterface.chessboard = new Chessboard();
+        Adapter testAdapter = Game.gameInterface.chessboard.mouseAdapter;
+        Square destinationSquare = new Square(0, 4);
+        Knight testPawn = new Knight(destinationSquare, Color.WHITE);
+        destinationSquare.setSquarePiece(testPawn);
+        Chessboard.board[0][4].setSquarePiece(testPawn);
+
+        testAdapter.checkPromotion(destinationSquare);
+
+        assertTrue((Adapter.enable && testAdapter.promotionSquare == null),
+                "checkPromotionIfAnotherFigure: expected change of parameters by checkPromotion but there were no change");
+    }
+
+
+    @Test
+    void canAttackerBeTakenIfNotChecked() {
+        Chessboard.board = new Square[8][8];
+        Game.main(null);
+        Game.gameInterface.chessboard = new Chessboard();
+
+        assertTrue((CheckLogic.canAttackerBeTaken()),
+                "canAttackerBeTakenIfNotChecked: expected true values but was false");
+    }
+
+    @Test
+    void canAttackerBeTakenIfDoubleChecked() {
+        Chessboard.board = new Square[8][8];
+        Game.main(null);
+        Game.gameInterface.chessboard = new Chessboard();
+        CheckLogic.setFiguresChecking(2);
+        CheckLogic.setCheckingSquare(Chessboard.getBoardSquare(2, 2));
+
+        assertFalse((CheckLogic.canAttackerBeTaken()),
+                "canAttackerBeTakenIfDoubleChecked: expected false value but was true");
+    }
 }
