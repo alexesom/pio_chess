@@ -11,8 +11,8 @@ public class CheckLogic {
     public static boolean checkState = false;
     public static boolean gameEnded = false;
     public static JPanel checkBacklight = new SquareBacklight(new Color(219, 82, 55));
-    private static int figuresChecking = 0;
-    private static Square checkingSquare;
+    public static int figuresChecking = 0;
+    public static Square checkingSquare;
     private static King currentKing;
 
     public static void checkLoop() {
@@ -72,7 +72,7 @@ public class CheckLogic {
         return true;
     }
 
-    private static boolean canKingMove() {
+    public static boolean canKingMove() {
         Color kingColor = Game.current_turn;
         figuresChecking = 0;
         King checkedKing = PieceList.getKing(kingColor);
@@ -120,7 +120,7 @@ public class CheckLogic {
 
     }
 
-    private static boolean canKingBeProtected() {
+    public static boolean canKingBeProtected() {
         King tmpKing;
         if (Game.current_turn == Color.black)
             tmpKing = PieceList.getKing(Color.white);
@@ -138,7 +138,7 @@ public class CheckLogic {
             System.out.println(checkingPiece);
             if (checkingPiece.isAbleToMove(kingSquare)) {
                 for (Pieces.Square checkedSquare : PieceList.checkedSquaresPath) {
-                    for (Pieces.Piece piece : PieceList.getColorPieces(Game.current_turn)) {
+                    for (Pieces.Piece piece : PieceList.getColorPieces(tmpKing.getPieceColor())) {
                         if (piece.isAbleToMove(checkedSquare)) {
                             figuresChecking = 0;
                             return true;

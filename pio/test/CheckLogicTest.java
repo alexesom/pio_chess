@@ -4,10 +4,9 @@ import ChessInterface.CheckLogic;
 import ChessInterface.Chessboard;
 import ChessInterface.Game;
 import ChessInterface.PieceList;
-import Pieces.King;
-import Pieces.Knight;
-import Pieces.Piece;
-import Pieces.Square;
+import Pieces.*;
+
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -180,4 +179,122 @@ class CheckLogicTest {
         PieceList.removePiece(checkingPiece);
         assertFalse(result, "isChecked() returned true for black checking own square, expected false");
     }
+    @Test
+    public void shouldSayThatKingCannotMove() {
+        Square kingSquare = new Square(0, 0);
+        Square rookSquare = new Square(0, 6);
+        Square secRookSquare = new Square(1, 6);
+        PieceList.whiteKing = new King(kingSquare, Color.WHITE);
+        PieceList.addListPiece(new Rook(rookSquare, Color.BLACK), Color.BLACK);
+        PieceList.addListPiece(new Rook(secRookSquare, Color.BLACK), Color.BLACK);
+        CheckLogic.figuresChecking = 2;
+        Game.current_turn = Color.white;
+        Chessboard.board[0][0] = kingSquare;
+        Chessboard.board[0][6] = rookSquare;
+        Chessboard.board[1][6] = secRookSquare;
+        Chessboard.board[1][0] = new Square(1, 0);
+        Chessboard.board[1][1] = new Square(1, 1);
+        Chessboard.board[0][1] = new Square(0, 1);
+
+        assertFalse(CheckLogic.canKingMove());
+    }
+    @Test
+    public void shouldSayThatKingCanMove() {
+        Square kingSquare = new Square(0, 0);
+        Square rookSquare = new Square(0, 6);
+        Square secRookSquare = new Square(0, 1);
+        PieceList.whiteKing = new King(kingSquare, Color.WHITE);
+        PieceList.addListPiece(new Rook(rookSquare, Color.BLACK), Color.BLACK);
+        PieceList.addListPiece(new Rook(secRookSquare, Color.BLACK), Color.BLACK);
+        CheckLogic.figuresChecking = 1;
+        Game.current_turn = Color.white;
+        Chessboard.board[0][0] = kingSquare;
+        Chessboard.board[0][6] = rookSquare;
+        Chessboard.board[0][1] = secRookSquare;
+        Chessboard.board[1][0] = new Square(1, 0);
+        Chessboard.board[1][1] = new Square(1, 1);
+
+
+        assertTrue(CheckLogic.canKingMove());
+    }
+    @Test
+    public void KingDoesNotExistException(){
+        Square kingSquare = new Square(0, 0);
+        Square rookSquare = new Square(0, 6);
+        Square secRookSquare = new Square(1, 0);
+        PieceList.addListPiece(new Rook(rookSquare, Color.BLACK), Color.BLACK);
+        PieceList.addListPiece(new Rook(secRookSquare, Color.BLACK), Color.BLACK);
+        CheckLogic.figuresChecking = 2;
+        Game.current_turn = Color.white;
+        Chessboard.board[0][0] = kingSquare;
+        Chessboard.board[0][6] = rookSquare;
+        Chessboard.board[1][0] = secRookSquare;
+        Chessboard.board[1][1] = new Square(1, 1);
+        Chessboard.board[0][1] = new Square(0, 1);
+        try {
+            CheckLogic.canKingMove();
+        }
+        catch (NullPointerException exception){
+            Assert.assertEquals("Cannot invoke \"Pieces.King.getyPieceCoordinate()\" because \"checkedKing\" is null", exception.getMessage());
+        }
+    }
+    @Test
+    public void shouldSayThatKingCanBeProtected() {
+        Square kingSquare = new Square(0, 0);
+        Square rookSquare = new Square(0, 6);
+        rookSquare.setSquarePiece(new Rook(rookSquare, Color.BLACK));
+        Square bishopSquare = new Square(1, 1);
+        PieceList.whiteKing = new King(kingSquare, Color.WHITE);
+        PieceList.addListPiece(rookSquare.getSquarePiece(), Color.BLACK);
+        PieceList.addListPiece(new Bishop(bishopSquare, Color.WHITE), Color.WHITE);
+        CheckLogic.figuresChecking = 1;
+        CheckLogic.checkingSquare = rookSquare;
+        Game.current_turn = Color.BLACK;
+        Chessboard.board[0][0] = kingSquare;
+        Chessboard.board[0][6] = rookSquare;
+        Chessboard.board[1][0] = new Square(1, 0);
+        Chessboard.board[1][1] = bishopSquare;
+        Chessboard.board[0][1] = new Square(0, 1);
+        Chessboard.board[0][2] = new Square(0, 2);
+        Chessboard.board[0][3] = new Square(0, 3);
+        Chessboard.board[0][4] = new Square(0, 4);
+        Chessboard.board[0][5] = new Square(0, 5);
+
+
+        assertTrue(CheckLogic.canKingBeProtected());
+    }
+
+    @Test
+    public void shouldSayThatKingCannotBeProtected() {
+        Square kingSquare = new Square(0, 0);
+        Square rookSquare = new Square(0, 6);
+        rookSquare.setSquarePiece(new Rook(rookSquare, Color.BLACK));
+        Square pawnSquare = new Square(2, 2);
+        PieceList.whiteKing = new King(kingSquare, Color.WHITE);
+        PieceList.addListPiece(rookSquare.getSquarePiece(), Color.BLACK);
+        PieceList.addListPiece(new Pawn(pawnSquare, Color.WHITE), Color.WHITE);
+        CheckLogic.figuresChecking = 1;
+        CheckLogic.checkingSquare = rookSquare;
+        Game.current_turn = Color.BLACK;
+        Chessboard.board[0][0] = kingSquare;
+        Chessboard.board[0][6] = rookSquare;
+        Chessboard.board[1][0] = new Square(1, 0);
+        Chessboard.board[1][1] = pawnSquare;
+        Chessboard.board[0][1] = new Square(0, 1);
+        Chessboard.board[0][2] = new Square(0, 2);
+        Chessboard.board[0][3] = new Square(0, 3);
+        Chessboard.board[0][4] = new Square(0, 4);
+        Chessboard.board[0][5] = new Square(0, 5);
+        Chessboard.board[2][3] = new Square(2, 3);
+        Chessboard.board[2][4] = new Square(2, 4);
+
+
+        assertFalse(CheckLogic.canKingBeProtected());
+    }
+    @Test
+    public void KingCannotBeProtected() {
+        CheckLogic.figuresChecking = 2;
+        assertFalse(CheckLogic.canKingBeProtected());
+    }
+
 }
