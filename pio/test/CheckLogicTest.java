@@ -21,6 +21,10 @@ class CheckLogicTest {
     @AfterEach
     void resetFiguresChecking() {
         CheckLogic.resetFiguresChecking();
+        PieceList.whitePieces.clear();
+        PieceList.blackPieces.clear();
+        PieceList.whiteKing = null;
+        Chessboard.board  = new Square[8][8];
     }
 
     /*
@@ -198,10 +202,11 @@ class CheckLogicTest {
 
         assertFalse(CheckLogic.canKingMove());
     }
+
     @Test
     public void shouldSayThatKingCanMove() {
         Square kingSquare = new Square(0, 0);
-        Square rookSquare = new Square(0, 6);
+        Square rookSquare = new Square(0, 5);
         Square secRookSquare = new Square(0, 1);
         PieceList.whiteKing = new King(kingSquare, Color.WHITE);
         PieceList.addListPiece(new Rook(rookSquare, Color.BLACK), Color.BLACK);
@@ -209,14 +214,14 @@ class CheckLogicTest {
         CheckLogic.figuresChecking = 1;
         Game.current_turn = Color.white;
         Chessboard.board[0][0] = kingSquare;
-        Chessboard.board[0][6] = rookSquare;
+        Chessboard.board[0][5] = rookSquare;
         Chessboard.board[0][1] = secRookSquare;
         Chessboard.board[1][0] = new Square(1, 0);
         Chessboard.board[1][1] = new Square(1, 1);
 
-
         assertTrue(CheckLogic.canKingMove());
     }
+
     @Test
     public void KingDoesNotExistException(){
         Square kingSquare = new Square(0, 0);
@@ -238,6 +243,7 @@ class CheckLogicTest {
             Assert.assertEquals("Cannot invoke \"Pieces.King.getyPieceCoordinate()\" because \"checkedKing\" is null", exception.getMessage());
         }
     }
+
     @Test
     public void shouldSayThatKingCanBeProtected() {
         Square kingSquare = new Square(0, 0);
@@ -259,7 +265,6 @@ class CheckLogicTest {
         Chessboard.board[0][3] = new Square(0, 3);
         Chessboard.board[0][4] = new Square(0, 4);
         Chessboard.board[0][5] = new Square(0, 5);
-
 
         assertTrue(CheckLogic.canKingBeProtected());
     }
@@ -296,5 +301,4 @@ class CheckLogicTest {
         CheckLogic.figuresChecking = 2;
         assertFalse(CheckLogic.canKingBeProtected());
     }
-
 }
